@@ -1,0 +1,43 @@
+/* Match the reference: horizontal Swiper movement, raised adjacent cards. */
+.clinic-equipment-carousel {
+  --equipment-rise: 56px;
+  padding-top: var(--equipment-rise);
+  padding-bottom: 8px;
+  background: #315786;
+  isolation: isolate;
+}
+.clinic-equipment-carousel .swiper-wrapper {
+  align-items: flex-start;
+  transition-timing-function: ease;
+}
+.clinic-equipment-carousel .swiper-slide {
+  height: auto;
+}
+.clinic-equipment-card {
+  transform: translateY(0);
+  transition: transform 500ms ease;
+  user-select: none;
+  backface-visibility: hidden;
+  box-shadow: none;
+  filter: none;
+}
+.clinic-equipment-carousel .swiper-slide-prev .clinic-equipment-card,
+.clinic-equipment-carousel .swiper-slide-next .clinic-equipment-card {
+  transform: translateY(calc(-1 * var(--equipment-rise)));
+}
+@media (min-width: 640px) {
+  .clinic-equipment-carousel {
+    --equipment-rise: 80px;
+  }
+}
+@media (min-width: 1024px) {
+  .clinic-equipment-carousel {
+    --equipment-rise: 112px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .clinic-equipment-card,
+  .clinic-equipment-carousel .swiper-wrapper {
+    transition-duration: 0ms !important;
+  }
+}

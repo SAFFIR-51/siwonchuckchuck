@@ -1,0 +1,20 @@
+import type { Route } from "next";
+export const routes = {
+  home: "/",
+  news: "/news",
+  gallery: "/#gallery",
+  equipment: "/#equipment",
+  doctors: "/#doctors",
+  akIntro: "/#ak-intro",
+  treatmentGuide: "/#treatment-guide",
+  hours: "/#hours",
+  transport: "/#transport",
+  newsNotice: "/news#notice",
+  newsPress: "/news#press",
+  newsMedia: "/news#media",
+  newsFaq: "/news#faq",
+  about: "/#about",
+  ak: "/#ak",
+  treatments: "/#treatments",
+  location: "/#location",
+} as const satisfies Record<string, Route>;

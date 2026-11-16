@@ -1,0 +1,101 @@
+@import "tailwindcss";
+@theme inline {
+  --color-background: #ffffff;
+  --color-foreground: #203c3b;
+  --color-accent: #21645c;
+  --color-muted: #5d706c;
+  --color-surface: #f3f5f1;
+  --font-sans: var(--font-pretendard), sans-serif;
+}
+body {
+  margin: 0;
+  background: var(--color-background);
+  color: var(--color-foreground);
+  font-family: var(--font-sans);
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+button:disabled {
+  cursor: default;
+}
+:focus-visible {
+  outline: 3px solid #5d9d87;
+  outline-offset: 5px;
+}
+::selection {
+  background: #cde4d8;
+}
+dialog::backdrop {
+  background: #152c2ac4;
+  backdrop-filter: blur(4px);
+}
+dialog.notice-popup::backdrop {
+  background: rgb(0 0 0 / 70%);
+  backdrop-filter: none;
+}
+.notice-popup :focus-visible {
+  outline-color: #1b2d59;
+}
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+.clinic-marquee {
+  overflow: hidden;
+  padding-block: 20px;
+  background: #fff;
+  user-select: none;
+}
+
+.clinic-marquee__track {
+  display: flex;
+  width: max-content;
+  animation: clinic-scroll 45s linear infinite;
+}
+
+.clinic-marquee__text {
+  flex: 0 0 auto;
+  padding-right: 0.45em;
+  color: #f0f1f3;
+  font-size: clamp(52px, 6vw, 144px);
+  font-weight: 750;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  white-space: nowrap;
+}
+
+@keyframes clinic-scroll {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (hover: hover) {
+  .clinic-marquee:hover .clinic-marquee__track {
+    animation-play-state: paused;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clinic-marquee__track {
+    animation: none;
+  }
+}

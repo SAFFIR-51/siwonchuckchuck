@@ -1,0 +1,5 @@
+{
+  "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignore": ["src/shared/lib/action-result.ts"],
+  "ignoreDependencies": ["react-hook-form", "@hookform/resolvers", "zod", "server-only"]
+}

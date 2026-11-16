@@ -1,0 +1,43 @@
+export const categories = ["공지사항", "언론보도", "미디어룸", "FAQ"] as const;
+export const articles = [
+  {
+    id: "november",
+    category: "공지사항",
+    title: "2026년 11월 진료 안내",
+    date: "2026.11.13",
+    image: "november",
+    cardImage: true,
+    text: "시원척척의원 공식 블로그의 11월 진료 안내입니다. 상세 일정과 방문 전 확인사항은 원문을 참고해 주세요.",
+    url: "https://blog.naver.com/siwonspine/224476004486",
+  },
+  {
+    id: "introduction",
+    category: "미디어룸",
+    title: "시원척척의원을 소개합니다",
+    date: "2019.01.24",
+    image: "reception",
+    cardImage: false,
+    text: "시원척척의원의 공간과 진료 방향을 소개한 공식 블로그 글입니다. 게시 당시의 자료이므로 현재 운영 내용은 전화로 확인해 주세요.",
+    url: "https://blog.naver.com/siwonspine/221450233767",
+  },
+  {
+    id: "first-visit",
+    category: "FAQ",
+    title: "처음 방문할 때 무엇을 준비하면 좋나요?",
+    date: "안내 초안",
+    image: "consultation",
+    cardImage: false,
+    text: "신분증과 현재 복용 중인 약 정보를 준비해 주세요. 이전 검사 결과나 영상 자료가 있다면 진료에 참고할 수 있도록 지참해 주세요. 필요한 서류는 방문 전 접수처에 문의하시면 안내해 드립니다.",
+    url: null,
+  },
+  {
+    id: "location",
+    category: "FAQ",
+    title: "병원 위치와 주차는 어떻게 확인하나요?",
+    date: "안내 초안",
+    image: "building",
+    cardImage: false,
+    text: "서울 중랑구 봉화산로 194, 신아타운 7층입니다. 건물 주차 이용 방법과 무료주차 확인은 접수처에 문의해 주세요.",
+    url: null,
+  },
+];
