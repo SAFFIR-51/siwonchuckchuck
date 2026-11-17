@@ -23,7 +23,10 @@ export function Footer() {
       <footer className="bg-white text-[#30343b]">
         <ClinicLocation>
           <div className="mt-8 border-t border-[#dfe4eb] pt-5">
-            <nav aria-label="하단 안내" className="flex flex-wrap gap-x-5 gap-y-1 text-sm">
+            <nav
+              aria-label="하단 안내"
+              className="flex flex-wrap gap-x-2.5 text-sm sm:gap-x-5 sm:gap-y-1"
+            >
               {policies.map((label) => (
                 <button
                   key={label}

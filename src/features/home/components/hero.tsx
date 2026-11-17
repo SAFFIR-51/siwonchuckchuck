@@ -102,7 +102,7 @@ export function Hero() {
         onLostPointerCapture={() => {
           gesture.current = null;
         }}
-        className="relative isolate flex h-[calc(100svh-90px)] min-h-[520px] touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px]"
+        className="relative isolate flex min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:aspect-[16/25] max-sm:max-h-[680px] min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px] sm:h-[calc(100svh-90px)]"
       >
         {heroPhotos.map((photo, index) => (
           <div

@@ -133,7 +133,7 @@ export function ClinicLocation({ children }: { children?: ReactNode }) {
           </div>
           {children}
         </div>
-        <div className="relative h-[340px] overflow-hidden bg-[#edf1f5] sm:h-[420px] lg:h-auto lg:min-h-0">
+        <div className="relative hidden overflow-hidden bg-[#edf1f5] sm:block sm:h-[420px] lg:h-auto lg:min-h-0">
           <iframe
             title="시원척척의원 위치 지도"
             src={

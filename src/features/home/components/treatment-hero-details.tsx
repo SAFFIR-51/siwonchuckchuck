@@ -20,7 +20,7 @@ export function TreatmentHeroDetails() {
         {treatmentHero.items.map((item) => (
           <li
             key={item}
-            className="relative isolate flex min-h-[clamp(30px,4.7svh,48px)] items-center justify-center overflow-hidden py-1.5 pr-3 pl-1 text-center text-[clamp(13px,4.2vw,18px)] leading-tight font-extrabold break-keep text-[#20232b] lg:min-h-[clamp(64px,9svh,104px)] lg:py-4 lg:pr-5 lg:pl-12 lg:text-[clamp(24px,2.3vw,44px)] lg:leading-normal"
+            className="relative isolate flex min-h-[clamp(30px,9vw,48px)] items-center justify-center overflow-hidden py-1.5 pr-3 pl-1 text-center text-[clamp(13px,4.2vw,18px)] leading-tight font-extrabold break-keep text-[#20232b] sm:min-h-[clamp(30px,4.7svh,48px)] lg:min-h-[clamp(64px,9svh,104px)] lg:py-4 lg:pr-5 lg:pl-12 lg:text-[clamp(24px,2.3vw,44px)] lg:leading-normal"
           >
             <svg
               viewBox="0 0 400 100"
