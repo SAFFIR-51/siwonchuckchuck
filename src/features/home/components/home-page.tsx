@@ -13,13 +13,14 @@ import { ClinicList } from "./clinic-list";
 import { SelfCheck } from "./self-check";
 import { ClinicCardsStage } from "./clinic-cards-stage";
 import { TreatmentGuideMotion } from "./treatment-guide-motion";
+import { ClinicPhilosophy } from "./clinic-philosophy";
 
 export function HomePage() {
   return (
     <main id="main">
       <NoticePopup />
       <Hero />
-      <ClinicMarquee belowHero />
+      <ClinicPhilosophy />
       <HospitalIntroduction />
       <ClinicGallery />
       <ClinicEquipment />

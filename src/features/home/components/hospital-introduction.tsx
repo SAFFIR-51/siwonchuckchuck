@@ -6,15 +6,11 @@ import { homeContent } from "../model/content";
 export function HospitalIntroduction() {
   const philosophy = homeContent.philosophy;
   return (
-    <section
-      id="about"
-      aria-labelledby="about-heading"
-      className="bg-white py-20 sm:py-28 lg:py-36"
-    >
+    <section id="about" aria-labelledby="about-heading" className="bg-white py-20 sm:py-24">
       <IntroductionReveal />
       <div className="mx-auto w-full max-w-[984px] px-[15px] min-[769px]:max-w-[1148px] min-[769px]:px-5 min-[1241px]:max-w-[1312px] min-[1641px]:max-w-[1476px] min-[2001px]:max-w-[1640px] min-[3200px]:max-w-[1968px]">
         <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12 xl:gap-20">
-          <div data-about-copy className="lg:sticky lg:top-40 lg:mt-40 lg:self-start">
+          <div data-about-copy className="lg:sticky lg:top-40 lg:mt-24 lg:self-start">
             <h2
               id="about-heading"
               className="text-[30px] leading-[1.4] font-bold tracking-[-0.035em] text-[#3c3c3c] sm:text-[40px] lg:text-[50px]"
@@ -54,12 +50,12 @@ export function HospitalIntroduction() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 items-start gap-x-3 gap-y-4 pb-10 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-40">
+          <div className="grid grid-cols-2 items-start gap-x-3 gap-y-4 pb-10 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-24">
             {philosophy.cards.map((card) => (
               <article
                 key={card.title}
                 data-converge
-                className="relative isolate grid aspect-[4/5] content-end overflow-hidden rounded-2xl bg-[#e6ecf2] odd:translate-y-10 sm:block sm:aspect-[10/11] sm:rounded-[24px] sm:odd:translate-y-20 lg:odd:translate-y-40"
+                className="relative isolate grid aspect-[4/5] content-end overflow-hidden rounded-2xl bg-[#e6ecf2] odd:translate-y-10 sm:block sm:aspect-[10/11] sm:rounded-[24px] sm:odd:translate-y-20 lg:odd:translate-y-24"
               >
                 <div className="absolute inset-0">
                   <ClinicPhoto name={card.image} alt={card.alt} className="size-full" />

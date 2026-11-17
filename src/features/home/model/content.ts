@@ -450,6 +450,28 @@ export const doctorContent = {
   ],
 } as const;
 
+// Reuse the existing director asset here; replace these paths when new photos arrive.
+export const philosophyContent = {
+  intro: [
+    "통증뿐 아니라, 일상에 귀 기울이고",
+    "한 사람의 불편함을 깊이 살피며",
+    "함께 치료 방향을 찾습니다.",
+  ],
+  portraitImage: "/images/clinic/director-portrait-v2.webp",
+  careImage: "/images/clinic/consultation-text-free-v1.webp",
+  careCaption: "시원척척의원 · 함께 치료 방향을 찾습니다",
+  panels: [
+    {
+      title: "충분히 듣고, 세심하게 살핍니다.",
+      text: "어디가 아픈지뿐 아니라 언제부터 불편했는지, 어떤 움직임이 힘든지 귀 기울이겠습니다. 진찰 결과와 치료 과정을 이해하기 쉽게 설명하고, 궁금한 점을 편안하게 물으실 수 있도록 함께하겠습니다.",
+    },
+    {
+      title: "몸의 움직임과 일상을 함께 생각합니다.",
+      text: doctorContent.description[1] + " " + doctorContent.description[2],
+    },
+  ],
+} as const;
+
 export const doctorBiography = [
   { title: "학력", text: "확인된 학력 정보를 준비 중입니다." },
   { title: "경력", text: "확인된 경력 정보를 준비 중입니다." },
