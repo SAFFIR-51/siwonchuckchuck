@@ -4,6 +4,8 @@ export const clinicDetails: Record<
     heading: string;
     intro: string;
     symptoms: string[];
+    /** The same complaints as a patient would say them (speech bubbles). */
+    voices: string[];
     topics: { title: string; text: string }[];
     care: string;
     preparation: string;
@@ -17,6 +19,11 @@ export const clinicDetails: Record<
       "팔을 들거나 등 뒤로 돌리기 어렵습니다.",
       "어깨에 힘이 빠지거나 특정 각도에서 아픕니다.",
       "아픈 쪽으로 누우면 잠을 이루기 어렵습니다.",
+    ],
+    voices: [
+      "팔을 들거나 등 뒤로 돌리기가 어려워요.",
+      "특정 각도에서 어깨가 찌릿하게 아파요.",
+      "아픈 쪽으로 누우면 잠들기가 힘들어요.",
     ],
     topics: [
       {
@@ -45,6 +52,11 @@ export const clinicDetails: Record<
       "걷고 나면 무릎이 붓거나 뻣뻣합니다.",
       "무릎이 걸리는 느낌이 들거나 갑자기 힘이 풀립니다.",
     ],
+    voices: [
+      "계단을 오르내릴 때 무릎이 아파요.",
+      "많이 걷고 나면 무릎이 붓고 뻣뻣해요.",
+      "무릎이 걸리는 느낌에 갑자기 힘이 풀려요.",
+    ],
     topics: [
       {
         title: "퇴행성 관절염",
@@ -72,6 +84,11 @@ export const clinicDetails: Record<
       "팔·손 또는 엉덩이·다리까지 저림이 이어집니다.",
       "오래 서 있거나 걸을 때 불편함이 커집니다.",
     ],
+    voices: [
+      "목이랑 허리가 계속 뻐근해요.",
+      "팔이나 다리까지 저린 느낌이 내려와요.",
+      "오래 서 있거나 걸으면 더 불편해요.",
+    ],
     topics: [
       {
         title: "목 · 허리 디스크",
@@ -98,6 +115,11 @@ export const clinicDetails: Record<
       "이전보다 키가 자라는 속도가 느려진 것 같습니다.",
       "성장 기록에서 변화가 있어 상담하고 싶습니다.",
       "식사·수면·활동 습관과 성장에 대해 궁금합니다.",
+    ],
+    voices: [
+      "요즘 아이 키가 잘 안 크는 것 같아요.",
+      "성장 기록이 달라져서 상담받고 싶어요.",
+      "식사나 수면 습관이 성장에 영향을 줄까요?",
     ],
     topics: [
       {

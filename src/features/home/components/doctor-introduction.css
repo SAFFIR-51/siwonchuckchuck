@@ -1,0 +1,115 @@
+/* Doctor introduction motion, after doodoorim-clinic.com `.doctor_sect`. The hidden states
+   apply only once the client script has set data-motion="on". */
+@media (prefers-reduced-motion: no-preference) {
+  #doctors[data-motion="on"] {
+    [data-doctor-heading] > span {
+      translate: 0 110%;
+      rotate: 4deg;
+      transform-origin: 0 100%;
+      transition:
+        translate 1s cubic-bezier(0.22, 1, 0.36, 1),
+        rotate 1s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    /* The portrait simply fades in where it stands. */
+    [data-doctor-photo] {
+      opacity: 0;
+      transition: opacity 1.2s ease 0.1s;
+    }
+    [data-doctor-side] {
+      opacity: 0;
+      translate: 0 16px;
+      transition:
+        opacity 0.6s ease 0.9s,
+        translate 0.6s ease 0.9s;
+    }
+    /* Reference: translateX(100px) → 0 with opacity (0.8s). Items follow one another. */
+    [data-doctor-text] > * {
+      opacity: 0;
+      translate: 100px 0;
+      transition:
+        opacity 0.8s ease-in-out,
+        translate 0.8s ease,
+        color 0.2s,
+        background-color 0.2s;
+    }
+    [data-doctor-text] > :nth-child(1) {
+      transition-delay: 0.35s;
+    }
+    [data-doctor-text] > :nth-child(2) {
+      transition-delay: 0.5s, 0.5s, 0s, 0s;
+    }
+    [data-doctor-text] > :nth-child(3) {
+      transition-delay: 0.65s;
+    }
+  }
+  #doctors[data-motion="on"][data-active] {
+    [data-doctor-heading] > span {
+      translate: 0 0;
+      rotate: 0deg;
+    }
+    [data-doctor-photo] {
+      opacity: 1;
+    }
+    [data-doctor-side],
+    [data-doctor-text] > * {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  /* Q&A answers open and close smoothly where the browser can animate to `auto` height. */
+  #doctors details {
+    interpolate-size: allow-keywords;
+  }
+  #doctors details::details-content {
+    block-size: 0;
+    overflow-y: clip;
+    transition:
+      block-size 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      content-visibility 0.55s allow-discrete;
+  }
+  #doctors details[open]::details-content {
+    block-size: auto;
+  }
+  #doctors summary svg {
+    transition: rotate 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+
+/* Mouse-following pointer over the portrait (reference: 170px blurred dark circle). */
+.doctor-pointer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+.doctor-pointer-box {
+  display: flex;
+  width: 140px;
+  height: 140px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: rgb(23 39 82 / 0.55);
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+  opacity: 0;
+  scale: 0.6;
+  backdrop-filter: blur(7px);
+  transition:
+    opacity 0.3s ease-out,
+    scale 0.3s ease-out;
+}
+.doctor-pointer-plus {
+  margin-bottom: 0.3em;
+  font-size: 2em;
+  font-weight: 200;
+}
+.doctor-pointer[data-on] .doctor-pointer-box {
+  opacity: 1;
+  scale: 1;
+}

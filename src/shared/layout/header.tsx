@@ -28,6 +28,31 @@ function SubmenuLink({
     </Link>
   );
 }
+type NavigationChild = (typeof navigation)[number]["children"][number];
+
+/** Second-level items of a menu entry (진료 분야 → 어깨 클리닉 …), if it has any. */
+function subItems(child: NavigationChild) {
+  return "children" in child ? child.children : null;
+}
+
+/** Chevron matching the header's line icons (1.6 stroke). */
+function Chevron({ open, className }: { open: boolean; className?: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={cn("shrink-0 transition-transform duration-200", open && "rotate-180", className)}
+    >
+      <path d="m6 9 6 6 6-6" />
+    </svg>
+  );
+}
+
 function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
 
@@ -44,45 +69,58 @@ function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
 
           return (
             <li key={href}>
-              <div className="flex min-h-14 items-center justify-between gap-3">
-                <span className="text-base font-semibold text-[#1b2d59]">{label}</span>
-                <button
-                  type="button"
-                  aria-label={label + " 하위 메뉴"}
-                  aria-expanded={expanded}
-                  aria-controls={submenuId}
-                  onClick={() => setExpandedIndex(expanded ? null : index)}
-                  className="flex size-11 shrink-0 items-center justify-center rounded-lg text-[#1b2d59] hover:bg-slate-50 active:bg-slate-100"
-                >
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={cn("size-5", expanded && "rotate-180")}
-                  >
-                    <path d="m6 9 6 6 6-6" />
-                  </svg>
-                </button>
-              </div>
+              {/* The whole row opens the section. */}
+              <button
+                type="button"
+                aria-expanded={expanded}
+                aria-controls={submenuId}
+                onClick={() => setExpandedIndex(expanded ? null : index)}
+                className="flex min-h-14 w-full items-center justify-between gap-3 text-left text-base font-semibold text-[#111]"
+              >
+                {label}
+                <Chevron open={expanded} className="size-6" />
+              </button>
               <ul
                 id={submenuId}
                 className={cn("grid-cols-2 gap-x-4 pb-3", expanded ? "grid" : "hidden")}
               >
-                {children.map((child) => (
-                  <li key={child.href}>
-                    <SubmenuLink
-                      href={child.href}
-                      onClick={onNavigate}
-                      className="flex min-h-11 items-center text-[15px] text-[#555] hover:text-[#173c83]"
-                    >
-                      {child.label}
-                    </SubmenuLink>
-                  </li>
-                ))}
+                {children.map((child) => {
+                  const items = subItems(child);
+                  if (!items) {
+                    return (
+                      <li key={child.href}>
+                        <SubmenuLink
+                          href={child.href}
+                          onClick={onNavigate}
+                          className="flex min-h-11 items-center text-[15px] text-[#555] hover:text-[#111]"
+                        >
+                          {child.label}
+                        </SubmenuLink>
+                      </li>
+                    );
+                  }
+                  // Second-level items are listed open under a small label.
+                  return (
+                    <li key={child.href} className="col-span-2">
+                      <p className="flex min-h-10 items-center text-[15px] text-[#555]">
+                        {child.label}
+                      </p>
+                      <ul className="mb-2 grid grid-cols-2 gap-x-4 rounded-lg bg-slate-50 px-3 py-1">
+                        {items.map((item) => (
+                          <li key={item.href}>
+                            <SubmenuLink
+                              href={item.href}
+                              onClick={onNavigate}
+                              className="flex min-h-10 items-center text-sm text-[#666] hover:text-[#111]"
+                            >
+                              {item.label}
+                            </SubmenuLink>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  );
+                })}
               </ul>
             </li>
           );
@@ -95,6 +133,7 @@ function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
 export function Header() {
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const [hidden, setHidden] = useState(false);
   useEffect(() => {
     let previous = window.scrollY;
@@ -116,6 +155,19 @@ export function Header() {
     };
   }, []);
   const toggle = useRef<HTMLButtonElement>(null);
+  const menu = useRef<HTMLElement>(null);
+  const panel = useRef<HTMLDivElement>(null);
+  // Fit the white mega-menu panel to the tallest open column instead of a fixed height.
+  useEffect(() => {
+    const nav = menu.current;
+    const backdrop = panel.current;
+    if (!nav || !backdrop) return;
+    let tallest = 0;
+    for (const list of nav.querySelectorAll<HTMLElement>("[id^='desktop-submenu-']")) {
+      tallest = Math.max(tallest, list.scrollHeight);
+    }
+    backdrop.style.height = `${Math.max(220, tallest + 36)}px`;
+  }, [mega, openGroup]);
   useEffect(() => {
     if (!open) return;
     const closeOnDesktop = () => {
@@ -136,7 +188,10 @@ export function Header() {
           if (open) closeMenu();
         }
       }}
-      onMouseLeave={() => setMega(false)}
+      onMouseLeave={() => {
+        setMega(false);
+        setOpenGroup(null);
+      }}
       onBlur={(event) => {
         if (!event.currentTarget.contains(event.relatedTarget)) setMega(false);
       }}
@@ -148,8 +203,9 @@ export function Header() {
     >
       <div
         aria-hidden="true"
+        ref={panel}
         className={cn(
-          "pointer-events-none absolute inset-x-0 top-full hidden h-[260px] origin-top bg-white shadow-[0_12px_20px_rgba(15,23,42,0.06)] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none min-[1241px]:block",
+          "pointer-events-none absolute inset-x-0 top-full hidden h-[260px] origin-top bg-white shadow-[0_12px_20px_rgba(15,23,42,0.06)] transition-[transform,opacity,height] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none min-[1241px]:block",
           mega ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0",
         )}
       />
@@ -177,6 +233,7 @@ export function Header() {
           />
         </Link>
         <nav
+          ref={menu}
           aria-label="주 메뉴"
           onMouseEnter={() => setMega(true)}
           onFocus={() => setMega(true)}
@@ -189,7 +246,7 @@ export function Header() {
                 className={cn(
                   "group relative h-full transition-[width] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none",
                   mega
-                    ? "w-[160px] min-[1641px]:w-[190px] min-[2001px]:w-[210px]"
+                    ? "w-[144px] min-[1641px]:w-[176px] min-[2001px]:w-[200px]"
                     : index === 0
                       ? "w-[156px] min-[1641px]:w-[168px]"
                       : "w-[106px] min-[1641px]:w-[120px]",
@@ -200,12 +257,12 @@ export function Header() {
                   aria-expanded={mega}
                   aria-controls={`desktop-submenu-${index}`}
                   onClick={() => setMega(true)}
-                  className="group relative flex h-full w-full cursor-pointer items-center justify-center px-3 text-base leading-[1.7] font-semibold whitespace-nowrap transition-colors hover:text-[#1b2d59] min-[1641px]:px-4 min-[1641px]:text-[17px] min-[2001px]:px-4 min-[2001px]:text-lg"
+                  className="group relative flex h-full w-full cursor-pointer items-center justify-center px-3 text-base leading-[1.7] font-semibold whitespace-nowrap transition-colors hover:text-[#111] min-[1641px]:px-4 min-[1641px]:text-[17px] min-[2001px]:px-4 min-[2001px]:text-lg"
                 >
                   <span>{label}</span>
                   <span
                     aria-hidden="true"
-                    className="absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#1b2d59] transition-transform duration-300 group-focus-within:scale-x-100 group-hover:scale-x-100 motion-reduce:transition-none"
+                    className="absolute inset-x-0 bottom-0 h-0.5 origin-center scale-x-0 bg-[#111] transition-transform duration-300 group-focus-within:scale-x-100 group-hover:scale-x-100 motion-reduce:transition-none"
                   />
                 </button>
                 <ul
@@ -219,17 +276,56 @@ export function Header() {
                       : "pointer-events-none -translate-y-2 opacity-0",
                   )}
                 >
-                  {children.map((child) => (
-                    <li key={child.href}>
-                      <SubmenuLink
-                        href={child.href}
-                        onClick={() => setMega(false)}
-                        className="flex min-h-11 items-center justify-center px-1 text-base font-medium text-[#555] transition-colors hover:text-[#173c83] focus-visible:text-[#173c83] min-[1641px]:text-[17px]"
-                      >
-                        {child.label}
-                      </SubmenuLink>
-                    </li>
-                  ))}
+                  {children.map((child) => {
+                    const items = subItems(child);
+                    const groupId = "desktop-group-" + child.href.replace(/[^a-z]/gi, "");
+                    const expanded = openGroup === child.href;
+                    return (
+                      <li key={child.href}>
+                        {items ? (
+                          <button
+                            type="button"
+                            aria-expanded={expanded}
+                            aria-controls={groupId}
+                            onClick={() => setOpenGroup(expanded ? null : child.href)}
+                            className="flex min-h-11 w-full cursor-pointer items-center justify-center gap-1.5 px-1 text-[15px] font-medium whitespace-nowrap text-[#555] transition-colors hover:text-[#111] focus-visible:text-[#111] min-[1641px]:text-[17px]"
+                          >
+                            {child.label}
+                            <Chevron open={expanded} className="size-4 text-[#111]" />
+                          </button>
+                        ) : (
+                          <SubmenuLink
+                            href={child.href}
+                            onClick={() => setMega(false)}
+                            className="flex min-h-11 items-center justify-center px-1 text-[15px] font-medium whitespace-nowrap text-[#555] transition-colors hover:text-[#111] focus-visible:text-[#111] min-[1641px]:text-[17px]"
+                          >
+                            {child.label}
+                          </SubmenuLink>
+                        )}
+                        {items && (
+                          <ul
+                            id={groupId}
+                            className={cn("mb-2 pb-1", expanded ? "block" : "hidden")}
+                          >
+                            {items.map((item) => (
+                              <li key={item.href}>
+                                <SubmenuLink
+                                  href={item.href}
+                                  onClick={() => {
+                                    setMega(false);
+                                    setOpenGroup(null);
+                                  }}
+                                  className="flex min-h-9 items-center justify-center px-1 text-sm whitespace-nowrap text-[#888] transition-colors hover:text-[#111] focus-visible:text-[#111]"
+                                >
+                                  {item.label}
+                                </SubmenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </li>
             ))}

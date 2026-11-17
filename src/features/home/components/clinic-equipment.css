@@ -3,7 +3,7 @@
   --equipment-rise: 36px;
   padding-top: var(--equipment-rise);
   padding-bottom: 8px;
-  background: #315786;
+  background: transparent;
   isolation: isolate;
 }
 .clinic-equipment-carousel .swiper-wrapper {
@@ -40,4 +40,12 @@
   .clinic-equipment-carousel .swiper-wrapper {
     transition-duration: 0ms !important;
   }
+}
+
+/* Entrance: the blue section stays hidden in the white gap, then fades in where it is. */
+#equipment[data-pop] {
+  transition: opacity 0.9s ease;
+}
+#equipment[data-pop="out"] {
+  opacity: 0;
 }

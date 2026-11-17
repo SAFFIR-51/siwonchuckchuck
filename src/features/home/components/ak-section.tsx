@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { akExplanation } from "../model/content";
+import { AkMotion } from "./ak-motion";
 
 const stages = [
   {
@@ -41,23 +42,37 @@ export function AkSection() {
       aria-labelledby="ak-heading"
       className="bg-white py-24 text-[#3c3c3c] sm:py-32 lg:py-40"
     >
-      <div className={container}>
+      <AkMotion />
+      <div data-ak-group className={container}>
         <h2
           id="ak-heading"
           className="text-center text-[30px] leading-[1.4] font-bold tracking-[-0.035em] sm:text-[40px] lg:text-[50px]"
         >
-          몸의 연결을 살피는
-          <br />
-          AK통합통증치료센터
+          <span data-reveal-text className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+            <span data-reveal-inner className="block">
+              몸의 연결을 살피는
+            </span>
+          </span>
+          <span data-reveal-text className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+            <span data-reveal-inner className="block">
+              AK통합통증치료센터
+            </span>
+          </span>
         </h2>
-        <p className="mt-10 text-left text-xl leading-[1.7] font-medium break-keep text-[#273f79] sm:mt-14 sm:text-2xl lg:max-w-[60%]">
+        <p
+          data-reveal-text
+          className="mt-10 text-left text-xl leading-[1.7] font-medium break-keep text-[#273f79] sm:mt-14 sm:text-2xl lg:max-w-[60%]"
+        >
           불편한 움직임부터 평소의 생활 습관까지,
           <br className="hidden sm:block" /> 상태를 이해하는 것에서 치료 방향을 찾습니다.
         </p>
-        <p className="mt-6 hidden text-left text-lg leading-[1.9] break-keep text-[#626b77] sm:block lg:max-w-[60%]">
+        <p
+          data-reveal-text
+          className="mt-6 hidden text-left text-lg leading-[1.9] break-keep text-[#626b77] sm:block lg:max-w-[60%]"
+        >
           {introDescription}
         </p>
-        <details className="group mt-4 sm:hidden">
+        <details data-reveal-text className="group mt-4 sm:hidden">
           <summary className="flex min-h-11 w-fit cursor-pointer list-none items-center gap-1.5 text-[15px] font-semibold text-[#626b77] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
             세부 설명 보기
             <svg
@@ -75,7 +90,10 @@ export function AkSection() {
             {introDescription}
           </p>
         </details>
-        <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[24px] sm:mt-14 sm:aspect-[2.3/1] lg:mt-16 lg:rounded-[32px]">
+        <div
+          data-ak-reveal
+          className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[24px] sm:mt-14 sm:aspect-[2.3/1] lg:mt-16 lg:rounded-[32px]"
+        >
           <Image
             src="/images/clinic/ak-main-assessment.webp"
             alt="자세를 살피는 진료 장면과 척추 영상 모니터를 표현한 AI 생성 이미지"
@@ -91,13 +109,24 @@ export function AkSection() {
         className="mt-20 scroll-mt-28 bg-white py-16 sm:mt-28 sm:py-24 lg:mt-36 lg:py-28"
       >
         <div className={container + " grid items-start gap-10 lg:grid-cols-2 lg:gap-20"}>
-          <div>
+          <div data-ak-group>
             <h3 className="text-[30px] leading-[1.45] font-bold tracking-[-0.035em] sm:text-[40px] lg:text-[50px]">
-              AK치료는
-              <br />
-              몸을 어떻게 살필까요?
+              {["AK치료는", "몸을 어떻게 살필까요?"].map((line) => (
+                <span
+                  key={line}
+                  data-reveal-text
+                  className="-mb-[0.12em] block overflow-hidden pb-[0.12em]"
+                >
+                  <span data-reveal-inner className="block">
+                    {line}
+                  </span>
+                </span>
+              ))}
             </h3>
-            <p className="mt-6 text-base leading-[1.9] break-keep text-[#626b77] sm:text-lg">
+            <p
+              data-reveal-text
+              className="mt-6 text-base leading-[1.9] break-keep text-[#626b77] sm:text-lg"
+            >
               시원척척의원은 통증 부위뿐 아니라
               <br />
               자세와 움직임, 일상의 습관을 함께 살핍니다.
@@ -105,7 +134,7 @@ export function AkSection() {
               진찰과 검사를 바탕으로 치료 방향을 찾습니다.
             </p>
           </div>
-          <ol className="space-y-4 sm:space-y-6">
+          <ol data-ak-reveal data-ak-stagger className="space-y-4 sm:space-y-6">
             {akExplanation.map((item, index) => (
               <li
                 key={item.title}
@@ -121,16 +150,30 @@ export function AkSection() {
         </div>
       </div>
 
-      <div className={container + " mt-20 sm:mt-28 lg:mt-36"}>
+      <div data-ak-group className={container + " mt-20 sm:mt-28 lg:mt-36"}>
         <h3 className="text-[28px] leading-[1.45] font-bold tracking-[-0.03em] sm:text-[36px] lg:text-[42px]">
-          자세와 근육의 반응을 살피는
-          <br />
-          AK 평가와 진료
+          <span data-reveal-text className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+            <span data-reveal-inner className="block">
+              자세와 근육의 반응을 살피는
+            </span>
+          </span>
+          <span data-reveal-text className="-mb-[0.12em] block overflow-hidden pb-[0.12em]">
+            <span data-reveal-inner className="block">
+              AK 평가와 진료
+            </span>
+          </span>
         </h3>
-        <p className="mt-6 text-base leading-[1.8] break-keep text-[#626b77] sm:text-lg">
+        <p
+          data-reveal-text
+          className="mt-6 text-base leading-[1.8] break-keep text-[#626b77] sm:text-lg"
+        >
           움직임을 살피는 평가와 필요한 진찰을 함께 고려합니다.
         </p>
-        <ol className="mt-10 grid gap-10 sm:mt-14 sm:grid-cols-3 sm:gap-6 lg:gap-9">
+        <ol
+          data-ak-reveal
+          data-ak-stagger
+          className="mt-10 grid gap-10 sm:mt-14 sm:grid-cols-3 sm:gap-6 lg:gap-9"
+        >
           {stages.map((stage) => (
             <li key={stage.title}>
               <div className="relative aspect-[3/2] overflow-hidden rounded-[24px]">

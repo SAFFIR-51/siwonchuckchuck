@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ClinicPhoto } from "@/shared/ui/clinic-photo";
 import { galleryContent, spaces } from "../model/content";
+import { GalleryMotion } from "./gallery-motion";
 
 export function ClinicGallery() {
   const track = useRef<HTMLDivElement>(null);
@@ -137,22 +138,32 @@ export function ClinicGallery() {
         hovered.current = false;
       }}
       aria-labelledby="gallery-heading"
-      className="overflow-hidden bg-white py-20 sm:py-28 lg:py-32"
+      className="overflow-hidden bg-white pt-20 pb-32 sm:pt-28 sm:pb-44 lg:pt-32 lg:pb-[clamp(200px,24svh,320px)]"
     >
+      <GalleryMotion />
       <div className="mx-auto w-full max-w-[984px] px-[15px] min-[769px]:max-w-[1148px] min-[769px]:px-5 min-[1241px]:max-w-[1312px] min-[1641px]:max-w-[1476px] min-[2001px]:max-w-[1640px] min-[3200px]:max-w-[1968px]">
         <div className="mb-9 flex flex-wrap items-end justify-between gap-7 sm:mb-14 lg:mb-16">
-          <div>
+          <div data-gallery-head>
             <h2
               id="gallery-heading"
               className="text-[30px] leading-[1.4] font-bold tracking-[-0.035em] text-[#3c3c3c] sm:text-[40px] lg:text-[50px]"
             >
               {galleryContent.title.map((line) => (
-                <span key={line} className="block">
-                  {line}
+                <span
+                  key={line}
+                  data-reveal-text
+                  className="-mb-[0.12em] block overflow-hidden pb-[0.12em]"
+                >
+                  <span data-reveal-inner className="block">
+                    {line}
+                  </span>
                 </span>
               ))}
             </h2>
-            <p className="mt-[18px] text-base leading-[1.85] text-[#3c3c3c] sm:text-lg">
+            <p
+              data-reveal-text
+              className="mt-[18px] text-base leading-[1.85] text-[#3c3c3c] sm:text-lg"
+            >
               <span className="hidden sm:block">{galleryContent.description[0]}</span>
               <span className="block">{galleryContent.description[1]}</span>
             </p>
@@ -275,6 +286,7 @@ export function ClinicGallery() {
         </div>
         <div
           aria-hidden="true"
+          data-gallery-bar
           className="mt-8 h-[3px] overflow-hidden rounded-full bg-[#dce3ed] sm:mt-12"
         >
           <div

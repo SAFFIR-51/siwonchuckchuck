@@ -1,169 +1,98 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
-import { Dialog } from "@/shared/ui/dialog";
-import { ContactLink } from "@/shared/ui/contact-link";
 import { cn } from "@/shared/lib/cn";
 import { clinics, treatments } from "../model/content";
-import { clinicDetails } from "../model/clinic-details";
 
+/** Clinic cards; each jumps to its section in the clinic list below. */
 export function ClinicCards() {
-  const [selected, setSelected] = useState<number | null>(null);
   return (
-    <>
-      <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 lg:gap-6">
-        {clinics.map((clinic, index) => (
-          <button
-            key={clinic.title}
-            onClick={() => setSelected(index)}
-            aria-label={clinic.title + " 자세히 보기"}
-            aria-haspopup="dialog"
-            className="group relative isolate grid aspect-[3/4] content-end overflow-hidden rounded-2xl bg-[#d9e7f5] text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:block sm:rounded-[24px]"
-          >
-            <Image
-              src={clinic.image}
-              alt={clinic.imageAlt}
-              fill
-              sizes="(max-width: 1023px) 50vw, 25vw"
-              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045] group-focus-visible:scale-[1.045] motion-reduce:transform-none motion-reduce:transition-none"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-[#1b315e]/90 via-[#334e7a]/40 to-transparent sm:from-[#1b315e]/85 sm:via-[#334e7a]/10"
-            />
-            <div className="relative mt-9 px-2 pb-3 text-center text-white sm:absolute sm:inset-x-0 sm:bottom-0 sm:mt-0 sm:px-6 sm:pb-7 xl:px-7 xl:pb-9">
-              <div className="mb-2 flex flex-wrap justify-center gap-1 sm:mb-4 sm:gap-2">
-                {clinic.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-white px-2 py-0.5 text-xs font-medium text-[#263d68] sm:px-3 sm:py-1.5 sm:text-[13px]"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <h3 className="text-lg leading-snug font-bold tracking-[-0.04em] break-keep sm:text-[25px] xl:text-[30px]">
-                {clinic.title}
-              </h3>
-              <p className="mt-2 hidden text-[13px] leading-relaxed break-keep text-white/85 sm:block xl:text-[15px]">
-                {clinic.subtitle}
-              </p>
-              <span
-                aria-hidden="true"
-                className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-white/90 transition-opacity duration-300 motion-reduce:transition-none sm:mt-4 sm:gap-3 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100"
-              >
-                자세히 보기
-                <svg
-                  className="size-3.5 sm:size-[18px]"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.5"
-                >
-                  <path d="M4 12h15m-6-6 6 6-6 6" />
-                </svg>
-              </span>
-            </div>
-          </button>
-        ))}
-      </div>
-      {selected !== null && (
-        <ClinicDetailDialog clinic={clinics[selected]} onClose={() => setSelected(null)} />
-      )}
-    </>
-  );
-}
-
-function ClinicDetailDialog({
-  clinic,
-  onClose,
-}: {
-  clinic: (typeof clinics)[number];
-  onClose: () => void;
-}) {
-  const detail = clinicDetails[clinic.title];
-  return (
-    <Dialog
-      title={clinic.title}
-      onClose={onClose}
-      className="max-w-[960px] rounded-[24px] text-[#3c3c3c]"
-    >
-      <div className="grid min-w-0 items-center gap-6 sm:grid-cols-[160px_minmax(0,1fr)] sm:gap-8">
-        <div className="relative mx-auto aspect-[3/4] w-36 overflow-hidden rounded-2xl sm:w-40">
+    <div className="grid grid-cols-2 gap-3 sm:gap-5 lg:grid-cols-4 lg:gap-6">
+      {clinics.map((clinic) => (
+        <a
+          key={clinic.title}
+          href={"#clinic-" + clinic.id}
+          aria-label={clinic.title + " 자세히 보기"}
+          className="group relative isolate grid aspect-[3/4] content-end overflow-hidden rounded-2xl bg-[#d9e7f5] text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent sm:block sm:rounded-[24px]"
+        >
           <Image
             src={clinic.image}
             alt={clinic.imageAlt}
             fill
-            sizes="(max-width: 639px) 144px, 160px"
-            className="object-contain"
+            sizes="(max-width: 1023px) 50vw, 25vw"
+            className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.045] group-focus-visible:scale-[1.045] motion-reduce:transform-none motion-reduce:transition-none"
           />
-        </div>
-        <div className="min-w-0">
-          <h3 className="text-[24px] leading-snug font-bold tracking-[-0.03em] sm:text-[28px]">
-            {detail.heading}
-          </h3>
-          <p className="mt-4 text-[15px] leading-7 text-[#596575] sm:text-base">{detail.intro}</p>
-        </div>
-      </div>
-      <section className="mt-8 rounded-2xl bg-[#f1f4fa] p-5 sm:p-6">
-        <h3 className="text-lg font-semibold text-[#293d7d]">이런 불편함이 있나요?</h3>
-        <ul className="mt-3 space-y-2 text-[15px] leading-7">
-          {detail.symptoms.map((symptom) => (
-            <li key={symptom} className="flex gap-3">
-              <span
-                aria-hidden="true"
-                className="mt-3 size-1.5 shrink-0 rounded-full bg-[#293d7d]"
-              />
-              {symptom}
-            </li>
-          ))}
-        </ul>
-      </section>
-      <section className="mt-8">
-        <h3 className="text-xl font-semibold">
-          {clinic.title === "성장 클리닉"
-            ? "성장 상담에서 살펴보는 내용"
-            : "함께 알아두면 좋은 내용"}
-        </h3>
-        <div className="mt-4 overflow-hidden rounded-xl border border-[#e3e7ef]">
-          <table className="w-full table-auto border-collapse text-left">
-            <caption className="sr-only">{clinic.title} 주요 내용과 설명</caption>
-            <tbody className="divide-y divide-[#e3e7ef]">
-              {detail.topics.map((topic) => (
-                <tr key={topic.title}>
-                  <th
-                    scope="row"
-                    className="w-[32%] border-r border-[#e3e7ef] bg-[#f1f4fa] px-3 py-5 align-top text-sm leading-6 font-semibold break-keep text-[#293d7d] sm:w-px sm:px-5 sm:text-base sm:whitespace-nowrap"
-                  >
-                    {topic.title}
-                  </th>
-                  <td className="px-4 py-5 text-[14px] leading-7 text-[#596575] sm:px-6 sm:text-[15px]">
-                    {topic.text}
-                  </td>
-                </tr>
+          <div
+            aria-hidden="true"
+            className="absolute inset-0 bg-gradient-to-t from-[#14254a]/95 via-[#1f3766]/45 to-transparent sm:from-[#14254a]/92 sm:via-[#1f3766]/25"
+          />
+          <div className="relative mt-9 px-2 pb-3 text-center text-white sm:absolute sm:inset-x-0 sm:bottom-0 sm:mt-0 sm:px-6 sm:pb-7 xl:px-7 xl:pb-9">
+            <div className="mb-2 flex flex-wrap justify-center gap-1 sm:mb-4 sm:gap-2">
+              {clinic.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full bg-white px-2 py-0.5 text-xs font-medium text-[#263d68] sm:px-3 sm:py-1.5 sm:text-[13px]"
+                >
+                  {tag}
+                </span>
               ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-      <section className="mt-8">
-        <h3 className="text-xl font-semibold">시원척척의원은 이렇게 살핍니다</h3>
-        <p className="mt-3 text-[15px] leading-7 text-[#596575]">{detail.care}</p>
-        <p className="mt-5 rounded-xl bg-[#f3f4f6] px-5 py-4 text-[14px] leading-7 text-[#596575]">
-          <strong className="mb-1 block font-semibold text-[#3c3c3c]">방문 전 참고해 주세요</strong>
-          {detail.preparation}
-        </p>
-      </section>
-      <div className="mt-7 flex justify-end border-t border-[#e3e7ef] pt-6">
-        <ContactLink showArrow={false} className="shrink-0 !bg-[#293d7d] !text-white">
-          진료 상담 문의
-        </ContactLink>
-      </div>
-    </Dialog>
+            </div>
+            <h3 className="text-lg leading-snug font-bold tracking-[-0.04em] break-keep sm:text-[25px] xl:text-[30px]">
+              {clinic.title}
+            </h3>
+            <p className="mt-2 hidden text-sm leading-relaxed break-keep text-white sm:block xl:text-base">
+              {clinic.subtitle}
+            </p>
+            <span
+              aria-hidden="true"
+              className="mt-2 inline-flex items-center gap-1.5 text-xs font-medium text-white/90 transition-opacity duration-300 motion-reduce:transition-none sm:mt-4 sm:gap-3 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-visible:opacity-100"
+            >
+              자세히 보기
+              <svg
+                className="size-3.5 sm:size-[18px]"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.5"
+              >
+                <path d="M4 12h15m-6-6 6 6-6 6" />
+              </svg>
+            </span>
+          </div>
+        </a>
+      ))}
+    </div>
   );
 }
+
+/** Index of the treatment named by a `#treatment-<slug>` link, or -1. */
+function treatmentFromHref(href: string) {
+  const hash = href.slice(href.indexOf("#") + 1);
+  return treatments.findIndex((treatment) => "treatment-" + treatment.slug === hash);
+}
+
 export function TreatmentGuide() {
   const [selected, setSelected] = useState(0);
+  // Menu links such as "/#treatment-prp" open their tab (on arrival and on later clicks).
+  useEffect(() => {
+    const openFromHash = () => {
+      const index = treatmentFromHref(window.location.hash);
+      if (index >= 0) setSelected(index);
+    };
+    const onClick = (event: MouseEvent) => {
+      const link = (event.target as Element | null)?.closest?.("a[href*='#treatment-']");
+      const index = link ? treatmentFromHref(link.getAttribute("href") ?? "") : -1;
+      if (index >= 0) setSelected(index);
+    };
+    const frame = requestAnimationFrame(openFromHash);
+    window.addEventListener("hashchange", openFromHash);
+    document.addEventListener("click", onClick, true);
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("hashchange", openFromHash);
+      document.removeEventListener("click", onClick, true);
+    };
+  }, []);
   const item = treatments[selected];
   const treatmentColumns = "lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-x-14 xl:gap-x-20";
   const treatmentFacts = [
@@ -239,12 +168,13 @@ export function TreatmentGuide() {
       <div
         role="tablist"
         aria-label="치료 선택"
+        data-tg-reveal
         className="relative mb-9 grid grid-cols-4 grid-rows-2 gap-x-1 gap-y-3 border-b border-[#dfe4ed] max-sm:before:pointer-events-none max-sm:before:absolute max-sm:before:inset-x-0 max-sm:before:top-[calc(50%-0.375rem)] max-sm:before:h-px max-sm:before:bg-[#dfe4ed] sm:mb-12 sm:flex sm:[scrollbar-width:none] sm:gap-8 sm:overflow-x-auto lg:flex-wrap lg:gap-x-9 [&::-webkit-scrollbar]:hidden"
       >
         {treatments.map((t, index) => (
           <button
             key={t.title}
-            id={"treatment-tab-" + index}
+            id={"treatment-" + t.slug}
             role="tab"
             aria-selected={index === selected}
             aria-controls="treatment-panel"
@@ -260,7 +190,7 @@ export function TreatmentGuide() {
               else return;
               event.preventDefault();
               setSelected(next);
-              document.getElementById("treatment-tab-" + next)?.focus();
+              document.getElementById("treatment-" + treatments[next].slug)?.focus();
             }}
             className={cn(
               "relative min-h-12 shrink-0 border-b-2 py-2 text-[clamp(14px,3.6vw,15px)] leading-tight font-semibold break-keep transition-colors focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-accent sm:min-h-16 sm:px-1 sm:py-5 sm:text-lg sm:leading-normal xl:text-xl",
@@ -276,12 +206,16 @@ export function TreatmentGuide() {
       <div
         id="treatment-panel"
         role="tabpanel"
-        aria-labelledby={"treatment-tab-" + selected}
+        aria-labelledby={"treatment-" + item.slug}
         tabIndex={0}
+        data-tg-reveal
         className="outline-offset-8"
       >
-        <div className={cn("grid gap-8", treatmentColumns)}>
-          <figure className="relative aspect-[4/5] w-full min-w-0 overflow-hidden rounded-[24px] bg-surface sm:max-lg:aspect-square lg:aspect-auto lg:min-h-[clamp(420px,38vw,600px)]">
+        <div key={item.title} className={cn("tg-swap grid gap-8", treatmentColumns)}>
+          <figure
+            data-tg-photo
+            className="relative aspect-[4/5] w-full min-w-0 overflow-hidden rounded-[24px] bg-surface sm:max-lg:aspect-square lg:aspect-auto lg:min-h-[clamp(420px,38vw,600px)]"
+          >
             <Image
               src={`/images/treatments/portrait/${item.image}.webp`}
               alt={item.imageAlt}
@@ -290,7 +224,7 @@ export function TreatmentGuide() {
               className="object-cover"
             />
           </figure>
-          <div className="min-w-0 lg:flex lg:flex-col">
+          <div data-tg-copy className="min-w-0 lg:flex lg:flex-col">
             <h3 className="text-[28px] leading-snug font-bold tracking-[-0.03em] break-keep sm:text-[38px]">
               <span className="block text-[0.8em] font-medium text-[#3c3c3c]">{item.lead}</span>
               <span className="mt-1 block text-[#263d79]">{item.name}</span>
@@ -339,7 +273,10 @@ export function TreatmentGuide() {
             </div>
           </div>
         </div>
-        <div className={cn("mt-10 grid items-start gap-7 sm:mt-14", treatmentColumns)}>
+        <div
+          key={item.title + "-details"}
+          className={cn("tg-swap-lower mt-10 grid items-start gap-7 sm:mt-14", treatmentColumns)}
+        >
           <section aria-labelledby="treatment-considerations-heading">
             <h4
               id="treatment-considerations-heading"

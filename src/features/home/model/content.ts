@@ -162,43 +162,57 @@ export const equipment = [
       "걸을 때 발바닥에 가해지는 압력과 분포를 측정하는 장비입니다. 발의 하중과 보행 양상을 살피는 데 활용합니다.",
   },
 ];
+// careImage: 예시 이미지입니다. 11/19 원장님 진료 촬영본으로 교체 예정입니다.
 export const clinics = [
   {
+    id: "shoulder",
     title: "어깨 클리닉",
     image: "/images/clinic/specialty-shoulder-pain.webp",
     imageAlt: "어깨 관절의 구조를 표현한 하늘색 의료 일러스트",
     tags: ["어깨 통증", "움직임"],
     subtitle: "팔을 움직일 때 느끼는 불편함을 세심하게 살핍니다.",
     text: "어깨를 움직일 때의 불편함과 운동 범위를 확인합니다. 증상이 시작된 시점과 반복되는 동작을 알려주세요.",
+    careImage: "/images/clinic/clinic-shoulder-care.webp",
+    careImageAlt: "어깨의 움직임을 살피는 진료 예시 이미지",
   },
   {
+    id: "knee",
     title: "무릎 클리닉",
     image: "/images/clinic/specialty-knee-palette.webp",
     imageAlt: "무릎 관절의 구조를 표현한 하늘색 의료 일러스트",
     tags: ["무릎 통증", "보행"],
     subtitle: "걷고 오를 때 느끼는 무릎의 불편함을 살핍니다.",
     text: "걷기와 계단 오르기 등 일상 동작에서의 불편함을 살펴봅니다. 부상 이력과 평소 활동량을 함께 확인합니다.",
+    careImage: "/images/clinic/clinic-knee-care.webp",
+    careImageAlt: "무릎의 상태를 살피는 진료 예시 이미지",
   },
   {
+    id: "spine",
     title: "척추관절 클리닉",
     image: "/images/clinic/specialty-spine-palette.webp",
     imageAlt: "척추의 곡선과 구조를 표현한 하늘색 의료 일러스트",
     tags: ["목·허리", "자세"],
     subtitle: "목과 허리의 통증, 자세와 움직임을 함께 살핍니다.",
     text: "목과 허리, 관절의 증상과 자세를 살펴보고 필요한 진찰과 검사를 안내합니다.",
+    careImage: "/images/clinic/ak-posture-assessment.webp",
+    careImageAlt: "서 있는 자세를 살피는 진료 예시 이미지",
   },
   {
+    id: "growth",
     title: "성장 클리닉",
     image: "/images/clinic/specialty-growth-palette.webp",
     imageAlt: "아이의 성장과 바른 자세를 표현한 하늘색 일러스트",
     tags: ["성장 상담", "생활 습관"],
     subtitle: "아이마다 다른 성장의 흐름을 세심하게 살핍니다.",
     text: "아이의 성장 과정과 자세, 생활 습관을 상담합니다. 과거 성장 기록이 있다면 진료 시 함께 지참해 주세요.",
+    careImage: "/images/clinic/specialty-growth.webp",
+    careImageAlt: "아이의 성장과 자세를 살피는 진료 예시 이미지",
   },
 ];
 export const treatments = [
   {
     title: "프롤로",
+    slug: "prolo",
     lead: "인대와 힘줄 주변에 포도당 용액을 주입하는",
     name: "프롤로 치료",
     text: "프롤로는 통증과 관련된 인대나 힘줄 주변에 포도당 용액을 주입하는 치료입니다. 일부 연구에서 테니스엘보나 족저근막염으로 인한 통증이 일상 동작을 제한하는 경우, 움직임이나 일상 기능에 도움이 될 가능성이 보고됐습니다.",
@@ -222,6 +236,7 @@ export const treatments = [
   },
   {
     title: "PRP",
+    slug: "prp",
     lead: "내 혈액에서 혈소판이 풍부한 혈장을 분리해 사용하는",
     name: "PRP 치료",
     text: "PRP는 환자 본인의 혈액에서 혈소판이 풍부한 혈장을 분리해 치료 부위에 주입하는 방법입니다. 가벼운 정도에서 중간 정도의 무릎 골관절염에서는 통증을 줄이고 관절 기능을 개선하는 데 도움이 될 수 있다는 연구가 있습니다.",
@@ -245,6 +260,7 @@ export const treatments = [
   },
   {
     title: "체외충격파",
+    slug: "shockwave",
     lead: "몸 밖에서 통증 부위에 충격파를 전달하는",
     name: "체외충격파 치료",
     text: "체외충격파는 피부에 치료기 헤드를 대고 몸 밖에서 음파 에너지를 전달하는 방법입니다. 운동이나 물리치료 등으로도 발뒤꿈치 통증이 지속되는 족저근막염에서 통증을 줄이고 걷는 불편을 덜기 위해 고려할 수 있습니다.",
@@ -268,6 +284,7 @@ export const treatments = [
   },
   {
     title: "C-arm 주사",
+    slug: "c-arm",
     lead: "실시간 X선 영상으로 주사 위치를 확인하는",
     name: "C-arm을 이용한 주사치료",
     text: "C-arm은 뼈와 관절 등 몸속 구조를 실시간 X선 영상으로 보여주는 장비입니다. 의료진은 영상을 보면서 바늘이 계획한 부위에 놓였는지 확인한 뒤 약물을 주입합니다. 신경근이 자극돼 팔이나 다리로 통증이 뻗치는 경우, 경막외 스테로이드 주사가 단기간 통증과 움직임의 불편을 줄이는 데 도움이 될 수 있습니다.",
@@ -291,6 +308,7 @@ export const treatments = [
   },
   {
     title: "초음파 주사",
+    slug: "ultrasound",
     lead: "힘줄과 주변 조직을 영상으로 살피며 진행하는",
     name: "초음파 유도 주사치료",
     text: "초음파를 이용하면 근육, 힘줄, 인대 등 주변 조직과 바늘의 위치를 실시간으로 살필 수 있습니다. 일부 관절 주사에서는 몸 바깥의 해부학적 위치만으로 주사할 때보다, 바늘을 관절 안의 목표 위치에 놓는 정확도를 높이는 데 도움이 됩니다.",
@@ -314,6 +332,7 @@ export const treatments = [
   },
   {
     title: "턱관절 교정",
+    slug: "jaw",
     lead: "입을 벌리고 씹을 때의 움직임을 살피는",
     name: "턱관절 진료 · 교정 상담",
     text: "입을 벌릴 때 뻐근하거나 음식을 씹을 때 통증이 생기면 턱관절과 주변 근육을 함께 살핍니다. 턱관절 통증이 오래 지속되는 경우, 상태에 맞춘 턱 운동이나 스트레칭이 통증을 줄이고 턱을 움직이는 데 도움이 될 수 있습니다.",
@@ -337,6 +356,7 @@ export const treatments = [
   },
   {
     title: "족부교정",
+    slug: "foot",
     lead: "걸을 때 발에 실리는 부담을 살피는",
     name: "족부 진료 · 교정 상담",
     text: "서 있거나 걸을 때 발에 체중이 어떻게 실리는지, 어느 부위가 불편한지 살핍니다. 발에 맞는 깔창이나 보조기는 발을 지지하고, 한곳에 몰리는 압력을 분산해 걷거나 오래 서 있을 때 느끼는 통증을 덜어주는 데 도움이 될 수 있습니다.",
@@ -360,6 +380,7 @@ export const treatments = [
   },
   {
     title: "수액",
+    slug: "iv",
     lead: "필요한 수분과 전해질을 정맥으로 공급하는",
     name: "수액 치료",
     text: "수액치료는 정맥에 연결한 관을 통해 수분과 전해질을 보충하는 방법입니다. 구토나 설사 등으로 수분 손실이 크거나 물을 마시기 어려울 때, 부족한 수분을 보충하고 전해질 균형을 회복하는 데 도움이 됩니다.",

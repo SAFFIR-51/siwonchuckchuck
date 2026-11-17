@@ -14,23 +14,28 @@ export function HospitalIntroduction() {
       <IntroductionReveal />
       <div className="mx-auto w-full max-w-[984px] px-[15px] min-[769px]:max-w-[1148px] min-[769px]:px-5 min-[1241px]:max-w-[1312px] min-[1641px]:max-w-[1476px] min-[2001px]:max-w-[1640px] min-[3200px]:max-w-[1968px]">
         <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12 xl:gap-20">
-          <div className="lg:sticky lg:top-40 lg:mt-40 lg:self-start">
+          <div data-about-copy className="lg:sticky lg:top-40 lg:mt-40 lg:self-start">
             <h2
               id="about-heading"
-              data-intro-reveal="0"
               className="text-[30px] leading-[1.4] font-bold tracking-[-0.035em] text-[#3c3c3c] sm:text-[40px] lg:text-[50px]"
             >
               {philosophy.title.map((line) => (
-                <span key={line} className="block">
-                  {line}
+                <span
+                  key={line}
+                  data-reveal-text
+                  className="-mb-[0.12em] block overflow-hidden pb-[0.12em]"
+                >
+                  <span data-reveal-inner className="block">
+                    {line}
+                  </span>
                 </span>
               ))}
             </h2>
-            <div
-              data-intro-reveal="100"
-              className="mt-6 w-fit max-w-[min(100%,340px)] space-y-4 text-base leading-[1.85] text-[#3c3c3c] min-[769px]:max-w-full sm:text-[18px]"
-            >
-              <p className="max-w-full tracking-[-0.015em] min-[1641px]:grid min-[1641px]:w-fit min-[1641px]:grid-cols-[minmax(0,1fr)]">
+            <div className="mt-6 w-fit max-w-[min(100%,340px)] space-y-4 text-base leading-[1.85] text-[#3c3c3c] min-[769px]:max-w-full sm:text-[18px]">
+              <p
+                data-reveal-text
+                className="max-w-full tracking-[-0.015em] min-[1641px]:grid min-[1641px]:w-fit min-[1641px]:grid-cols-[minmax(0,1fr)]"
+              >
                 <span>{philosophy.description[0]} </span>
                 <br className="min-[769px]:hidden" />
                 <span className="wrap-break-word min-[1641px]:w-0 min-[1641px]:min-w-full">
@@ -41,6 +46,7 @@ export function HospitalIntroduction() {
                 <Image
                   src="/images/brand/siwon-signature.webp"
                   alt={philosophy.signature}
+                  data-signature
                   width={2172}
                   height={724}
                   className="h-auto w-[150px] sm:w-[180px]"
@@ -52,7 +58,7 @@ export function HospitalIntroduction() {
             {philosophy.cards.map((card) => (
               <article
                 key={card.title}
-                data-intro-reveal="0"
+                data-converge
                 className="relative isolate grid aspect-[4/5] content-end overflow-hidden rounded-2xl bg-[#e6ecf2] odd:translate-y-10 sm:block sm:aspect-[10/11] sm:rounded-[24px] sm:odd:translate-y-20 lg:odd:translate-y-40"
               >
                 <div className="absolute inset-0">

@@ -1,0 +1,89 @@
+/* Clinic list motion, after doodoorim-clinic.com clinic pages. */
+
+/* Speech bubble tail. */
+.clinic-voice::after {
+  content: "";
+  position: absolute;
+  bottom: -7px;
+  left: 50%;
+  width: 14px;
+  height: 14px;
+  background: #fff;
+  border-radius: 0 0 3px 0;
+  transform: translateX(-50%) rotate(45deg);
+}
+
+/* Photo frame: a plain rectangle with softly rounded corners. */
+.clinic-frame {
+  border-radius: clamp(20px, 2vw, 28px);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Intro: pager fades in, heading slides up from behind its line, copy rises last. */
+  .clinic-list[data-motion="on"] .clinic-intro-pager {
+    transition:
+      opacity 0.8s ease,
+      translate 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .clinic-list[data-motion="on"] .clinic-intro-heading {
+    transform-origin: 0 100%;
+    transition:
+      translate 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s,
+      rotate 1s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+  }
+  .clinic-list[data-motion="on"] .clinic-intro-copy {
+    transition:
+      opacity 0.9s ease 1.8s,
+      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1) 1.8s;
+  }
+  .clinic-list[data-motion="on"] [data-clinic-intro]:not([data-in]) {
+    .clinic-intro-pager {
+      opacity: 0;
+      translate: 0 16px;
+    }
+    .clinic-intro-heading {
+      translate: 0 110%;
+      rotate: 3deg;
+    }
+    .clinic-intro-copy {
+      opacity: 0;
+      translate: 0 28px;
+    }
+  }
+
+  /* Bubbles rise one by one (reference: 50px, 0.8s, 0.5s apart). */
+  .clinic-list[data-motion="on"] [data-clinic-intro]:not([data-in]) .clinic-voice {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  .clinic-list[data-motion="on"] .clinic-voice {
+    transition:
+      opacity 0.8s ease-in-out,
+      transform 0.8s ease-in-out;
+  }
+  .clinic-list[data-motion="on"] .clinic-voice:nth-child(1) {
+    transition-delay: 0.6s;
+  }
+  .clinic-list[data-motion="on"] .clinic-voice:nth-child(2) {
+    transition-delay: 1s;
+  }
+  .clinic-list[data-motion="on"] .clinic-voice:nth-child(3) {
+    transition-delay: 1.4s;
+  }
+
+  /* Conditions: the one passing 70% of the screen is lit, the others dimmed (wide screens,
+     where the photo stays fixed beside them). */
+  @media (min-width: 1024px) {
+    .clinic-list[data-motion="on"] .clinic-topic {
+      border-color: #e4e8ef;
+      opacity: 0.35;
+      transition:
+        opacity 0.5s ease-in-out,
+        border-color 0.5s ease-in-out;
+    }
+    .clinic-list[data-motion="on"] .clinic-topic[data-active] {
+      border-color: #1a1a1a;
+      opacity: 1;
+    }
+  }
+}

@@ -19,11 +19,42 @@ export const navigation = [
     ],
   },
   {
+    label: "자가진단",
+    href: routes.selfCheck,
+    children: [
+      { label: "손/손목", href: routes.selfCheckHand },
+      { label: "목", href: routes.selfCheckNeck },
+      { label: "어깨", href: routes.selfCheckShoulder },
+    ],
+  },
+  {
     label: "진료·치료",
     href: routes.treatments,
     children: [
-      { label: "진료 분야", href: routes.treatments },
-      { label: "치료 안내", href: routes.treatmentGuide },
+      {
+        label: "진료 분야",
+        href: routes.treatments,
+        children: [
+          { label: "어깨 클리닉", href: routes.clinicShoulder },
+          { label: "무릎 클리닉", href: routes.clinicKnee },
+          { label: "척추관절 클리닉", href: routes.clinicSpine },
+          { label: "성장 클리닉", href: routes.clinicGrowth },
+        ],
+      },
+      {
+        label: "치료 안내",
+        href: routes.treatmentGuide,
+        children: [
+          { label: "프롤로", href: routes.treatmentProlo },
+          { label: "PRP", href: routes.treatmentPrp },
+          { label: "체외충격파", href: routes.treatmentShockwave },
+          { label: "C-arm 주사", href: routes.treatmentCArm },
+          { label: "초음파 주사", href: routes.treatmentUltrasound },
+          { label: "턱관절 교정", href: routes.treatmentJaw },
+          { label: "족부교정", href: routes.treatmentFoot },
+          { label: "수액", href: routes.treatmentIv },
+        ],
+      },
     ],
   },
   {

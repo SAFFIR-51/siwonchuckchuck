@@ -1,0 +1,52 @@
+/* Self-check cards appear as they enter: the photo panel fades in where it stands,
+   the intro text and checklist rise in turn. */
+@media (prefers-reduced-motion: no-preference) {
+  #self-check[data-motion="on"] [data-self-card] {
+    transition: opacity 0.9s ease;
+  }
+  #self-check[data-motion="on"] .self-check-intro,
+  #self-check[data-motion="on"] .self-check-list > li {
+    transition:
+      opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      translate 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #self-check[data-motion="on"] .self-check-intro {
+    transition-delay: 0.2s;
+  }
+  #self-check[data-motion="on"] [data-self-card]:not([data-in]) {
+    opacity: 0;
+
+    .self-check-intro {
+      opacity: 0;
+      translate: 0 28px;
+    }
+    .self-check-list > li {
+      opacity: 0;
+      translate: 0 20px;
+    }
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(1) {
+    transition-delay: 0.3s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(2) {
+    transition-delay: 0.36s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(3) {
+    transition-delay: 0.42s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(4) {
+    transition-delay: 0.48s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(5) {
+    transition-delay: 0.54s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(6) {
+    transition-delay: 0.6s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(7) {
+    transition-delay: 0.66s;
+  }
+  #self-check[data-motion="on"] .self-check-list > li:nth-child(8) {
+    transition-delay: 0.72s;
+  }
+}

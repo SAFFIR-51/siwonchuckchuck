@@ -1,0 +1,48 @@
+/* Treatment guide motion. Entrance states apply only once the client script has set
+   data-motion="on"; tab-change animations are off with reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  #treatment-guide[data-motion="on"] [data-tg-reveal] {
+    transition:
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      translate 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  #treatment-guide[data-motion="on"] [data-tg-reveal]:not([data-in]) {
+    opacity: 0;
+    translate: 0 40px;
+  }
+  #treatment-guide[data-motion="on"] [role="tabpanel"][data-tg-reveal] {
+    transition-delay: 0.15s;
+  }
+
+  /* Tab change: the photo fades in where it stands, the text lifts in turn. */
+  #treatment-guide .tg-swap [data-tg-photo] {
+    animation: tg-fade 0.8s ease both;
+  }
+  #treatment-guide .tg-swap [data-tg-copy] > * {
+    animation: tg-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  #treatment-guide .tg-swap [data-tg-copy] > :nth-child(2) {
+    animation-delay: 0.08s;
+  }
+  #treatment-guide .tg-swap [data-tg-copy] > :nth-child(3) {
+    animation-delay: 0.16s;
+  }
+  #treatment-guide .tg-swap [data-tg-copy] > :nth-child(4) {
+    animation-delay: 0.24s;
+  }
+  #treatment-guide .tg-swap-lower {
+    animation: tg-rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.2s both;
+  }
+}
+
+@keyframes tg-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes tg-rise {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}

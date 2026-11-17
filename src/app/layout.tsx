@@ -5,6 +5,7 @@ import "./globals.css";
 import { siteOrigin } from "@/shared/config/seo";
 import { Header } from "@/shared/layout/header";
 import { Footer } from "@/shared/layout/footer";
+import { SmoothScroll } from "@/shared/layout/smooth-scroll";
 const pretendard = localFont({
   src: "./fonts/PretendardVariable.woff2",
   variable: "--font-pretendard",
@@ -21,6 +22,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="ko" className={pretendard.variable}>
       <body>
+        <SmoothScroll />
         <Header />
         {children}
         <Footer />
