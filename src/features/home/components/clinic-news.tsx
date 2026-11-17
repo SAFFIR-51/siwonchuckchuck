@@ -21,13 +21,12 @@ export function ClinicNews() {
           </h2>
           <Link
             href={routes.news}
-            className="inline-flex min-h-12 items-center gap-8 rounded-full border border-[#293d7d] px-7 py-3 text-base font-semibold text-[#293d7d] transition-colors hover:bg-[#293d7d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d]"
+            className="inline-flex min-h-11 items-center gap-4 rounded-full border border-[#293d7d] px-5 py-2 text-sm font-semibold text-[#293d7d] transition-colors hover:bg-[#293d7d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d] sm:min-h-12 sm:gap-8 sm:px-7 sm:py-3 sm:text-base"
           >
             전체 보기
             <svg
               aria-hidden="true"
-              width="20"
-              height="20"
+              className="size-4 sm:size-5"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
