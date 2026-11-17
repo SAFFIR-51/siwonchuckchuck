@@ -18,3 +18,7 @@ export const routes = {
   treatments: "/#treatments",
   location: "/#location",
 } as const satisfies Record<string, Route>;
+
+export function newsArticlePath(article: { section: string; slug: string }): Route {
+  return `/news/${article.section}/${article.slug}` as Route;
+}

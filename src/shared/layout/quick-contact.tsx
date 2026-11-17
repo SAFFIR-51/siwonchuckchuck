@@ -81,7 +81,21 @@ export function QuickContact() {
       observer.disconnect();
     };
   }, []);
+  const menu = useRef<HTMLDivElement>(null);
   const toggle = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    if (!open) return;
+
+    function closeOnOutsidePointer(event: PointerEvent) {
+      if (event.target instanceof Node && !menu.current?.contains(event.target)) {
+        setOpen(false);
+      }
+    }
+
+    document.addEventListener("pointerdown", closeOnOutsidePointer, true);
+    return () => document.removeEventListener("pointerdown", closeOnOutsidePointer, true);
+  }, [open]);
+
   const itemClass =
     "flex min-h-[68px] w-full shrink-0 flex-col items-center justify-center gap-2 px-1 text-[11px] font-semibold text-white/55 transition-colors hover:bg-white/5 hover:text-white focus-visible:text-white focus-visible:outline-white lg:min-h-[80px] lg:gap-2.5 lg:text-sm";
   return (
@@ -97,11 +111,12 @@ export function QuickContact() {
           }
         }}
         className={cn(
-          "fixed right-4 bottom-[max(16px,env(safe-area-inset-bottom))] z-30 w-[68px] min-[601px]:right-[21px] min-[601px]:bottom-[21px] min-[1241px]:right-6 min-[1241px]:bottom-6 min-[1641px]:right-[27px] min-[1641px]:bottom-[27px] min-[2001px]:right-[30px] min-[2001px]:bottom-[30px] lg:w-[100px]",
-          !visible && "pointer-events-none invisible",
+          "fixed right-4 bottom-[max(16px,env(safe-area-inset-bottom))] z-30 w-15 transition-[translate,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:translate-y-0 motion-reduce:transition-opacity min-[601px]:right-[21px] min-[601px]:bottom-[21px] min-[1241px]:right-6 min-[1241px]:bottom-6 min-[1641px]:right-[27px] min-[1641px]:bottom-[27px] min-[2001px]:right-[30px] min-[2001px]:bottom-[30px] sm:w-[68px] lg:w-[100px]",
+          visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-2.5 opacity-0",
         )}
       >
         <div
+          ref={menu}
           className="relative"
           onPointerEnter={(event) => {
             if (event.pointerType === "mouse" && window.matchMedia("(hover: hover)").matches)
@@ -111,16 +126,35 @@ export function QuickContact() {
             if (event.pointerType === "mouse") setOpen(false);
           }}
           onBlur={(event) => {
-            if (!event.currentTarget.contains(event.relatedTarget)) setOpen(false);
+            if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget))
+              setOpen(false);
           }}
         >
+          <button
+            ref={toggle}
+            aria-expanded={open}
+            aria-controls="quick-contact-menu"
+            aria-label={open ? "퀵메뉴 닫기" : "퀵메뉴 열기"}
+            onClick={(event) => {
+              if (
+                event.nativeEvent instanceof PointerEvent &&
+                event.nativeEvent.pointerType === "mouse" &&
+                window.matchMedia("(hover: hover) and (pointer: fine)").matches
+              )
+                setOpen(true);
+              else setOpen((current) => !current);
+            }}
+            className="relative z-10 flex aspect-square w-full items-center justify-center rounded-full bg-[#383838] text-sm font-bold text-white shadow-[0_3px_8px_rgb(0_0_0/10%)] transition-colors hover:bg-[#454545] sm:text-base lg:text-xl"
+          >
+            QUICK
+          </button>
           <nav
             id="quick-contact-menu"
             aria-label="병원 바로가기"
             aria-hidden={!open}
             inert={!open}
             className={cn(
-              "absolute right-0 bottom-1/2 flex max-h-[calc(100svh-154px)] w-full origin-bottom flex-col overflow-y-auto rounded-t-full bg-[#173c83] pt-5 pb-[34px] transition-[transform,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none lg:max-h-[calc(100svh-214px)] lg:pt-6 lg:pb-[50px]",
+              "absolute right-0 bottom-1/2 flex max-h-[calc(100svh-154px)] w-full origin-bottom flex-col overflow-y-auto rounded-t-full bg-[#173c83] pt-5 pb-[30px] transition-[translate,opacity] duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:translate-y-0 motion-reduce:transition-opacity sm:pb-[34px] lg:max-h-[calc(100svh-214px)] lg:pt-6 lg:pb-[50px]",
               open ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0",
             )}
           >
@@ -141,31 +175,6 @@ export function QuickContact() {
               </a>
             ))}
           </nav>
-          <button
-            ref={toggle}
-            aria-expanded={open}
-            aria-controls="quick-contact-menu"
-            aria-label={open ? "퀵메뉴 닫기" : "퀵메뉴 열기"}
-            onClick={(event) => {
-              if (
-                event.detail > 0 &&
-                window.matchMedia("(hover: hover) and (pointer: fine)").matches
-              )
-                setOpen(true);
-              else setOpen(!open);
-            }}
-            className="relative z-10 flex size-[68px] flex-col items-center justify-center gap-1 rounded-full bg-[#2b467e] text-xs font-semibold text-white transition-colors hover:bg-[#34518b] lg:size-[100px] lg:gap-2 lg:text-sm"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              fill="currentColor"
-              className="size-6 lg:size-7"
-              aria-hidden="true"
-            >
-              <path d="m14 2-11 12h8l-1 8L22 9h-9Z" />
-            </svg>
-            퀵메뉴
-          </button>
         </div>
         <button
           aria-label="맨 위로 이동"
@@ -177,14 +186,14 @@ export function QuickContact() {
                 : "smooth",
             })
           }
-          className="mx-auto mt-3 flex size-[68px] items-center justify-center rounded-full border border-black bg-white text-black shadow-md transition-colors hover:bg-slate-50 lg:size-[100px]"
+          className="mx-auto mt-3 flex aspect-square w-full items-center justify-center rounded-full bg-[#2b467e] text-white shadow-[0_3px_8px_rgb(0_0_0/10%)] transition-colors hover:bg-[#34518b]"
         >
           <svg
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
             strokeWidth="1.5"
-            className="size-7 lg:size-8"
+            className="size-6 sm:size-7 lg:size-8"
             aria-hidden="true"
           >
             <path d="M12 21V3m-8 8 8-8 8 8" />

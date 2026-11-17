@@ -1,4 +1,5 @@
 import { Container } from "@/shared/ui/container";
+import { ClinicNews } from "./clinic-news";
 import { AkSection } from "./ak-section";
 import { ClinicMarquee } from "./clinic-marquee";
 import { Hero } from "./hero";
@@ -14,6 +15,7 @@ export function HomePage() {
     <main id="main">
       <NoticePopup />
       <Hero />
+      <ClinicMarquee belowHero />
       <HospitalIntroduction />
       <ClinicGallery />
       <ClinicEquipment />
@@ -37,16 +39,21 @@ export function HomePage() {
         <Container className="max-w-[1720px]">
           <div className="mb-12 sm:mb-16">
             <h2 className="text-[30px] leading-[1.4] font-bold tracking-[-0.045em] text-[#3c3c3c] sm:text-[50px]">
-              나에게 맞는 치료를 위해
+              시원척척만의 진료,
+              <br />
+              환자의 일상을 세심하게 살핍니다
             </h2>
             <p className="mt-5 text-base leading-[1.8] text-[#595959] sm:text-lg">
-              진찰을 통해 필요한 치료를 함께 결정합니다.
-              <br className="sm:hidden" /> 각 치료의 안내와 주의사항을 확인해 보세요.
+              팔을 들고, 계단을 오르고, 오래 앉아 있는 순간까지. 익숙했던 일상의 불편함에 귀
+              기울입니다.
+              <br className="hidden sm:block" /> 통증이 시작된 과정과 몸의 상태를 살펴, 지금 필요한
+              치료를 함께 찾아갑니다.
             </p>
           </div>
           <TreatmentGuide />
         </Container>
       </section>
+      <ClinicNews />
     </main>
   );
 }

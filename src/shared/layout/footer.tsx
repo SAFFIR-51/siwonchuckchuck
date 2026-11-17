@@ -11,8 +11,8 @@ import { ClinicLocation } from "./clinic-location";
 const policies = ["개인정보처리방침", "이용약관", "환자의 권리와 의무", "비급여 안내"];
 const socialIcons: Record<string, string> = {
   blog: "/images/social/blog.png",
-  instagram: "/images/social/instagram.svg",
-  chat: "/images/social/kakaotalk.svg",
+  instagram: "/images/social/instagram-brand.png",
+  chat: "/images/social/kakaotalk-bubble.svg",
   calendar: "/images/social/naver.svg",
 };
 
@@ -72,10 +72,12 @@ export function Footer() {
                     <Image
                       src={socialIcons[c.kind]}
                       alt=""
-                      width={28}
-                      height={28}
+                      width={c.kind === "blog" ? 40 : 28}
+                      height={c.kind === "blog" ? 40 : 28}
                       unoptimized
-                      className="size-7 object-contain"
+                      className={
+                        c.kind === "blog" ? "size-10 object-contain" : "size-7 object-contain"
+                      }
                     />
                   </a>
                 ))}

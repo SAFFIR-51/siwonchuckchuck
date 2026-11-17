@@ -1,6 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
+import { newsArticlePath } from "@/shared/config/routes";
 import { Container } from "@/shared/ui/container";
 import { ClinicPhoto } from "@/shared/ui/clinic-photo";
 import { Dialog } from "@/shared/ui/dialog";
@@ -207,21 +209,44 @@ export function NewsPage() {
                     <p className="max-w-[900px] text-base leading-[1.9] text-[#555e6c]">
                       {article.text}
                     </p>
+                    <Link
+                      href={newsArticlePath(article)}
+                      className="mt-4 inline-flex min-h-11 items-center text-sm text-[#304880] underline underline-offset-4"
+                    >
+                      질문 상세 보기
+                    </Link>
                   </div>
                 </details>
               ) : article.category === "미디어룸" ? (
-                <button
+                <Link
                   key={article.id}
-                  onClick={() => setSelected(article)}
+                  href={newsArticlePath(article)}
+                  onClick={(event) => {
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    event.preventDefault();
+                    setSelected(article);
+                  }}
                   aria-haspopup="dialog"
                   className="group min-w-0 text-left focus-visible:outline-[#304880]"
                 >
                   <div className="relative overflow-hidden rounded-[20px] bg-[#f1f4f9]">
-                    <ClinicPhoto
-                      name={article.image}
-                      alt={article.title}
-                      className="aspect-square"
-                    />
+                    {article.cardImage ? (
+                      <div className="relative aspect-square">
+                        <Image
+                          src={`/images/clinic/${article.image}.webp`}
+                          alt={article.title}
+                          fill
+                          sizes="(max-width: 639px) 90vw, 340px"
+                          className="object-contain"
+                        />
+                      </div>
+                    ) : (
+                      <ClinicPhoto
+                        name={article.image}
+                        alt={article.title}
+                        className="aspect-square"
+                      />
+                    )}
                     <span
                       className="absolute top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white"
                       aria-label="공식 블로그"
@@ -239,11 +264,16 @@ export function NewsPage() {
                     {article.title}
                   </h2>
                   <p className="mt-2 text-sm text-[#747b86]">{article.date}</p>
-                </button>
+                </Link>
               ) : (
-                <button
+                <Link
                   key={article.id}
-                  onClick={() => setSelected(article)}
+                  href={newsArticlePath(article)}
+                  onClick={(event) => {
+                    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+                    event.preventDefault();
+                    setSelected(article);
+                  }}
                   aria-haspopup="dialog"
                   className="group grid min-h-[100px] w-full grid-cols-[64px_minmax(0,1fr)] items-center gap-x-4 gap-y-2 border-b border-[#dfe4ed] px-1 py-6 text-left transition-colors hover:bg-[#f8f9fc] focus-visible:outline-[#304880] sm:grid-cols-[64px_minmax(0,1fr)_110px] sm:gap-x-5 sm:px-8"
                 >
@@ -256,7 +286,7 @@ export function NewsPage() {
                   <span className="col-start-2 text-sm text-[#747b86] tabular-nums sm:col-start-auto sm:text-right">
                     {article.date}
                   </span>
-                </button>
+                </Link>
               ),
             )}
           </div>
@@ -323,6 +353,12 @@ export function NewsPage() {
               >
                 목록으로 돌아가기
               </button>
+              <Link
+                href={newsArticlePath(selected)}
+                className="inline-flex min-h-12 items-center text-sm text-[#304880] underline underline-offset-4"
+              >
+                개별 페이지 보기
+              </Link>
               {selected.url && (
                 <a
                   href={selected.url}

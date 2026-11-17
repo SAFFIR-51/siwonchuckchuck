@@ -21,6 +21,19 @@ const stages = [
 
 const container = "mx-auto w-full max-w-[1640px] px-6 sm:px-10 min-[2001px]:px-0";
 
+const introDescription = (
+  <>
+    같은 부위의 통증이라도 시작된 과정과 생활 습관은 저마다 다릅니다. 시원척척의원은 환자분의
+    이야기를 충분히 듣고, 어떤 자세와 움직임에서 불편함을 느끼는지 세심하게 살핍니다. AK는 Applied
+    Kinesiology, 응용근신경학을 뜻합니다.
+    <br />
+    근육의 반응과 움직임을 살피는 접근을 진료에 참고하며, 문진과 진찰, 필요한 검사 결과를 함께
+    고려해 상태를 평가합니다. 한 분 한 분의 상태에 맞는 치료와 관리 방향을 함께 찾고, 진찰 결과와
+    치료 과정을 이해하기 쉽게 설명하겠습니다. 더 편안한 일상을 향한 걸음에 시원척척의원이
+    함께하겠습니다.
+  </>
+);
+
 export function AkSection() {
   return (
     <section
@@ -41,16 +54,27 @@ export function AkSection() {
           불편한 움직임부터 평소의 생활 습관까지,
           <br className="hidden sm:block" /> 상태를 이해하는 것에서 치료 방향을 찾습니다.
         </p>
-        <p className="mt-6 text-left text-base leading-[1.9] break-keep text-[#626b77] sm:text-lg lg:max-w-[60%]">
-          같은 부위의 통증이라도 시작된 과정과 생활 습관은 저마다 다릅니다. 시원척척의원은 환자분의
-          이야기를 충분히 듣고, 어떤 자세와 움직임에서 불편함을 느끼는지 세심하게 살핍니다. AK는
-          Applied Kinesiology, 응용근신경학을 뜻합니다.
-          <br />
-          근육의 반응과 움직임을 살피는 접근을 진료에 참고하며, 문진과 진찰, 필요한 검사 결과를 함께
-          고려해 상태를 평가합니다. 한 분 한 분의 상태에 맞는 치료와 관리 방향을 함께 찾고, 진찰
-          결과와 치료 과정을 이해하기 쉽게 설명하겠습니다. 더 편안한 일상을 향한 걸음에
-          시원척척의원이 함께하겠습니다.
+        <p className="mt-6 hidden text-left text-lg leading-[1.9] break-keep text-[#626b77] sm:block lg:max-w-[60%]">
+          {introDescription}
         </p>
+        <details className="group mt-4 sm:hidden">
+          <summary className="flex min-h-11 w-fit cursor-pointer list-none items-center gap-1.5 text-[15px] font-semibold text-[#626b77] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent [&::-webkit-details-marker]:hidden">
+            세부 설명 보기
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              className="size-4 shrink-0 group-open:rotate-180"
+            >
+              <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+            </svg>
+          </summary>
+          <p className="mt-2 text-base leading-[1.85] break-keep text-[#626b77]">
+            {introDescription}
+          </p>
+        </details>
         <div className="relative mt-10 aspect-[4/3] overflow-hidden rounded-[24px] sm:mt-14 sm:aspect-[2.3/1] lg:mt-16 lg:rounded-[32px]">
           <Image
             src="/images/clinic/ak-main-assessment.webp"

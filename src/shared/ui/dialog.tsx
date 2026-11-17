@@ -37,7 +37,7 @@ export function Dialog({
         if (event.target === event.currentTarget) onClose();
       }}
       className={cn(
-        "fixed inset-0 m-auto max-h-[85svh] w-[calc(100%-2rem)] max-w-3xl overflow-y-auto rounded-2xl border-0 bg-white p-0 text-foreground shadow-2xl",
+        "fixed inset-0 m-auto max-h-[85svh] w-[calc(100%-2rem)] max-w-3xl [scrollbar-width:none] overflow-y-auto rounded-2xl border-0 bg-white p-0 text-foreground shadow-2xl [&::-webkit-scrollbar]:hidden",
         className,
       )}
     >

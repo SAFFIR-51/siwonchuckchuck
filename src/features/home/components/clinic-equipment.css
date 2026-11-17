@@ -1,6 +1,6 @@
 /* Match the reference: horizontal Swiper movement, raised adjacent cards. */
 .clinic-equipment-carousel {
-  --equipment-rise: 56px;
+  --equipment-rise: 36px;
   padding-top: var(--equipment-rise);
   padding-bottom: 8px;
   background: #315786;

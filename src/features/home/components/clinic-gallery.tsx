@@ -153,11 +153,8 @@ export function ClinicGallery() {
               ))}
             </h2>
             <p className="mt-[18px] text-base leading-[1.85] text-[#3c3c3c] sm:text-lg">
-              {galleryContent.description.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              <span className="hidden sm:block">{galleryContent.description[0]}</span>
+              <span className="block">{galleryContent.description[1]}</span>
             </p>
           </div>
           <div

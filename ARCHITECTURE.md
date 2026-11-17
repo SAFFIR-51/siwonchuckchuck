@@ -20,3 +20,5 @@ ESLint가 의존 방향을 검사합니다. app에서 server를 직접 가져오
 경로는 `shared/config/routes.ts`, 화면 문구는 feature의 `model/content.ts`에 둡니다.
 Cache Components, partialPrefetching, typedRoutes, React Compiler를 사용합니다.
 공개 도메인 미정이므로 sitemap·canonical은 출시 준비 시 추가합니다. 현재 metadata는 noindex입니다.
+
+검색 설정은 shared/config/seo.ts, JSON-LD는 shared/seo에서 관리합니다. 소식 상세는 /news/[category]/[slug]이며 콘텐츠 데이터에서 정적 생성합니다. 출시 설정은 docs/seo-launch.md를 참고합니다.

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { site } from "@/shared/config/site";
 import "./globals.css";
+import { siteOrigin } from "@/shared/config/seo";
 import { Header } from "@/shared/layout/header";
 import { Footer } from "@/shared/layout/footer";
 const pretendard = localFont({
@@ -11,6 +12,7 @@ const pretendard = localFont({
   weight: "45 920",
 });
 export const metadata: Metadata = {
+  metadataBase: siteOrigin ? new URL(siteOrigin) : undefined,
   title: { default: site.name, template: "%s | " + site.name },
   description: site.description,
   robots: { index: false, follow: false },

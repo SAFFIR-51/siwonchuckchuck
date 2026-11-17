@@ -28,6 +28,77 @@ function SubmenuLink({
     </Link>
   );
 }
+function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
+  const [expandedIndex, setExpandedIndex] = useState<number | null>(0);
+
+  return (
+    <nav
+      id="mobile-menu"
+      aria-label="모바일 메뉴"
+      className="absolute inset-x-0 top-full max-h-[calc(100svh-70px)] [scrollbar-width:none] overflow-y-auto overscroll-y-contain border-t border-slate-100 bg-white px-6 pt-2 pb-6 shadow-[0_12px_20px_rgba(15,23,42,0.08)] min-[1241px]:hidden [&::-webkit-scrollbar]:hidden"
+    >
+      <ul className="divide-y divide-slate-100">
+        {navigation.map(({ label, href, children }, index) => {
+          const expanded = expandedIndex === index;
+          const submenuId = "mobile-submenu-" + index;
+
+          return (
+            <li key={href}>
+              <div className="flex min-h-14 items-center justify-between gap-3">
+                <span className="text-base font-semibold text-[#1b2d59]">{label}</span>
+                <button
+                  type="button"
+                  aria-label={label + " 하위 메뉴"}
+                  aria-expanded={expanded}
+                  aria-controls={submenuId}
+                  onClick={() => setExpandedIndex(expanded ? null : index)}
+                  className="flex size-11 shrink-0 items-center justify-center rounded-lg text-[#1b2d59] hover:bg-slate-50 active:bg-slate-100"
+                >
+                  <svg
+                    aria-hidden="true"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className={cn("size-5", expanded && "rotate-180")}
+                  >
+                    <path d="m6 9 6 6 6-6" />
+                  </svg>
+                </button>
+              </div>
+              <ul
+                id={submenuId}
+                className={cn("grid-cols-2 gap-x-4 pb-3", expanded ? "grid" : "hidden")}
+              >
+                {children.map((child) => (
+                  <li key={child.href}>
+                    <SubmenuLink
+                      href={child.href}
+                      onClick={onNavigate}
+                      className="flex min-h-11 items-center text-[15px] text-[#555] hover:text-[#173c83]"
+                    >
+                      {child.label}
+                    </SubmenuLink>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          );
+        })}
+      </ul>
+      <a
+        href={site.phoneHref}
+        onClick={() => track("contact_clicked", { source: "header" })}
+        className="mt-4 inline-flex min-h-11 items-center gap-4 text-sm font-semibold text-[#1b2d59]"
+      >
+        진료 문의 <span>{site.phone}</span>
+      </a>
+    </nav>
+  );
+}
+
 export function Header() {
   const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
@@ -171,11 +242,11 @@ export function Header() {
             ))}
           </ul>
         </nav>
-        <div className="col-start-3 row-start-1 flex items-center justify-end gap-3 sm:gap-5">
+        <div className="col-start-3 row-start-1 flex items-center justify-end gap-3 max-[359px]:gap-0 sm:gap-5">
           <a
             href={site.phoneHref}
             onClick={() => track("contact_clicked", { source: "header" })}
-            className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#f0f2f7] px-4 py-2 text-xs leading-[1.7] font-semibold text-[#1b2d59] transition-colors hover:bg-[#1b2d59] hover:text-white min-[1641px]:text-[13px] min-[2001px]:text-sm"
+            className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#1b2d59] px-2 py-2 text-sm leading-tight font-semibold whitespace-nowrap text-white transition-colors hover:bg-[#263d79] min-[360px]:px-4 min-[2001px]:text-lg sm:text-base"
           >
             전화 문의
           </a>
@@ -200,50 +271,7 @@ export function Header() {
           </button>
         </div>
       </div>
-      {open && (
-        <nav
-          id="mobile-menu"
-          aria-label="모바일 메뉴"
-          className="absolute inset-x-0 top-full max-h-[calc(100svh-70px)] overflow-y-auto border-t border-slate-100 bg-white px-6 pt-4 pb-8 shadow-[0_12px_20px_rgba(15,23,42,0.08)] min-[1241px]:hidden"
-        >
-          <ul>
-            {navigation.map(({ label, href, children }) => (
-              <li key={href}>
-                <Link
-                  href={href}
-                  onClick={() => setOpen(false)}
-                  className="flex min-h-16 items-center justify-between border-b border-slate-100 text-lg leading-[1.7] font-semibold text-black hover:text-[#1b2d59]"
-                >
-                  {label}
-                  <span aria-hidden="true" className="text-sm font-normal text-slate-400">
-                    ↗
-                  </span>
-                </Link>
-                <ul className="grid grid-cols-2 gap-x-4 pb-4">
-                  {children.map((child) => (
-                    <li key={child.href}>
-                      <SubmenuLink
-                        href={child.href}
-                        onClick={() => setOpen(false)}
-                        className="flex min-h-11 items-center text-base text-[#555] hover:text-[#173c83]"
-                      >
-                        {child.label}
-                      </SubmenuLink>
-                    </li>
-                  ))}
-                </ul>
-              </li>
-            ))}
-          </ul>
-          <a
-            href={site.phoneHref}
-            onClick={() => track("contact_clicked", { source: "header" })}
-            className="mt-6 inline-flex min-h-11 items-center gap-4 text-sm font-semibold text-[#1b2d59]"
-          >
-            진료 문의 <span>{site.phone}</span>
-          </a>
-        </nav>
-      )}
+      {open && <MobileNavigation onNavigate={() => setOpen(false)} />}
     </header>
   );
 }

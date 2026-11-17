@@ -41,6 +41,12 @@ export function ClinicLocation({ children }: { children?: ReactNode }) {
               </svg>
             </button>
           </div>
+          <a
+            href={site.phoneHref}
+            className="mt-2 inline-block text-xl leading-[1.4] font-bold tracking-tight text-[#30343b] hover:underline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#173c83] sm:text-2xl xl:text-[28px]"
+          >
+            {site.phone}
+          </a>
           <p role="status" className="min-h-6 text-xs text-[#173c83]">
             {copyStatus}
           </p>

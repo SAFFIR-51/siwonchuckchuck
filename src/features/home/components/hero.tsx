@@ -143,7 +143,16 @@ export function Hero() {
             isSpine ? "bg-black/30" : isTreatment ? "bg-black/20 lg:bg-black/5" : "bg-black/38",
           )}
         />
-        <div className="relative z-10 flex w-full flex-col items-center px-5 pb-8 text-center min-[1024px]:px-24 lg:px-32">
+        <div
+          className={cn(
+            "z-10 flex w-full flex-col items-center px-5 pb-8 text-center min-[1024px]:px-24 lg:px-32",
+            isTreatment && "max-lg:pt-11",
+          )}
+        >
+          {isTreatment && <TreatmentHeroDetails />}
+          <p className="mb-6 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white min-[2001px]:rounded-[32px] sm:px-6 sm:py-3 sm:text-lg lg:order-last lg:mt-11 lg:mb-0 lg:text-2xl">
+            {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
+          </p>
           <h1
             id="hero-title"
             className="text-[clamp(27px,7.5vw,40px)] leading-[1.22] font-extrabold tracking-[-0.045em] text-white min-[1024px]:text-[clamp(36px,5.4vw,112px)]"
@@ -152,11 +161,7 @@ export function Hero() {
             <br />
             {title[1]}
           </h1>
-          <p className="mt-7 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white max-[1023px]:order-first max-[1023px]:mt-0 max-[1023px]:mb-6 min-[2001px]:rounded-[32px] sm:mt-9 sm:px-6 sm:py-3 sm:text-lg lg:mt-11 lg:text-2xl">
-            {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
-          </p>
         </div>
-        {isTreatment && <TreatmentHeroDetails />}
         <div
           className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
           role="group"

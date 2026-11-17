@@ -5,7 +5,7 @@ export function TreatmentHeroDetails() {
   return (
     <aside
       aria-label="진료 및 치료 항목"
-      className="mx-auto mt-6 flex max-w-sm items-center justify-center gap-3 max-[1023px]:absolute max-[1023px]:top-[66%] max-[1023px]:left-0 max-[1023px]:mt-0 max-[1023px]:w-[44%] max-[1023px]:flex-col max-[1023px]:gap-2 lg:absolute lg:top-[calc(50%-64px)] lg:left-0 lg:mt-0 lg:w-[24%] lg:max-w-[460px] lg:-translate-y-1/2 lg:flex-col lg:gap-6"
+      className="absolute top-[7.5%] left-0 flex w-[55%] max-w-[245px] flex-col items-center lg:top-[calc(50%-64px)] lg:w-[24%] lg:max-w-[460px] lg:-translate-y-1/2 lg:gap-6"
     >
       <Image
         src="/images/clinic/treatment-gold-badge.webp"
@@ -14,13 +14,13 @@ export function TreatmentHeroDetails() {
         height={1254}
         unoptimized
         draggable={false}
-        className="size-[100px] shrink-0 object-contain max-[1023px]:hidden lg:size-[clamp(160px,24svh,270px)]"
+        className="hidden shrink-0 object-contain lg:block lg:size-[clamp(160px,24svh,270px)]"
       />
-      <ul className="flex flex-1 flex-col gap-2 max-[1023px]:w-full max-[1023px]:flex-none lg:-ml-10 lg:w-[calc(100%+40px)] lg:flex-none lg:gap-5">
+      <ul className="flex w-full flex-col gap-2 lg:-ml-10 lg:w-[calc(100%+40px)] lg:gap-5">
         {treatmentHero.items.map((item) => (
           <li
             key={item}
-            className="relative isolate flex min-h-12 items-center justify-center overflow-hidden py-3 pr-4 pl-7 text-center text-sm font-extrabold text-[#20232b] max-[1023px]:min-h-9 max-[1023px]:py-2 max-[1023px]:pr-3 max-[1023px]:pl-3 max-[1023px]:text-xs lg:min-h-[clamp(64px,9svh,104px)] lg:py-4 lg:pr-5 lg:pl-12 lg:text-[clamp(24px,2.3vw,44px)]"
+            className="relative isolate flex min-h-[clamp(30px,4.7svh,48px)] items-center justify-center overflow-hidden py-1.5 pr-3 pl-1 text-center text-[clamp(13px,4.2vw,18px)] leading-tight font-extrabold break-keep text-[#20232b] lg:min-h-[clamp(64px,9svh,104px)] lg:py-4 lg:pr-5 lg:pl-12 lg:text-[clamp(24px,2.3vw,44px)] lg:leading-normal"
           >
             <svg
               viewBox="0 0 400 100"

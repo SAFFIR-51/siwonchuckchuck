@@ -1,201 +1,304 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState, useSyncExternalStore } from "react";
 import { koreaDate, notices, noticeStorageKey } from "../model/notices";
+
+type Notice = (typeof notices)[number];
+
+const carouselStorageKey = `${noticeStorageKey}:carousel`;
+const desktopQuery = "(min-width: 1024px)";
+
+function subscribeToDesktop(onChange: () => void) {
+  const media = window.matchMedia(desktopQuery);
+  media.addEventListener("change", onChange);
+  return () => media.removeEventListener("change", onChange);
+}
+
+function isDesktop() {
+  return window.matchMedia(desktopQuery).matches;
+}
+
+function noticeKey(notice: Notice) {
+  return `${noticeStorageKey}:${notice.id}`;
+}
+
+function NoticeImage({ notice, inactive = false }: { notice: Notice; inactive?: boolean }) {
+  return (
+    <a
+      href={notice.original}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`${notice.title} 고화질 이미지 크게 보기`}
+      aria-hidden={inactive || undefined}
+      tabIndex={inactive ? -1 : undefined}
+      className="relative block w-full shrink-0 overflow-hidden"
+    >
+      <Image
+        src={notice.image}
+        alt={notice.alt}
+        width={notice.width}
+        height={notice.height}
+        unoptimized
+        className="aspect-square h-auto w-full object-contain"
+      />
+      {notice.id === "clinic-introduction" && (
+        <span
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 rounded-t-[20px] border-x-[5px] border-t-[5px] border-[#293d7d]"
+        />
+      )}
+    </a>
+  );
+}
+
+function NoticeActions({
+  title,
+  onHideToday,
+  onClose,
+}: {
+  title?: string;
+  onHideToday: () => void;
+  onClose: () => void;
+}) {
+  return (
+    <div className="flex min-h-[60px] items-center justify-between gap-2 bg-[#f2f2f2] px-[15px] text-black">
+      <button
+        type="button"
+        onClick={onHideToday}
+        className="group flex min-h-11 flex-1 items-center gap-[7px] py-2 text-left text-base text-[#a7a7a7] transition-colors hover:text-black"
+        aria-label={`오늘 하루 ${title ?? "안내 팝업"} 다시 보지 않기`}
+      >
+        <span
+          aria-hidden="true"
+          className="flex size-[19px] shrink-0 items-center justify-center rounded-full bg-[#a7a7a7] text-xs text-white transition-colors group-hover:bg-black"
+        >
+          ✓
+        </span>
+        다시 보지 않기
+      </button>
+      <button
+        type="button"
+        onClick={onClose}
+        aria-label={title ? `${title} 닫기` : undefined}
+        className="min-h-11 shrink-0 py-2 pl-2 text-base font-medium text-black hover:text-[#666]"
+      >
+        닫기
+      </button>
+    </div>
+  );
+}
+
+function NoticeCarousel({
+  items,
+  onHideToday,
+  onClose,
+}: {
+  items: Notice[];
+  onHideToday: () => void;
+  onClose: () => void;
+}) {
+  const [position, setPosition] = useState(1);
+  const [animate, setAnimate] = useState(true);
+  const hovered = useRef(false);
+  const moving = useRef(false);
+  const paused = useRef(false);
+  const count = items.length;
+  const selected = (position - 1 + count) % count;
+  const slides = count > 1 ? [items[count - 1], ...items, items[0]] : items;
+  const visiblePosition = count > 1 ? position : 0;
+
+  function move(direction: number) {
+    if (count < 2 || moving.current) return;
+    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    setAnimate(!reduce);
+    if (reduce) {
+      setPosition((current) => ((current - 1 + direction + count) % count) + 1);
+    } else {
+      moving.current = true;
+      setPosition((current) => current + direction);
+    }
+  }
+
+  const advance = useEffectEvent(() => {
+    if (!hovered.current && !paused.current && !document.hidden) move(1);
+  });
+
+  useEffect(() => {
+    if (count < 2 || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const timer = window.setInterval(advance, 5000);
+    return () => window.clearInterval(timer);
+  }, [count]);
+
+  return (
+    <div
+      className="overflow-hidden rounded-[20px] bg-white"
+      onKeyDown={(event) => {
+        if (count > 1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
+          event.preventDefault();
+          move(event.key === "ArrowRight" ? 1 : -1);
+        }
+        if (event.key === "Tab") paused.current = true;
+      }}
+    >
+      <div
+        aria-roledescription={count > 1 ? "carousel" : undefined}
+        aria-label="병원 안내 이미지"
+        onMouseEnter={() => {
+          hovered.current = true;
+        }}
+        onMouseLeave={() => {
+          hovered.current = false;
+        }}
+        className="relative overflow-hidden"
+      >
+        <div
+          className={
+            animate
+              ? "flex transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none"
+              : "flex"
+          }
+          style={{ transform: `translateX(-${visiblePosition * 100}%)` }}
+          onTransitionEnd={(event) => {
+            if (event.target !== event.currentTarget) return;
+            moving.current = false;
+            if (position === 0 || position === count + 1) {
+              setAnimate(false);
+              setPosition(position === 0 ? count : 1);
+            }
+          }}
+        >
+          {slides.map((notice, index) => (
+            <NoticeImage
+              key={`${notice.id}-${index}`}
+              notice={notice}
+              inactive={visiblePosition !== index}
+            />
+          ))}
+        </div>
+        {count > 1 && (
+          <div className="absolute right-[15px] bottom-3 flex items-center gap-1 rounded-full bg-black/35 px-1 text-white">
+            <button
+              type="button"
+              onClick={() => move(1)}
+              aria-label={`${selected + 1} / ${count}, 다음 안내 보기`}
+              className="min-h-11 rounded-full px-3 text-sm leading-none tabular-nums hover:bg-black/20"
+            >
+              {selected + 1} / {count}
+            </button>
+          </div>
+        )}
+      </div>
+      <NoticeActions onHideToday={onHideToday} onClose={onClose} />
+    </div>
+  );
+}
 
 export function NoticePopup() {
   const dialog = useRef<HTMLDialogElement>(null);
   const focusBeforeOpen = useRef<HTMLElement | null>(null);
   const previousOverflow = useRef("");
-  const hovered = useRef(false);
-  const [position, setPosition] = useState(1);
-  const [animate, setAnimate] = useState(true);
-  const moving = useRef(false);
-  const paused = useRef(false);
-  const selected = (position - 1 + notices.length) % notices.length;
-  const slides = [notices[notices.length - 1], ...notices, notices[0]];
-  const notice = notices[selected];
-  const storageKey = `${noticeStorageKey}:carousel`;
+  const [activeNotices, setActiveNotices] = useState<Notice[]>([]);
+  const desktop = useSyncExternalStore(subscribeToDesktop, isDesktop, () => false);
 
-  function open(manual = true) {
-    if (!dialog.current || dialog.current.open) return;
-    let hidden = false;
-    try {
-      hidden = localStorage.getItem(storageKey) === koreaDate();
-    } catch {
-      /* Storage is optional. */
-    }
-    if (!manual && (hidden || koreaDate() > notices[0].expires)) return;
-    focusBeforeOpen.current =
-      document.activeElement instanceof HTMLElement ? document.activeElement : null;
-    previousOverflow.current = document.body.style.overflow;
-    if (window.matchMedia("(max-width: 600px)").matches) {
-      dialog.current.showModal();
-      document.body.style.overflow = "hidden";
-    } else dialog.current.show();
-  }
   function restorePage() {
-    moving.current = false;
-    setAnimate(false);
-    setPosition(1);
+    setActiveNotices([]);
     document.body.style.overflow = previousOverflow.current;
     focusBeforeOpen.current?.focus();
   }
-  function hideToday() {
+
+  const loadNotices = useEffectEvent(() => {
+    const today = koreaDate();
+    const current = notices.filter((notice) => !notice.expires || notice.expires >= today);
     try {
-      localStorage.setItem(storageKey, koreaDate());
+      if (localStorage.getItem(carouselStorageKey) === today) return;
+      setActiveNotices(
+        current.filter((notice) => localStorage.getItem(noticeKey(notice)) !== today),
+      );
+    } catch {
+      setActiveNotices(current);
+    }
+  });
+
+  useEffect(() => {
+    const frame = window.requestAnimationFrame(() => loadNotices());
+    return () => window.cancelAnimationFrame(frame);
+  }, []);
+
+  const hasNotices = activeNotices.length > 0;
+  useEffect(() => {
+    const current = dialog.current;
+    if (!hasNotices || !current) return;
+
+    focusBeforeOpen.current =
+      document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    previousOverflow.current = document.body.style.overflow;
+    current.showModal();
+    document.body.style.overflow = "hidden";
+
+    return () => {
+      if (current.open) current.close();
+      document.body.style.overflow = previousOverflow.current;
+    };
+  }, [hasNotices]);
+
+  useEffect(() => {
+    const current = dialog.current;
+    if (current?.open && !current.contains(document.activeElement)) {
+      current.querySelector<HTMLElement>("a[href], button")?.focus();
+    }
+  }, [desktop, activeNotices]);
+
+  function close() {
+    dialog.current?.close();
+  }
+
+  function hideToday(notice?: Notice) {
+    try {
+      localStorage.setItem(notice ? noticeKey(notice) : carouselStorageKey, koreaDate());
     } catch {
       /* Closing still works without storage. */
     }
-    dialog.current?.close();
+    if (notice) closeCard(notice);
+    else close();
   }
-  function move(direction: number) {
-    if (moving.current) return;
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setAnimate(!reduce);
-    if (reduce)
-      setPosition((current) => ((current - 1 + direction + notices.length) % notices.length) + 1);
-    else {
-      moving.current = true;
-      setPosition((current) => current + direction);
-    }
+
+  function closeCard(notice: Notice) {
+    if (activeNotices.length === 1) close();
+    else setActiveNotices((current) => current.filter(({ id }) => id !== notice.id));
   }
-  function finishSlide() {
-    moving.current = false;
-    if (position === 0 || position === notices.length + 1) {
-      setAnimate(false);
-      setPosition(position === 0 ? notices.length : 1);
-    }
-  }
-  const openInitially = useEffectEvent(() => open(false));
-  const advance = useEffectEvent(() => {
-    if (dialog.current?.open && !hovered.current && !paused.current && !document.hidden) move(1);
-  });
-  useEffect(() => {
-    const current = dialog.current;
-    openInitially();
-    return () => {
-      if (current?.open) {
-        current.close();
-        document.body.style.overflow = previousOverflow.current;
-      }
-    };
-  }, []);
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-    const timer = window.setInterval(advance, 5000);
-    return () => window.clearInterval(timer);
-  }, []);
 
   return (
-    <>
-      <dialog
-        ref={dialog}
-        aria-label="시원척척의원 안내 슬라이드"
-        onClose={restorePage}
-        onKeyDown={(event) => {
-          if (event.key === "Escape") dialog.current?.close();
-          if (event.key === "ArrowRight") {
-            event.preventDefault();
-            move(1);
-          }
-          if (event.key === "ArrowLeft") {
-            event.preventDefault();
-            move(-1);
-          }
-          if (event.key === "Tab") paused.current = true;
-        }}
-        onClick={(event) => {
-          if (event.target === event.currentTarget) dialog.current?.close();
-        }}
-        className="notice-popup fixed top-auto right-0 bottom-0 left-auto z-50 m-0 max-h-[94svh] w-[min(300px,100vw)] max-w-full overflow-auto rounded-t-[20px] border-0 bg-white p-0 text-black min-[601px]:right-[21px] min-[601px]:bottom-[21px] min-[601px]:w-[400px] min-[601px]:rounded-b-[20px] min-[1241px]:right-6 min-[1241px]:bottom-6 min-[1641px]:right-[27px] min-[1641px]:bottom-[27px] min-[2001px]:right-[30px] min-[2001px]:bottom-[30px]"
-      >
-        <div
-          aria-roledescription="carousel"
-          aria-label="병원 안내 이미지"
-          onMouseEnter={() => {
-            hovered.current = true;
-          }}
-          onMouseLeave={() => {
-            hovered.current = false;
-          }}
-          className="relative overflow-hidden"
-        >
-          <div
-            className={
-              animate
-                ? "flex transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none"
-                : "flex"
-            }
-            style={{ transform: `translateX(-${position * 100}%)` }}
-            onTransitionEnd={(event) => {
-              if (event.target === event.currentTarget) finishSlide();
-            }}
-          >
-            {slides.map((slide, index) => (
-              <a
-                key={`${slide.id}-${index}`}
-                href={slide.original}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`${slide.title} 고화질 이미지 크게 보기`}
-                aria-hidden={position !== index}
-                tabIndex={position === index ? 0 : -1}
-                className="relative block w-full shrink-0 overflow-hidden"
+    <dialog
+      ref={dialog}
+      aria-label="시원척척의원 안내"
+      onClose={restorePage}
+      onClick={(event) => {
+        if (event.target === event.currentTarget) close();
+      }}
+      className="notice-popup fixed inset-0 z-50 m-auto max-h-[calc(100svh-32px)] w-[min(400px,calc(100vw-32px),calc(100svh-92px))] max-w-full overflow-auto border-0 bg-transparent p-0 text-black lg:w-fit"
+    >
+      {hasNotices &&
+        (desktop ? (
+          <div className="flex justify-center gap-4">
+            {activeNotices.map((notice) => (
+              <article
+                key={notice.id}
+                aria-label={notice.title}
+                className="w-[min(400px,calc(100svh-92px))] shrink-0 overflow-hidden rounded-[20px] bg-white"
               >
-                <Image
-                  src={slide.image}
-                  alt={slide.alt}
-                  width={slide.width}
-                  height={slide.height}
-                  unoptimized
-                  className="aspect-square h-auto w-full object-contain"
+                <NoticeImage notice={notice} />
+                <NoticeActions
+                  title={notice.title}
+                  onHideToday={() => hideToday(notice)}
+                  onClose={() => closeCard(notice)}
                 />
-                {slide.id === "clinic-introduction" && (
-                  <span
-                    aria-hidden="true"
-                    className="pointer-events-none absolute inset-0 rounded-t-[20px] border-x-[5px] border-t-[5px] border-[#293d7d]"
-                  />
-                )}
-              </a>
+              </article>
             ))}
           </div>
-          <div className="absolute right-[15px] bottom-3 flex items-center gap-1 rounded-full bg-black/35 px-1 text-white">
-            <button
-              onClick={() => move(1)}
-              aria-label={`${selected + 1} / ${notices.length}, 다음 안내 보기`}
-              className="min-h-11 rounded-full px-3 text-sm leading-none tabular-nums hover:bg-black/20"
-            >
-              {selected + 1} / {notices.length}
-            </button>
-          </div>
-          <span className="sr-only" aria-live="off">
-            {notice.title}
-          </span>
-        </div>
-        <div className="flex min-h-[60px] items-center justify-between gap-2 bg-[#f2f2f2] px-[15px] text-black">
-          <button
-            onClick={hideToday}
-            className="group flex min-h-11 flex-1 items-center gap-[7px] py-2 text-left text-base text-[#a7a7a7] transition-colors hover:text-black"
-            aria-label="오늘 하루 안내 팝업 다시 보지 않기"
-          >
-            <span
-              aria-hidden="true"
-              className="flex size-[19px] shrink-0 items-center justify-center rounded-full bg-[#a7a7a7] text-xs text-white transition-colors group-hover:bg-black"
-            >
-              ✓
-            </span>
-            다시 보지 않기
-          </button>
-          <button
-            onClick={() => dialog.current?.close()}
-            className="min-h-11 shrink-0 py-2 pl-2 text-base font-medium text-black hover:text-[#666]"
-          >
-            닫기
-          </button>
-        </div>
-      </dialog>
-    </>
+        ) : (
+          <NoticeCarousel items={activeNotices} onHideToday={() => hideToday()} onClose={close} />
+        ))}
+    </dialog>
   );
 }

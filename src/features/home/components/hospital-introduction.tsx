@@ -48,31 +48,29 @@ export function HospitalIntroduction() {
               </div>
             </div>
           </div>
-          <div className="grid items-start gap-6 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-40">
+          <div className="grid grid-cols-2 items-start gap-x-3 gap-y-4 pb-10 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-40">
             {philosophy.cards.map((card) => (
               <article
                 key={card.title}
                 data-intro-reveal="0"
-                className="relative isolate aspect-[10/11] overflow-hidden rounded-[24px] bg-[#e6ecf2] sm:odd:translate-y-20 lg:odd:translate-y-40"
+                className="relative isolate grid aspect-[4/5] content-end overflow-hidden rounded-2xl bg-[#e6ecf2] odd:translate-y-10 sm:block sm:aspect-[10/11] sm:rounded-[24px] sm:odd:translate-y-20 lg:odd:translate-y-40"
               >
-                <ClinicPhoto
-                  name={card.image}
-                  alt={card.alt}
-                  className="absolute inset-0 size-full"
-                />
+                <div className="absolute inset-0">
+                  <ClinicPhoto name={card.image} alt={card.alt} className="size-full" />
+                </div>
                 <div
                   aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#142137]/90 via-[#142137]/10 to-transparent"
+                  className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#142137]/90 via-[#142137]/35 to-transparent sm:via-[#142137]/10"
                 />
-                <div className="absolute inset-x-0 bottom-0 px-5 py-6 text-white xl:px-7 xl:py-8">
-                  <p className="mb-3 flex items-center gap-3 text-xs leading-relaxed font-medium xl:text-sm">
+                <div className="relative mt-12 px-3 py-3.5 text-white sm:absolute sm:inset-x-0 sm:bottom-0 sm:mt-0 sm:px-5 sm:py-6 xl:px-7 xl:py-8">
+                  <p className="mb-1.5 flex items-center gap-1.5 text-[11px] leading-snug font-medium sm:mb-3 sm:gap-3 sm:text-xs sm:leading-relaxed xl:text-sm">
                     <span
                       aria-hidden="true"
-                      className="size-2 shrink-0 rounded-full bg-[#173c83]"
+                      className="size-1.5 shrink-0 rounded-full bg-[#173c83] sm:size-2"
                     />
                     {card.subtitle}
                   </p>
-                  <h3 className="text-[clamp(22px,1.7vw,28px)] leading-[1.4] font-semibold tracking-[-0.025em]">
+                  <h3 className="text-base leading-[1.4] font-semibold tracking-[-0.025em] break-keep sm:text-[clamp(22px,1.7vw,28px)]">
                     {card.title}
                   </h3>
                 </div>

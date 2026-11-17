@@ -17,9 +17,11 @@ function Portrait({ modal = false }: { modal?: boolean }) {
         src="/images/clinic/director-portrait-v2.webp"
         alt="시원척척의원 원장"
         fill
-        sizes={modal ? "280px" : "(max-width: 640px) 90vw, 440px"}
+        sizes={modal ? "280px" : "(max-width: 639px) 280px, 440px"}
         className={
-          modal ? "object-contain object-bottom px-4 pt-6" : "object-cover object-top px-3 pt-8"
+          modal
+            ? "object-contain object-bottom px-4 pt-6"
+            : "object-cover object-top px-3 pt-4 sm:pt-8"
         }
       />
     </div>
@@ -28,7 +30,6 @@ function Portrait({ modal = false }: { modal?: boolean }) {
 
 export function DoctorIntroduction() {
   const [open, setOpen] = useState(false);
-  const [sample, setSample] = useState<string | null>(null);
   return (
     <section
       id="doctors"
@@ -42,162 +43,167 @@ export function DoctorIntroduction() {
         >
           시원척척의원 의료진 소개
         </h2>
-        <p className="mx-auto mt-5 max-w-[720px] text-center text-base leading-[1.8] break-keep text-[#626b77] sm:text-lg">
-          {doctorContent.description}
-        </p>
-        <div className="mx-auto mt-12 grid max-w-[1120px] items-start gap-10 md:grid-cols-3 md:gap-5 lg:mt-16 lg:gap-7">
-          {[
-            { name: doctorContent.name, focus: doctorContent.focus, image: null, sample: false },
-            {
-              name: "가상 의료진 A",
-              focus: "AK치료 · 정형외과 진료",
-              image: "/images/clinic/sample-doctor-male.webp",
-              sample: true,
-            },
-            {
-              name: "가상 의료진 B",
-              focus: "AK치료 · 정형외과 진료",
-              image: "/images/clinic/sample-doctor-female.webp",
-              sample: true,
-            },
-          ].map((doctor) => (
-            <article
-              key={doctor.name}
-              className="mx-auto w-full max-w-[360px] bg-transparent text-center"
-            >
-              {doctor.image ? (
-                <div className="relative aspect-[3/4] w-full">
-                  <Image
-                    src={doctor.image}
-                    alt={doctor.name + " · 디자인 시안용 가상 인물"}
-                    fill
-                    sizes="(max-width: 768px) 90vw, 360px"
-                    className="object-contain object-bottom px-3 pt-8"
-                  />
-                </div>
-              ) : (
-                <Portrait />
-              )}
-              <div className="px-2 pt-6">
-                <p className="text-sm font-medium text-[#173c83]">{doctor.focus}</p>
-                <h3 className="mt-3 text-xl font-bold tracking-tight text-[#3c3c3c] lg:text-2xl">
-                  {doctor.name}
-                  {!doctor.sample && (
-                    <span className="ml-1.5 font-medium">{doctorContent.role}</span>
-                  )}
-                </h3>
-                <button
-                  type="button"
-                  onClick={() => (doctor.sample ? setSample(doctor.name) : setOpen(true))}
-                  aria-haspopup="dialog"
-                  className="group mx-auto mt-4 flex min-h-11 cursor-pointer items-center justify-center gap-3 rounded-full px-5 py-2 text-sm font-medium text-[#173c83] transition-colors hover:bg-[#eaf0f8] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83]"
+        <div className="mt-12 grid items-center gap-10 lg:mt-16 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1.5fr)] lg:gap-16">
+          <div className="mx-auto w-full max-w-[280px] sm:max-w-[400px] lg:max-w-none">
+            <Portrait />
+            <div className="mt-4 flex flex-wrap justify-center gap-2 sm:mt-5">
+              {["AK 치료", "정형외과 진료"].map((label) => (
+                <span
+                  key={label}
+                  className="rounded-md bg-[#293d7d] px-3 py-1.5 text-sm font-semibold text-white sm:px-4 sm:py-2 sm:text-base"
                 >
-                  약력 보기
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.6"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="size-5 transition-transform duration-200 group-hover:translate-x-1 motion-reduce:transition-none"
-                  >
-                    <path d="M4 12h16m-7-7 7 7-7 7" />
-                  </svg>
-                </button>
-              </div>
-            </article>
-          ))}
+                  {label}
+                </span>
+              ))}
+            </div>
+            <h3 className="mt-3 flex items-center justify-center gap-2 text-[#3c3c3c]">
+              <span className="block w-[169px] overflow-hidden">
+                <Image
+                  src="/images/brand/siwon-signature.webp"
+                  alt="시원척척의원"
+                  width={2172}
+                  height={724}
+                  className="h-auto w-[220px] max-w-none"
+                />
+              </span>
+              <span className="text-sm font-medium">{doctorContent.role}</span>
+            </h3>
+          </div>
+          <div className="min-w-0">
+            <p className="mt-5 text-base leading-[1.8] break-keep text-[#626b77] sm:text-lg">
+              {doctorContent.description.map((line, index) => (
+                <span key={line}>
+                  {index > 0 && (
+                    <>
+                      <br className="hidden lg:block" />
+                      <span className="lg:hidden"> </span>
+                    </>
+                  )}
+                  {line}
+                </span>
+              ))}
+            </p>
+            <button
+              type="button"
+              onClick={() => setOpen(true)}
+              aria-haspopup="dialog"
+              className="group mt-6 inline-flex min-h-11 cursor-pointer items-center gap-3 rounded-full border border-[#293d7d] px-4 py-2 text-sm font-semibold text-[#293d7d] transition-colors hover:bg-[#293d7d] hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d] sm:min-h-12 sm:gap-5 sm:px-6 sm:py-3 sm:text-base"
+            >
+              원장님 약력 확인
+              <svg
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="size-4 sm:size-5"
+              >
+                <path d="M4 12h16m-7-7 7 7-7 7" />
+              </svg>
+            </button>
+            <div className="mt-9 rounded-2xl bg-white px-5 py-3 sm:px-8 sm:py-5">
+              {doctorContent.principles.map(({ title, text }, index) => (
+                <details
+                  key={title}
+                  name="doctor-care"
+                  open={index === 0}
+                  className="group border-b border-[#e4e8ee] last:border-0"
+                >
+                  <summary className="flex min-h-20 cursor-pointer list-none items-center gap-3 py-5 text-base font-semibold text-[#3c3c3c] focus-visible:outline-2 focus-visible:outline-[#293d7d] sm:text-lg [&::-webkit-details-marker]:hidden">
+                    <span aria-hidden="true" className="font-bold text-[#293d7d]">
+                      Q.
+                    </span>
+                    <span className="flex-1">{title}</span>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      className="size-5 shrink-0 group-open:rotate-180"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </summary>
+                  <p className="mb-5 bg-[#f8f9fb] px-5 py-5 text-base leading-[1.85] break-keep text-[#626b77]">
+                    {text}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
-      {sample && (
-        <Dialog title={sample + " · 시안용 프로필"} onClose={() => setSample(null)}>
-          <p className="text-base leading-relaxed text-[#626b77]">
-            레이아웃 확인을 위한 가상 인물입니다. 실제 의료진 사진과 이름, 진료과목 및 약력으로
-            교체할 예정입니다.
-          </p>
-        </Dialog>
-      )}
       {open && (
         <Dialog
           title="원장님 소개 · 약력"
           onClose={() => setOpen(false)}
-          className="max-w-[1000px] rounded-lg"
-          headerContent={
-            <div className="flex min-w-0 flex-1 bg-[#f0f5fc]">
-              <span className="flex min-h-10 items-center justify-center bg-[#173c83] px-5 py-2 text-sm font-semibold text-white sm:min-w-[220px]">
-                시원척척의원 원장
-              </span>
-            </div>
-          }
+          className="max-w-[960px] rounded-[24px] text-[#3c3c3c]"
         >
-          <div className="grid items-start gap-7 md:grid-cols-[250px_1fr] md:gap-9">
-            <div className="mx-auto w-full max-w-[250px]">
+          <div className="grid items-center gap-8 md:grid-cols-[280px_minmax(0,1fr)] md:gap-12">
+            <div className="mx-auto w-full max-w-[280px] overflow-hidden rounded-2xl bg-[#f8f9fb]">
               <Portrait modal />
-              <div className="mt-3 grid grid-cols-2 gap-2 text-center text-sm font-medium">
-                <a
-                  href={site.phoneHref}
-                  className="flex min-h-11 items-center justify-center rounded-sm bg-[#173c83] px-2 text-white hover:bg-[#244d94] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83]"
-                >
-                  진료 문의 ↗
-                </a>
-                <a
-                  href={site.blog}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex min-h-11 items-center justify-center rounded-sm bg-[#edf3fb] px-2 text-[#173c83] hover:bg-[#dfe9f7] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83]"
-                >
-                  공식 블로그 ↗
-                </a>
-              </div>
             </div>
-            <div
-              tabIndex={0}
-              role="region"
-              aria-label="원장 소개 및 약력"
-              className="max-h-[48svh] [scrollbar-width:thin] [scrollbar-color:#173c83_#edf1f6] overflow-y-auto pr-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83] md:max-h-[430px] md:pr-5"
-            >
-              <p className="inline-flex w-fit items-center rounded-md bg-white px-3 py-1.5 text-xs leading-5 font-medium text-[#173c83] ring-1 ring-[#e7edf5] ring-inset sm:text-sm">
-                {doctorContent.focus}
-              </p>
-              <h3 className="mt-2 text-xl font-bold tracking-tight text-[#30343b] sm:text-2xl">
+            <div className="min-w-0">
+              <div className="flex flex-wrap gap-2">
+                {["AK 치료", "정형외과 진료"].map((label) => (
+                  <span
+                    key={label}
+                    className="rounded-md bg-[#293d7d] px-3 py-1.5 text-sm font-semibold text-white"
+                  >
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <h3 className="mt-5 text-2xl font-bold tracking-tight sm:text-[30px]">
                 {doctorContent.name}{" "}
-                <span className="text-base font-medium">{doctorContent.role}</span>
+                <span className="text-base font-medium text-[#626b77]">{doctorContent.role}</span>
               </h3>
-              <p className="mt-4 text-sm leading-[1.85] break-keep text-[#626b77]">
+              <p className="mt-3 text-base leading-[1.8] break-keep text-[#626b77]">
                 {doctorContent.message.join(" ")}
               </p>
               <dl className="mt-6 border-t border-[#e7ebf0]">
                 {doctorBiography.map(({ title, text }) => (
                   <div
                     key={title}
-                    className="grid grid-cols-[64px_1fr] gap-4 border-b border-[#e7ebf0] py-5 sm:grid-cols-[76px_1fr]"
+                    className="grid grid-cols-[72px_1fr] gap-4 border-b border-[#e7ebf0] py-4"
                   >
-                    <dt className="text-sm font-semibold text-[#30343b]">{title}</dt>
-                    <dd className="flex gap-2 text-sm leading-[1.85] break-keep text-[#687180]">
-                      <span
-                        aria-hidden="true"
-                        className="mt-[11px] size-[3px] shrink-0 rounded-full bg-[#8a97aa]"
-                      />
-                      <span>{text}</span>
-                    </dd>
+                    <dt className="text-sm font-semibold text-[#293d7d]">{title}</dt>
+                    <dd className="text-sm leading-[1.8] break-keep text-[#626b77]">{text}</dd>
                   </div>
                 ))}
               </dl>
+              <div className="mt-6 flex flex-wrap gap-3">
+                <a
+                  href={site.phoneHref}
+                  className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#293d7d] px-5 text-sm font-semibold text-white transition-colors hover:bg-[#1d2d61] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d]"
+                >
+                  진료 문의
+                </a>
+                <a
+                  href={site.blog}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d9dfeb] px-5 text-sm font-semibold text-[#293d7d] transition-colors hover:bg-[#edf1f8] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d]"
+                >
+                  공식 블로그
+                </a>
+              </div>
             </div>
           </div>
-          <div className="mt-9 border-t border-[#e7ebf0] pt-7">
-            <h3 className="text-lg font-semibold text-[#173c83]">환자분께 드리는 편지</h3>
-            <p className="mt-4 text-sm leading-[1.9] break-keep text-[#626b77]">
+          <div className="mt-10 border-t border-[#e7ebf0] pt-8 sm:mt-12">
+            <h3 className="text-xl font-semibold tracking-tight">환자분께 드리는 편지</h3>
+            <p className="mt-5 text-[15px] leading-[2] break-keep text-[#626b77] sm:text-base">
               {doctorLetter.paragraphs.join(" ")}
             </p>
             <Image
               src="/images/brand/siwon-signature.webp"
               alt="시원척척의원 드림"
-              width={190}
-              height={64}
-              className="mt-5 ml-auto h-auto w-[160px]"
+              width={2172}
+              height={724}
+              className="mt-6 ml-auto h-auto w-[160px]"
             />
           </div>
         </Dialog>

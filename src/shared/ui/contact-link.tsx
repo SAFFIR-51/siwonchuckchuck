@@ -6,10 +6,12 @@ export function ContactLink({
   children,
   className,
   source = "home",
+  showArrow = true,
 }: {
   children: React.ReactNode;
   className?: string;
   source?: "header" | "home" | "footer";
+  showArrow?: boolean;
 }) {
   return (
     <a
@@ -21,7 +23,7 @@ export function ContactLink({
       )}
     >
       {children}
-      <span aria-hidden="true">↗</span>
+      {showArrow && <span aria-hidden="true">↗</span>}
     </a>
   );
 }

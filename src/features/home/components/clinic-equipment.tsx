@@ -120,34 +120,24 @@ function EquipmentContent() {
               진료를 위한 장비
             </h2>
             <p className="mt-[18px] max-w-2xl text-base leading-[1.85] text-white sm:text-lg">
-              {equipmentContent.description.map((line) => (
-                <span key={line} className="block">
-                  {line}
-                </span>
-              ))}
+              <span className="hidden sm:block">{equipmentContent.description[0]}</span>
+              <span className="block">{equipmentContent.description[1]}</span>
             </p>
           </div>
           <button
             type="button"
             aria-haspopup="dialog"
             onClick={() => setOpen(true)}
-            className="flex min-h-[56px] shrink-0 items-center justify-center gap-7 rounded-full border border-white bg-transparent px-7 py-3 text-[15px] font-semibold text-white transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:bg-white active:text-[#254b7d] motion-reduce:transition-none [@media(hover:hover)]:hover:bg-white [@media(hover:hover)]:hover:text-[#254b7d]"
+            className="flex min-h-11 shrink-0 items-center justify-center gap-4 rounded-full border border-white bg-transparent px-5 py-2 text-sm font-semibold text-white transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white active:bg-white active:text-[#254b7d] motion-reduce:transition-none sm:min-h-[56px] sm:gap-7 sm:px-7 sm:py-3 sm:text-[17px] [@media(hover:hover)]:hover:bg-white [@media(hover:hover)]:hover:text-[#254b7d]"
           >
-            <span className="relative">
-              <span aria-hidden="true" className="invisible">
-                전체 보기
-              </span>
-              <span className="absolute inset-0 flex items-center justify-center text-[17px] whitespace-nowrap">
-                전체 보기
-              </span>
-            </span>
+            <span className="whitespace-nowrap">전체 보기</span>
             <svg
               aria-hidden="true"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
               strokeWidth="1.6"
-              className="size-4"
+              className="size-3.5 sm:size-4"
             >
               <path d="M4 12h16m-7-7 7 7-7 7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
@@ -174,9 +164,9 @@ function EquipmentContent() {
               sliderRef.current = instance;
               setReady(true);
             }}
-            slidesPerView={1.2}
+            slidesPerView={1.65}
             centeredSlides
-            spaceBetween={20}
+            spaceBetween={14}
             loop
             speed={1500}
             grabCursor
@@ -197,13 +187,13 @@ function EquipmentContent() {
             {equipment.map(({ name, description, image, imageAlt }) => (
               <SwiperSlide key={name}>
                 <article className="clinic-equipment-card">
-                  <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-[20px] bg-white sm:rounded-[24px]">
+                  <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white sm:rounded-[24px]">
                     <Image
                       src={image}
                       alt={imageAlt}
                       fill
-                      sizes="(max-width: 640px) 82vw, (max-width: 1024px) 400px, 500px"
-                      className="pointer-events-none object-contain p-5 sm:p-7"
+                      sizes="(max-width: 639px) 61vw, (max-width: 1024px) 400px, 500px"
+                      className="pointer-events-none object-contain p-4 sm:p-7"
                     />
                   </div>
                   <h3 className="mt-4 text-lg leading-snug font-semibold tracking-[-0.025em] break-keep text-white sm:mt-5 sm:text-[22px] lg:text-2xl">
@@ -219,25 +209,27 @@ function EquipmentContent() {
         </div>
       </div>
       {open && (
-        <Dialog title="진료 장비 전체 보기" onClose={() => setOpen(false)} className="max-w-6xl">
-          <p className="mb-7 text-sm leading-relaxed text-[#64748b]">
-            장비 이해를 돕기 위한 대표 이미지가 포함되어 있으며, 실제 보유 모델과 외관은 다를 수
-            있습니다.
-          </p>
-          <div className="grid grid-cols-1 gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
+        <Dialog
+          title="진료 장비 전체 보기"
+          onClose={() => setOpen(false)}
+          className="max-w-6xl text-[#30343b]"
+        >
+          <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-9 lg:grid-cols-3">
             {equipment.map(({ name, description, image, imageAlt }) => (
               <article key={name} className="min-w-0">
-                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-[20px] border border-[#e7edf5] bg-white">
+                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-[#e7edf5] bg-white sm:rounded-[20px]">
                   <Image
                     src={image}
                     alt={imageAlt}
                     fill
-                    sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 340px"
-                    className="object-contain p-6"
+                    sizes="(max-width: 639px) 50vw, (max-width: 1023px) 40vw, 340px"
+                    className="object-contain p-3 sm:p-6"
                   />
                 </div>
-                <h3 className="mt-4 text-xl font-semibold tracking-tight text-[#173c83]">{name}</h3>
-                <p className="mt-2 text-sm leading-[1.85] break-keep text-[#4b5563] sm:text-base">
+                <h3 className="mt-3 text-base font-semibold tracking-tight break-keep text-[#30343b] sm:mt-4 sm:text-xl">
+                  {name}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed break-keep text-[#666666] sm:text-base sm:leading-[1.85]">
                   {description}
                 </p>
               </article>
