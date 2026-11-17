@@ -15,12 +15,14 @@ export function Dialog({
   headerContent?: React.ReactNode;
 }) {
   const ref = useRef<HTMLDialogElement>(null);
+  const headerRef = useRef<HTMLDivElement>(null);
   const id = useId();
   useEffect(() => {
     const dialog = ref.current;
     const previous = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     const overflow = document.body.style.overflow;
     dialog?.showModal();
+    headerRef.current?.focus({ preventScroll: true });
     document.body.style.overflow = "hidden";
     return () => {
       dialog?.close();
@@ -42,6 +44,9 @@ export function Dialog({
       )}
     >
       <div
+        ref={headerRef}
+        tabIndex={-1}
+        style={{ outline: "none" }}
         className={cn(
           "sticky top-0 z-10 flex items-center justify-between gap-6 bg-white px-6 py-4 sm:px-9",
           !headerContent && "border-b border-foreground/10",
@@ -52,16 +57,27 @@ export function Dialog({
         </h2>
         {headerContent}
         <button
+          type="button"
           onClick={onClose}
           className={cn(
-            "flex size-11 shrink-0 items-center justify-center text-xl focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83]",
+            "grid size-11 shrink-0 place-items-center focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#173c83]",
             headerContent
               ? "rounded-md hover:bg-[#f0f4fa]"
               : "rounded-full border border-foreground/20",
           )}
           aria-label="팝업 닫기"
         >
-          ×
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+            className="size-5"
+          >
+            <path d="m5 5 14 14M19 5 5 19" />
+          </svg>
         </button>
       </div>
       <div className="p-6 sm:p-9">{children}</div>

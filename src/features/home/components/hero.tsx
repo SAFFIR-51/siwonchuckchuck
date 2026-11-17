@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useEffect, useEffectEvent, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import { HeroRibbons } from "./hero-ribbons";
 import { homeContent } from "../model/content";
@@ -14,6 +14,26 @@ export function Hero() {
   const inView = useRef(true);
   const lastChange = useRef(0);
   const gesture = useRef<{ id: number; x: number; y: number } | null>(null);
+  useLayoutEffect(() => {
+    const hero = frame.current;
+    if (!hero) return;
+
+    let viewportWidth = 0;
+    const captureHeight = () => {
+      const width = window.innerWidth;
+      if (width === viewportWidth) return;
+      viewportWidth = width;
+
+      // In-app browser toolbars can resize the viewport without changing its width.
+      const height = window.visualViewport?.height ?? window.innerHeight;
+      hero.style.setProperty("--hero-viewport-height", `${Math.round(height)}px`);
+    };
+
+    captureHeight();
+    window.addEventListener("resize", captureHeight);
+    return () => window.removeEventListener("resize", captureHeight);
+  }, []);
+
   function move(direction: number) {
     lastChange.current = Date.now();
     setSelected((current) => (current + direction + heroPhotos.length) % heroPhotos.length);
@@ -99,7 +119,7 @@ export function Hero() {
         onLostPointerCapture={() => {
           gesture.current = null;
         }}
-        className="relative isolate flex h-[calc(100svh-90px)] min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:h-[max(430px,calc(100svh-90px))] max-sm:min-h-0 min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px]"
+        className="relative isolate flex h-[calc(100svh-90px)] min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:h-[max(430px,calc(var(--hero-viewport-height,100svh)-90px))] max-sm:min-h-0 min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px]"
       >
         {heroPhotos.map((photo, index) => {
           const isSpine = photo.name === "hero-spine-curve-sky";

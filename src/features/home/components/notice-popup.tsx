@@ -88,10 +88,12 @@ function NoticeCarousel({
   items,
   onHideToday,
   onClose,
+  ref,
 }: {
   items: Notice[];
   onHideToday: () => void;
   onClose: () => void;
+  ref: React.Ref<HTMLDivElement>;
 }) {
   const [position, setPosition] = useState(1);
   const [animate, setAnimate] = useState(true);
@@ -127,6 +129,9 @@ function NoticeCarousel({
 
   return (
     <div
+      ref={ref}
+      tabIndex={-1}
+      style={{ outline: "none" }}
       className="overflow-hidden rounded-[20px] bg-white"
       onKeyDown={(event) => {
         if (count > 1 && (event.key === "ArrowRight" || event.key === "ArrowLeft")) {
@@ -191,6 +196,7 @@ function NoticeCarousel({
 
 export function NoticePopup() {
   const dialog = useRef<HTMLDialogElement>(null);
+  const noticeContent = useRef<HTMLDivElement>(null);
   const focusBeforeOpen = useRef<HTMLElement | null>(null);
   const previousOverflow = useRef("");
   const [activeNotices, setActiveNotices] = useState<Notice[]>([]);
@@ -229,6 +235,7 @@ export function NoticePopup() {
       document.activeElement instanceof HTMLElement ? document.activeElement : null;
     previousOverflow.current = document.body.style.overflow;
     current.showModal();
+    noticeContent.current?.focus({ preventScroll: true });
     document.body.style.overflow = "hidden";
 
     return () => {
@@ -240,7 +247,7 @@ export function NoticePopup() {
   useEffect(() => {
     const current = dialog.current;
     if (current?.open && !current.contains(document.activeElement)) {
-      current.querySelector("button")?.focus();
+      noticeContent.current?.focus({ preventScroll: true });
     }
   }, [desktop, activeNotices]);
 
@@ -275,7 +282,12 @@ export function NoticePopup() {
     >
       {hasNotices &&
         (desktop ? (
-          <div className="flex justify-center gap-4">
+          <div
+            ref={noticeContent}
+            tabIndex={-1}
+            style={{ outline: "none" }}
+            className="flex justify-center gap-4"
+          >
             {activeNotices.map((notice) => (
               <article
                 key={notice.id}
@@ -292,7 +304,12 @@ export function NoticePopup() {
             ))}
           </div>
         ) : (
-          <NoticeCarousel items={activeNotices} onHideToday={() => hideToday()} onClose={close} />
+          <NoticeCarousel
+            ref={noticeContent}
+            items={activeNotices}
+            onHideToday={() => hideToday()}
+            onClose={close}
+          />
         ))}
     </dialog>
   );

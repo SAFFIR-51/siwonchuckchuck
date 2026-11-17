@@ -2,7 +2,7 @@
 export function ClinicMarquee({ belowHero = false }: { belowHero?: boolean }) {
   return (
     <div
-      className={belowHero ? "clinic-marquee clinic-marquee--hero" : "clinic-marquee"}
+      className={belowHero ? "clinic-marquee clinic-marquee--hero max-sm:hidden" : "clinic-marquee"}
       aria-hidden="true"
     >
       <div className="clinic-marquee__track">
