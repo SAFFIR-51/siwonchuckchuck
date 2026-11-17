@@ -35,7 +35,18 @@ export function pageMetadata(
   indexable = true,
 ): Metadata {
   const url = absoluteUrl(path);
-  const image = absoluteUrl("/images/clinic/reception.webp");
+  const isHome = path === "/";
+  const image = absoluteUrl(
+    isHome ? "/images/brand/siwon-kakao-share.png" : "/images/clinic/reception.webp",
+  );
+  const imageMetadata = isHome
+    ? {
+        alt: "시원척척의원 AK진료 · 관절은 가볍게, 척추는 시원하게",
+        width: 1200,
+        height: 630,
+        type: "image/png",
+      }
+    : { alt: "시원척척의원 접수 공간" };
   return {
     title,
     description,
@@ -48,7 +59,7 @@ export function pageMetadata(
       locale: "ko_KR",
       type: "website",
       ...(url ? { url } : {}),
-      ...(image ? { images: [{ url: image, alt: "시원척척의원 접수 공간" }] } : {}),
+      ...(image ? { images: [{ url: image, ...imageMetadata }] } : {}),
     },
     twitter: {
       card: "summary_large_image",

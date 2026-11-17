@@ -35,7 +35,7 @@ function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
     <nav
       id="mobile-menu"
       aria-label="모바일 메뉴"
-      className="absolute inset-x-0 top-full max-h-[calc(100svh-70px)] [scrollbar-width:none] overflow-y-auto overscroll-y-contain border-t border-slate-100 bg-white px-6 pt-2 pb-6 shadow-[0_12px_20px_rgba(15,23,42,0.08)] min-[1241px]:hidden [&::-webkit-scrollbar]:hidden"
+      className="absolute inset-x-0 top-full h-[calc(100dvh-70px)] [scrollbar-width:none] overflow-y-auto overscroll-y-contain border-t border-slate-100 bg-white px-6 pt-2 pb-6 min-[1241px]:hidden [&::-webkit-scrollbar]:hidden"
     >
       <ul className="divide-y divide-slate-100">
         {navigation.map(({ label, href, children }, index) => {
@@ -88,13 +88,6 @@ function MobileNavigation({ onNavigate }: { onNavigate: () => void }) {
           );
         })}
       </ul>
-      <a
-        href={site.phoneHref}
-        onClick={() => track("contact_clicked", { source: "header" })}
-        className="mt-4 inline-flex min-h-11 items-center gap-4 text-sm font-semibold text-[#1b2d59]"
-      >
-        진료 문의 <span>{site.phone}</span>
-      </a>
     </nav>
   );
 }

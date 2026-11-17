@@ -25,13 +25,8 @@ function noticeKey(notice: Notice) {
 
 function NoticeImage({ notice, inactive = false }: { notice: Notice; inactive?: boolean }) {
   return (
-    <a
-      href={notice.original}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`${notice.title} 고화질 이미지 크게 보기`}
+    <div
       aria-hidden={inactive || undefined}
-      tabIndex={inactive ? -1 : undefined}
       className="relative block w-full shrink-0 overflow-hidden"
     >
       <Image
@@ -48,7 +43,7 @@ function NoticeImage({ notice, inactive = false }: { notice: Notice; inactive?: 
           className="pointer-events-none absolute inset-0 rounded-t-[20px] border-x-[5px] border-t-[5px] border-[#293d7d]"
         />
       )}
-    </a>
+    </div>
   );
 }
 
@@ -245,7 +240,7 @@ export function NoticePopup() {
   useEffect(() => {
     const current = dialog.current;
     if (current?.open && !current.contains(document.activeElement)) {
-      current.querySelector<HTMLElement>("a[href], button")?.focus();
+      current.querySelector("button")?.focus();
     }
   }, [desktop, activeNotices]);
 

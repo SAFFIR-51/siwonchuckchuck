@@ -1,4 +1,7 @@
-export const spineHeroTitle = ["관절을 가볍게,", "척추를 시원하게."];
+export const spineHero = {
+  title: ["관절은 가볍게,", "척추는 시원하게"],
+  items: ["AK진료", "척추·관절 진료", "자세·움직임 평가"],
+};
 
 export const heroPhotos = [
   {
@@ -22,7 +25,7 @@ export const heroPhotos = [
 ];
 
 export const treatmentHero = {
-  title: ["통증을 살피고,", "일상을 함께합니다."],
+  title: ["일상을 어렵게 하는 통증,", "상태에 맞는 치료를 찾습니다"],
   subtitle: "어깨·무릎·척추관절 진료",
   items: ["프롤로치료", "신경차단술", "체외충격파"],
 };

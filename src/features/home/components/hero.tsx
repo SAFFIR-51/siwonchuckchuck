@@ -2,9 +2,9 @@
 import Image from "next/image";
 import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { cn } from "@/shared/lib/cn";
-import { TreatmentHeroDetails } from "./treatment-hero-details";
+import { HeroRibbons } from "./hero-ribbons";
 import { homeContent } from "../model/content";
-import { heroPhotos, spineHeroTitle, treatmentHero } from "../model/hero";
+import { heroPhotos, spineHero, treatmentHero } from "../model/hero";
 
 export function Hero() {
   const [selected, setSelected] = useState(0);
@@ -48,12 +48,9 @@ export function Hero() {
       observer.disconnect();
     };
   }, []);
-  const isSpine = heroPhotos[selected].name === "hero-spine-curve-sky";
-  const isTreatment = heroPhotos[selected].name === "hero-treatment";
-  const title = isSpine ? spineHeroTitle : isTreatment ? treatmentHero.title : homeContent.title;
   return (
     <section
-      aria-labelledby="hero-title"
+      aria-label="시원척척의원 첫 화면"
       className="bg-white px-[15px] pb-5 min-[769px]:px-5 min-[1241px]:pb-10 min-[1641px]:px-[63px] min-[2001px]:px-[70px] min-[2001px]:pb-[50px]"
     >
       <div
@@ -102,66 +99,86 @@ export function Hero() {
         onLostPointerCapture={() => {
           gesture.current = null;
         }}
-        className="relative isolate flex min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:aspect-[16/25] max-sm:max-h-[680px] min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px] sm:h-[calc(100svh-90px)]"
+        className="relative isolate flex h-[calc(100svh-90px)] min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:h-[max(430px,calc(100svh-90px))] max-sm:min-h-0 min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px]"
       >
-        {heroPhotos.map((photo, index) => (
-          <div
-            key={photo.name}
-            aria-hidden={selected !== index}
-            className={cn(
-              "absolute inset-0 -z-20 transition-opacity duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none",
-              selected === index ? "opacity-100" : "opacity-0",
-            )}
-          >
-            <picture>
-              <source
-                media="(max-width: 1023px)"
-                srcSet={`/images/clinic/${photo.mobileName}.webp`}
-              />
-              <Image
-                src={`/images/clinic/${photo.name}.webp`}
-                alt={photo.alt}
-                fill
-                loading={index === 0 ? "eager" : "lazy"}
-                fetchPriority={index === 0 ? "high" : "auto"}
-                draggable={false}
-                unoptimized
-                sizes="100vw"
+        {heroPhotos.map((photo, index) => {
+          const isSpine = photo.name === "hero-spine-curve-sky";
+          const isTreatment = photo.name === "hero-treatment";
+          const featuredSlide = isSpine ? spineHero : isTreatment ? treatmentHero : null;
+          const title = featuredSlide?.title ?? homeContent.title;
+
+          const active = selected === index;
+
+          return (
+            <div key={photo.name} className="contents">
+              <div
                 className={cn(
-                  "object-cover object-center",
-                  photo.name === "hero-treatment" &&
-                    "object-center min-[1024px]:object-[70%_center] lg:object-center",
-                  photo.name === "hero-reception-front-original" && "scale-[1.02] -rotate-[0.6deg]",
+                  "absolute inset-0 -z-20 transition-[opacity,visibility] duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none",
+                  active ? "visible opacity-100" : "invisible opacity-0",
                 )}
-              />
-            </picture>
-          </div>
-        ))}
-        <div
-          className={cn(
-            "pointer-events-none absolute inset-0 -z-10 transition-colors duration-700 motion-reduce:transition-none",
-            isSpine ? "bg-black/30" : isTreatment ? "bg-black/20 lg:bg-black/5" : "bg-black/38",
-          )}
-        />
-        <div
-          className={cn(
-            "z-10 flex w-full flex-col items-center px-5 pb-8 text-center min-[1024px]:px-24 lg:px-32",
-            isTreatment && "max-lg:pt-11",
-          )}
-        >
-          {isTreatment && <TreatmentHeroDetails />}
-          <p className="mb-6 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white min-[2001px]:rounded-[32px] sm:px-6 sm:py-3 sm:text-lg lg:order-last lg:mt-11 lg:mb-0 lg:text-2xl">
-            {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
-          </p>
-          <h1
-            id="hero-title"
-            className="text-[clamp(27px,7.5vw,40px)] leading-[1.22] font-extrabold tracking-[-0.045em] text-white min-[1024px]:text-[clamp(36px,5.4vw,112px)]"
-          >
-            {title[0]}
-            <br />
-            {title[1]}
-          </h1>
-        </div>
+              >
+                <picture>
+                  <source
+                    media="(max-width: 1023px)"
+                    srcSet={`/images/clinic/${photo.mobileName}.webp`}
+                  />
+                  <Image
+                    src={`/images/clinic/${photo.name}.webp`}
+                    alt={photo.alt}
+                    fill
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchPriority={index === 0 ? "high" : "auto"}
+                    draggable={false}
+                    unoptimized
+                    sizes="100vw"
+                    className={cn(
+                      "object-cover object-center",
+                      isTreatment &&
+                        "object-center min-[1024px]:object-[70%_center] lg:object-center",
+                      !featuredSlide && "scale-[1.02] -rotate-[0.6deg]",
+                    )}
+                  />
+                </picture>
+                <div
+                  className={cn(
+                    "pointer-events-none absolute inset-0",
+                    isSpine
+                      ? "bg-black/30"
+                      : isTreatment
+                        ? "bg-black/20 lg:bg-black/5"
+                        : "bg-black/38",
+                  )}
+                />
+              </div>
+              <div
+                className={cn(
+                  "z-10 w-full flex-col items-center px-5 pb-8 text-center max-lg:pt-11 lg:px-32",
+                  active ? "flex" : "hidden",
+                )}
+              >
+                {featuredSlide && (
+                  <HeroRibbons items={featuredSlide.items} showBadge={isTreatment} />
+                )}
+                <p className="mb-6 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white min-[2001px]:rounded-[32px] sm:px-6 sm:py-3 sm:text-lg lg:order-last lg:mt-11 lg:mb-0 lg:text-2xl">
+                  {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
+                </p>
+                <h1
+                  className={cn(
+                    "text-[clamp(20px,6.5vw,40px)] leading-[1.22] font-extrabold tracking-[-0.045em] text-white",
+                    featuredSlide
+                      ? "lg:text-[clamp(36px,4.35vw,104px)]"
+                      : "lg:text-[clamp(36px,5.4vw,112px)]",
+                  )}
+                >
+                  {title[0]}
+                  <br />
+                  {title[1]}
+                </h1>
+                <span className="sr-only">{photo.label}</span>
+              </div>
+            </div>
+          );
+        })}
         <div
           className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
           role="group"
@@ -214,9 +231,6 @@ export function Hero() {
               <path d="M4 12h16m-7-7 7 7-7 7" />
             </svg>
           </button>
-          <span className="sr-only" aria-live="off">
-            {heroPhotos[selected].label}
-          </span>
         </div>
         <a
           href="#about"
