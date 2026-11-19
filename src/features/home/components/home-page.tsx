@@ -8,6 +8,7 @@ import { ClinicGallery } from "./clinic-gallery";
 import { DoctorIntroduction } from "./doctor-introduction";
 import { ClinicEquipment } from "./clinic-equipment";
 import { NoticePopup } from "./notice-popup";
+import { noticePopupsEnabled } from "../model/notices";
 import { ClinicCards, TreatmentGuide } from "./home-interactions";
 import { ClinicList } from "./clinic-list";
 import { SelfCheck } from "./self-check";
@@ -18,7 +19,7 @@ import { ClinicPhilosophy } from "./clinic-philosophy";
 export function HomePage() {
   return (
     <main id="main">
-      <NoticePopup />
+      {noticePopupsEnabled && <NoticePopup />}
       <Hero />
       <ClinicPhilosophy />
       <HospitalIntroduction />

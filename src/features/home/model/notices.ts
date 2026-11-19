@@ -1,3 +1,6 @@
+// Temporarily disable every home notice popup; retain the content for later reuse.
+export const noticePopupsEnabled = false;
+
 export const notices = [
   {
     id: "november-2026",
