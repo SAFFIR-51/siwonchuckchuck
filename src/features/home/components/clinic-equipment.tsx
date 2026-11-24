@@ -61,7 +61,7 @@ function EquipmentContent() {
       const step = Math.min(pinnedSteps, Math.floor(progress * pinnedSteps + 0.5));
       if (step !== shown && !slider.destroyed) {
         shown = step;
-        slider.slideToLoop((base + step) % equipment.length, 900);
+        slider.slideToLoop((base + step) % equipment.length, 1400);
       }
     };
     const schedule = () => {
@@ -109,7 +109,7 @@ function EquipmentContent() {
       ref={section}
       id="equipment"
       aria-labelledby="equipment-heading"
-      className="relative isolate overflow-x-clip bg-[#315786]"
+      className="relative isolate overflow-x-clip bg-[#43586b]"
     >
       <div
         ref={stage}
@@ -174,7 +174,7 @@ function EquipmentContent() {
               centeredSlides
               spaceBetween={14}
               loop
-              speed={900}
+              speed={1400}
               grabCursor
               breakpoints={{
                 640: { slidesPerView: 1.8, spaceBetween: 28 },
@@ -192,13 +192,17 @@ function EquipmentContent() {
               {equipment.map(({ name, description, image, imageAlt }) => (
                 <SwiperSlide key={name}>
                   <article className="clinic-equipment-card">
-                    <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-2xl bg-white sm:rounded-[24px]">
+                    <div className="relative aspect-[2/3] overflow-hidden rounded-2xl bg-[#f0f2f3] sm:rounded-[24px]">
                       <Image
                         src={image}
                         alt={imageAlt}
                         fill
-                        sizes="(max-width: 639px) 61vw, (max-width: 1024px) 400px, 500px"
-                        className="pointer-events-none object-contain p-4 sm:p-7"
+                        sizes="(max-width: 639px) 61vw, (max-width: 1023px) 56vw, (max-width: 1439px) 39vw, (max-width: 1999px) 30vw, 22vw"
+                        className={
+                          image.includes("shoot-")
+                            ? "equipment-photo pointer-events-none object-cover"
+                            : "equipment-photo pointer-events-none object-contain p-[7%]"
+                        }
                       />
                     </div>
                     <h3 className="mt-4 text-lg leading-snug font-semibold tracking-[-0.025em] break-keep text-white sm:mt-5 sm:text-[22px] lg:text-2xl">
@@ -223,13 +227,17 @@ function EquipmentContent() {
           <div className="grid grid-cols-2 gap-x-3 gap-y-6 sm:gap-x-6 sm:gap-y-9 lg:grid-cols-3">
             {equipment.map(({ name, description, image, imageAlt }) => (
               <article key={name} className="min-w-0">
-                <div className="relative flex aspect-[4/3] items-center justify-center overflow-hidden rounded-xl border border-[#e7edf5] bg-white sm:rounded-[20px]">
+                <div className="relative aspect-[2/3] overflow-hidden rounded-xl bg-[#f0f2f3] sm:rounded-[20px]">
                   <Image
                     src={image}
                     alt={imageAlt}
                     fill
                     sizes="(max-width: 639px) 50vw, (max-width: 1023px) 40vw, 340px"
-                    className="object-contain p-3 sm:p-6"
+                    className={
+                      image.includes("shoot-")
+                        ? "equipment-photo object-cover"
+                        : "equipment-photo object-contain p-[7%]"
+                    }
                   />
                 </div>
                 <h3 className="mt-3 text-base font-semibold tracking-tight break-keep text-[#30343b] sm:mt-4 sm:text-xl">
@@ -252,7 +260,7 @@ export function ClinicEquipment() {
     <Suspense
       fallback={
         <section
-          className="min-h-[960px] bg-[#315786] py-28 sm:py-36 lg:py-44"
+          className="min-h-[960px] bg-[#43586b] py-28 sm:py-36 lg:py-44"
           aria-label="진료를 위한 장비 로딩 중"
         />
       }

@@ -226,10 +226,10 @@ export function Header() {
             src="/images/brand/siwon-clinic-logo.svg"
             alt={site.name}
             width={330}
-            height={82}
+            height={107}
             unoptimized
             preload
-            className="h-auto w-[174px] min-[1641px]:w-[220px] sm:w-[200px]"
+            className="h-11 w-auto min-[1641px]:h-14 sm:h-12"
           />
         </Link>
         <nav

@@ -1,6 +1,6 @@
 /* Match the reference: horizontal Swiper movement, raised adjacent cards. */
 .clinic-equipment-carousel {
-  --equipment-rise: 36px;
+  --equipment-rise: 12px;
   padding-top: var(--equipment-rise);
   padding-bottom: 8px;
   background: transparent;
@@ -27,12 +27,12 @@
 }
 @media (min-width: 640px) {
   .clinic-equipment-carousel {
-    --equipment-rise: 80px;
+    --equipment-rise: 24px;
   }
 }
 @media (min-width: 1024px) {
   .clinic-equipment-carousel {
-    --equipment-rise: 112px;
+    --equipment-rise: 36px;
   }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -48,4 +48,8 @@
 }
 #equipment[data-pop="out"] {
   opacity: 0;
+}
+
+.equipment-photo {
+  filter: saturate(0.65) contrast(0.94) brightness(0.99);
 }

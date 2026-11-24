@@ -148,7 +148,14 @@ export function ClinicList() {
             {/* ② Conditions beside a fixed care photo. */}
             <div className="mt-14 grid gap-10 sm:mt-20 lg:grid-cols-2 lg:gap-16 xl:gap-24">
               <div className="lg:sticky lg:top-[18vh] lg:self-start">
-                <div className="clinic-frame relative mx-auto aspect-[9/7] w-full max-w-[560px] overflow-hidden bg-[#eef3fa]">
+                <div
+                  className={
+                    "clinic-frame relative mx-auto w-full overflow-hidden rounded-2xl bg-[#eef3fa] " +
+                    (clinic.id === "growth"
+                      ? "aspect-[2/3] max-w-[360px]"
+                      : "aspect-[3/2] max-w-[560px]")
+                  }
+                >
                   <Image
                     src={clinic.careImage}
                     alt={clinic.careImageAlt}
@@ -156,10 +163,10 @@ export function ClinicList() {
                     sizes="(max-width: 1023px) 100vw, 560px"
                     className="object-cover"
                   />
-                  <span className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-[#293d7d]">
-                    진료 이미지 예시
-                  </span>
                 </div>
+                <p className="mt-3 text-xs leading-relaxed text-[#7a879a]">
+                  {clinic.id === "growth" ? "의료진 촬영 사진" : "촬영 사진 · 환자 모습 편집"}
+                </p>
               </div>
               <div>
                 <h4 className="text-xl font-bold text-[#3c3c3c] sm:text-2xl">

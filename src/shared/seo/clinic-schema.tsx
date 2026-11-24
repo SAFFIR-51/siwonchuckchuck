@@ -16,7 +16,7 @@ export function ClinicSchema() {
         image: absoluteUrl("/images/clinic/reception.webp"),
         address: {
           "@type": "PostalAddress",
-          streetAddress: "봉화산로 194, 신아타운 7층",
+          streetAddress: "봉화산로 194, 신아타운 7층 702·703호",
           addressLocality: "중랑구",
           addressRegion: "서울특별시",
           addressCountry: "KR",

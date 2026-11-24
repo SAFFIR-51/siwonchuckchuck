@@ -94,6 +94,7 @@ export function TreatmentGuide() {
     };
   }, []);
   const item = treatments[selected];
+  const widePhoto = item.image.includes("shoot-jaw-") || item.image.includes("shoot-carm-entry");
   const treatmentColumns = "lg:grid-cols-[minmax(0,0.7fr)_minmax(0,1.3fr)] lg:gap-x-14 xl:gap-x-20";
   const treatmentFacts = [
     {
@@ -214,10 +215,21 @@ export function TreatmentGuide() {
         <div key={item.title} className={cn("tg-swap grid gap-8", treatmentColumns)}>
           <figure
             data-tg-photo
-            className="relative aspect-[4/5] w-full min-w-0 overflow-hidden rounded-[24px] bg-surface sm:max-lg:aspect-square lg:aspect-auto lg:min-h-[clamp(420px,38vw,600px)]"
+            className={cn(
+              "relative w-full min-w-0 overflow-hidden rounded-[24px] bg-surface sm:max-lg:mx-auto sm:max-lg:max-w-[480px] lg:self-start",
+              widePhoto
+                ? "aspect-[3/2]"
+                : item.image.includes("shoot-")
+                  ? "aspect-[2/3]"
+                  : "aspect-[4/5]",
+            )}
           >
             <Image
-              src={`/images/treatments/portrait/${item.image}.webp`}
+              src={
+                item.image.startsWith("/")
+                  ? item.image
+                  : `/images/treatments/portrait/${item.image}.webp`
+              }
               alt={item.imageAlt}
               fill
               sizes="(min-width: 1720px) 560px, (min-width: 1024px) 34vw, 100vw"
@@ -225,6 +237,13 @@ export function TreatmentGuide() {
             />
           </figure>
           <div data-tg-copy className="min-w-0 lg:flex lg:flex-col">
+            {item.image.includes("-generated") && (
+              <p className="mb-3 text-xs text-[#6a7585]">
+                {item.image.includes("-director-")
+                  ? "실제 원장 사진을 참고한 AI 생성 이미지"
+                  : "AI 생성 참고 이미지"}
+              </p>
+            )}
             <h3 className="text-[28px] leading-snug font-bold tracking-[-0.03em] break-keep sm:text-[38px]">
               <span className="block text-[0.8em] font-medium text-[#3c3c3c]">{item.lead}</span>
               <span className="mt-1 block text-[#263d79]">{item.name}</span>

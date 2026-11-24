@@ -92,3 +92,57 @@ export const articles = [
     url: null,
   },
 ];
+
+// Article dates and source URLs stay unchanged. These are website reference visuals,
+// not photographs claimed to have been published with the historical blog posts.
+const newsVisuals: Record<
+  string,
+  { src: string; width: number; height: number; alt: string; caption: string }
+> = {
+  november: {
+    src: "/images/clinic/november.webp",
+    width: 966,
+    height: 966,
+    alt: "2026년 11월 진료 안내 원본",
+    caption: "공식 블로그 진료 안내",
+  },
+  introduction: {
+    src: "/images/clinic/shoot-reception-wide.webp",
+    width: 2400,
+    height: 1600,
+    alt: "시원척척의원 접수 공간 참고 사진",
+    caption: "원내 공간 참고 사진입니다. 게시 당시 원문은 아래 링크에서 확인해 주세요.",
+  },
+  "blog-shockwave": {
+    src: "/images/clinic/shoot-shockwave-edited.webp",
+    width: 1024,
+    height: 1536,
+    alt: "체외충격파 치료 참고 사진 · 환자 모습 편집",
+    caption: "원내 촬영 참고 사진 · 환자 모습 편집. 게시 당시 원문은 아래 링크에서 확인해 주세요.",
+  },
+  "blog-prolotherapy": {
+    src: "/images/treatments/portrait/prolotherapy.webp",
+    width: 1120,
+    height: 1400,
+    alt: "주사치료 안내 참고 이미지",
+    caption: "진료 안내 참고 이미지입니다. 게시 당시 원문은 아래 링크에서 확인해 주세요.",
+  },
+  "blog-lumbar-disc": {
+    src: "/images/clinic/shoot-ak-explanation-edited.webp",
+    width: 1536,
+    height: 1024,
+    alt: "척추 모형을 설명하는 참고 사진 · 환자 모습 편집",
+    caption: "원내 촬영 참고 사진 · 환자 모습 편집. 게시 당시 원문은 아래 링크에서 확인해 주세요.",
+  },
+};
+export function getNewsVisual(article: { id: string; image: string; title: string }) {
+  return (
+    newsVisuals[article.id] ?? {
+      src: `/images/clinic/${article.image}.webp`,
+      width: 900,
+      height: 900,
+      alt: article.title,
+      caption: "",
+    }
+  );
+}

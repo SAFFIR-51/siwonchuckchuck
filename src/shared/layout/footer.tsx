@@ -20,78 +20,117 @@ export function Footer() {
   const [policy, setPolicy] = useState<string | null>(null);
   return (
     <>
-      <footer className="bg-white text-[#30343b]">
-        <ClinicLocation>
-          <div className="mt-8 border-t border-[#dfe4eb] pt-5">
-            <nav
-              aria-label="하단 안내"
-              className="flex flex-wrap gap-x-2.5 text-sm sm:gap-x-5 sm:gap-y-1"
-            >
-              {policies.map((label) => (
-                <button
-                  key={label}
-                  onClick={() => setPolicy(label)}
-                  className={
-                    "min-h-11 cursor-pointer text-[#626b77] hover:text-[#173c83] " +
-                    (label === "개인정보처리방침" ? "font-semibold text-[#30343b]" : "")
-                  }
-                >
-                  {label}
-                </button>
-              ))}
-              <Link
-                href={routes.news}
-                className="flex min-h-11 items-center text-[#626b77] hover:text-[#173c83]"
+      <ClinicLocation />
+      <footer id="site-footer" className="bg-[#111318] text-white">
+        <div className="mx-auto max-w-[1392px] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+          <nav
+            aria-label="하단 안내"
+            className="flex flex-wrap gap-x-5 gap-y-1 border-b border-white/10 pb-6 text-xs text-white/60 sm:gap-x-7 sm:text-sm"
+          >
+            {policies.map((label) => (
+              <button
+                key={label}
+                onClick={() => setPolicy(label)}
+                className={
+                  "min-h-11 cursor-pointer text-left transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white " +
+                  (label === "개인정보처리방침" ? "font-semibold text-white/85" : "")
+                }
               >
-                소식
-              </Link>
-            </nav>
-            <div className="mt-5 flex flex-wrap items-center justify-between gap-x-6 gap-y-4">
-              <Link href={routes.home} aria-label="시원척척의원 홈" className="inline-block">
-                <Image
-                  src="/images/brand/siwon-clinic-logo.svg"
-                  alt="시원척척의원"
-                  width={220}
-                  height={60}
-                  className="h-auto w-[180px]"
-                />
-              </Link>
-              <div className="flex items-center gap-2">
-                {[
-                  { label: "공식 블로그", href: site.blog, kind: "blog" },
-                  { label: "인스타그램", href: site.instagram, kind: "instagram" },
-                  { label: "카카오톡 공유", href: site.kakao, kind: "chat" },
-                  { label: "네이버 예약", href: site.reservation, kind: "calendar" },
-                ].map((c) => (
-                  <a
-                    key={c.kind}
-                    href={c.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={c.label}
-                    title={c.label}
-                    className="flex size-11 items-center justify-center rounded-full text-[#173c83] transition-colors hover:bg-[#edf2f9] focus-visible:outline-2 focus-visible:outline-[#173c83]"
-                  >
-                    <Image
-                      src={socialIcons[c.kind]}
-                      alt=""
-                      width={c.kind === "blog" ? 40 : 28}
-                      height={c.kind === "blog" ? 40 : 28}
-                      unoptimized
-                      className={
-                        c.kind === "blog" ? "size-10 object-contain" : "size-7 object-contain"
-                      }
-                    />
-                  </a>
-                ))}
-              </div>
+                {label}
+              </button>
+            ))}
+            <Link
+              href={routes.news}
+              className="flex min-h-11 items-center hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              소식
+            </Link>
+          </nav>
+          <div className="mt-8 flex flex-col justify-between gap-6 sm:flex-row sm:items-center">
+            <Link
+              href={routes.home}
+              aria-label="시원척척의원 홈"
+              className="w-fit rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              <Image
+                src="/images/brand/siwon-clinic-logo-white.svg"
+                alt={site.name}
+                width={220}
+                height={71}
+                className="h-auto w-[180px] sm:w-[200px]"
+              />
+            </Link>
+            <div className="flex items-center gap-2">
+              {[
+                { label: "공식 블로그", href: site.blog, kind: "blog" },
+                { label: "인스타그램", href: site.instagram, kind: "instagram" },
+                { label: "카카오톡 공유", href: site.kakao, kind: "chat" },
+                { label: "네이버 플레이스", href: site.reservation, kind: "calendar" },
+              ].map((c) => (
+                <a
+                  key={c.kind}
+                  href={c.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={c.label}
+                  title={c.label}
+                  className="flex size-11 items-center justify-center rounded-full bg-white transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+                >
+                  <Image
+                    src={socialIcons[c.kind]}
+                    alt=""
+                    width={c.kind === "blog" ? 40 : 26}
+                    height={c.kind === "blog" ? 40 : 26}
+                    unoptimized
+                    className={
+                      c.kind === "blog" ? "size-10 object-contain" : "size-6 object-contain"
+                    }
+                  />
+                </a>
+              ))}
             </div>
-            <p className="mt-3 text-xs leading-6 break-keep text-[#7a8290]">{site.address}</p>
-            <p className="mt-4 text-xs leading-6 text-[#7a8290]">
+          </div>
+          <dl className="mt-7 grid gap-x-10 gap-y-3 text-sm leading-[1.8] sm:flex sm:flex-wrap">
+            <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-3 sm:flex">
+              <dt className="text-white/45">주소</dt>
+              <dd className="break-keep text-white/80">{site.address}</dd>
+            </div>
+            <div className="grid grid-cols-[64px_minmax(0,1fr)] gap-3 sm:flex">
+              <dt className="text-white/45">대표번호</dt>
+              <dd>
+                <a
+                  href={site.phoneHref}
+                  className="text-white/80 hover:underline focus-visible:outline-2 focus-visible:outline-white"
+                >
+                  {site.phone}
+                </a>
+              </dd>
+            </div>
+          </dl>
+          <p className="mt-7 max-w-3xl text-xs leading-[1.9] text-white/45">
+            원내 촬영 사진과 AI 생성 참고 이미지를 사용했습니다. 일부 진료 사진의 환자 모습은 AI로
+            편집한 가상 인물입니다.
+          </p>
+          <div className="mt-3 flex flex-wrap items-center justify-between gap-x-6 gap-y-2">
+            <p className="text-xs leading-[1.9] text-white/40">
               © {site.name}. All rights reserved.
             </p>
+            <button
+              type="button"
+              onClick={() =>
+                window.scrollTo({
+                  top: 0,
+                  behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+                    ? "instant"
+                    : "smooth",
+                })
+              }
+              className="min-h-11 cursor-pointer text-xs text-white/65 hover:text-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white"
+            >
+              맨 위로 ↑
+            </button>
           </div>
-        </ClinicLocation>
+        </div>
       </footer>
       <QuickContact />
       {policy && (

@@ -29,7 +29,7 @@ export function ClinicPhoto({
   className?: string;
   preload?: boolean;
 }) {
-  if (fullPhotos.has(name)) {
+  if (name.startsWith("shoot-") || fullPhotos.has(name)) {
     return (
       <div className={cn("relative overflow-hidden bg-surface", className)}>
         <Image

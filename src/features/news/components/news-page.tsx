@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { newsArticlePath } from "@/shared/config/routes";
 import { Container } from "@/shared/ui/container";
-import { ClinicPhoto } from "@/shared/ui/clinic-photo";
+import { getNewsVisual } from "@/content/news";
 import { Dialog } from "@/shared/ui/dialog";
 import { cn } from "@/shared/lib/cn";
 import { articles, categories } from "../model/content";
@@ -32,25 +32,36 @@ function Arrow({ className = "" }: { className?: string }) {
   );
 }
 function NewsPhoto({ article, large = false }: { article: Article; large?: boolean }) {
-  return article.cardImage ? (
-    <div
-      className={cn(
-        "relative overflow-hidden rounded-[16px] bg-[#faf4e9]",
-        large ? "aspect-square" : "aspect-[4/3]",
-      )}
-    >
+  const visual = getNewsVisual(article);
+  return large ? (
+    <figure>
       <Image
-        src={`/images/clinic/${article.image}.webp`}
-        alt={article.title}
+        src={visual.src}
+        alt={visual.alt}
+        width={visual.width}
+        height={visual.height}
+        sizes="(max-width: 640px) calc(100vw - 80px), 560px"
+        className="mx-auto h-auto w-full rounded-2xl"
+      />
+      {visual.caption && (
+        <figcaption className="mt-3 text-xs leading-relaxed text-[#7a8290]">
+          {visual.caption}
+        </figcaption>
+      )}
+    </figure>
+  ) : (
+    <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-[#edf1f5]">
+      <Image
+        src={visual.src}
+        alt={visual.alt}
         fill
-        sizes={large ? "(max-width: 640px) 90vw, 640px" : "160px"}
-        className="object-contain p-2"
+        sizes="(max-width: 639px) 90vw, (max-width: 1023px) 45vw, 420px"
+        className="object-contain"
       />
     </div>
-  ) : (
-    <ClinicPhoto name={article.image} alt={article.title} className="aspect-[4/3] rounded-[16px]" />
   );
 }
+
 export function NewsPage() {
   const [category, setCategory] = useState<string>("공지사항");
   const [query, setQuery] = useState("");
@@ -230,23 +241,7 @@ export function NewsPage() {
                   className="group min-w-0 text-left focus-visible:outline-[#304880]"
                 >
                   <div className="relative overflow-hidden rounded-[20px] bg-[#f1f4f9]">
-                    {article.cardImage ? (
-                      <div className="relative aspect-square">
-                        <Image
-                          src={`/images/clinic/${article.image}.webp`}
-                          alt={article.title}
-                          fill
-                          sizes="(max-width: 639px) 90vw, 340px"
-                          className="object-contain"
-                        />
-                      </div>
-                    ) : (
-                      <ClinicPhoto
-                        name={article.image}
-                        alt={article.title}
-                        className="aspect-square"
-                      />
-                    )}
+                    <NewsPhoto article={article} />
                     <span
                       className="absolute top-3 right-3 flex size-10 items-center justify-center rounded-full bg-white"
                       aria-label="공식 블로그"

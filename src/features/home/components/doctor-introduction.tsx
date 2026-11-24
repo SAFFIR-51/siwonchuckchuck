@@ -11,20 +11,15 @@ function Portrait({ modal = false }: { modal?: boolean }) {
   return (
     <div
       className={
-        "relative overflow-hidden " +
-        (modal ? "aspect-[4/5] w-full max-w-[280px]" : "aspect-[3/4] w-full bg-transparent")
+        "relative " + (modal ? "aspect-[3/5] w-full max-w-[260px]" : "aspect-[3/4] w-full")
       }
     >
       <Image
-        src="/images/clinic/director-portrait-v2.webp"
+        src="/images/clinic/shoot-director-cutout.webp"
         alt="시원척척의원 원장"
         fill
         sizes={modal ? "280px" : "(max-width: 639px) 280px, 440px"}
-        className={
-          modal
-            ? "object-contain object-bottom px-4 pt-6"
-            : "object-cover object-top px-3 pt-4 sm:pt-8"
-        }
+        className="object-contain object-bottom"
       />
     </div>
   );
@@ -87,17 +82,19 @@ export function DoctorIntroduction() {
           </div>
           <div data-doctor-text className="min-w-0">
             <p className="mt-5 text-base leading-[1.8] break-keep text-[#626b77] sm:text-lg">
-              {doctorContent.description.map((line, index) => (
-                <span key={line}>
-                  {index > 0 && (
-                    <>
-                      <br className="hidden lg:block" />
-                      <span className="lg:hidden"> </span>
-                    </>
-                  )}
-                  {line}
-                </span>
-              ))}
+              {doctorContent.description
+                .filter((_, index) => index !== 1)
+                .map((line, index) => (
+                  <span key={line}>
+                    {index > 0 && (
+                      <>
+                        <br className="hidden lg:block" />
+                        <span className="lg:hidden"> </span>
+                      </>
+                    )}
+                    {line}
+                  </span>
+                ))}
             </p>
             <button
               type="button"
@@ -119,36 +116,6 @@ export function DoctorIntroduction() {
                 <path d="M4 12h16m-7-7 7 7-7 7" />
               </svg>
             </button>
-            <div className="mt-9 rounded-2xl bg-white px-5 py-3 sm:px-8 sm:py-5">
-              {doctorContent.principles.map(({ title, text }, index) => (
-                <details
-                  key={title}
-                  name="doctor-care"
-                  open={index === 0}
-                  className="group border-b border-[#e4e8ee] last:border-0"
-                >
-                  <summary className="flex min-h-20 cursor-pointer list-none items-center gap-3 py-5 text-base font-semibold text-[#3c3c3c] focus-visible:outline-2 focus-visible:outline-[#293d7d] sm:text-lg [&::-webkit-details-marker]:hidden">
-                    <span aria-hidden="true" className="font-bold text-[#293d7d]">
-                      Q.
-                    </span>
-                    <span className="flex-1">{title}</span>
-                    <svg
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="1.6"
-                      className="size-5 shrink-0 group-open:rotate-180"
-                    >
-                      <path d="m6 9 6 6 6-6" />
-                    </svg>
-                  </summary>
-                  <p className="mb-5 bg-[#f8f9fb] px-5 py-5 text-base leading-[1.85] break-keep text-[#626b77]">
-                    {text}
-                  </p>
-                </details>
-              ))}
-            </div>
           </div>
         </div>
       </div>

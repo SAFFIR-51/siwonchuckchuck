@@ -1,6 +1,9 @@
 import type { Route } from "next";
 export const routes = {
   home: "/",
+  orthopedicDetail: "/care/orthopedic",
+  painDetail: "/care/pain",
+  clinicDetail: "/care/clinic",
   news: "/news",
   gallery: "/#gallery",
   equipment: "/#equipment",

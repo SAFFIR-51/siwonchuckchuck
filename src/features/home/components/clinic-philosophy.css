@@ -221,7 +221,7 @@
 
 @media (min-width: 1024px) and (min-height: 650px) {
   .philosophy[data-motion="desktop"] .philosophy-sequence {
-    height: 450svh;
+    height: 500svh;
   }
 
   .philosophy[data-motion="desktop"] .philosophy-frame {
@@ -259,7 +259,7 @@
   }
 
   .philosophy[data-motion="desktop"] .philosophy-column--right {
-    clip-path: inset(calc((1 - var(--cover, 0)) * 100%) 0 0 0);
+    clip-path: inset(0 0 calc((1 - var(--cover, 0)) * 100%) 0);
   }
 
   .philosophy[data-motion="desktop"] .philosophy-track {
@@ -293,7 +293,7 @@
 
   .philosophy[data-motion="desktop"] .philosophy-column--right .philosophy-curtain {
     background: var(--philosophy-blue);
-    transform-origin: bottom;
+    transform-origin: top;
   }
 }
 
@@ -301,5 +301,22 @@
   .philosophy[data-motion] .philosophy-line {
     color: CanvasText;
     background: none;
+  }
+}
+
+@media (max-width: 1023px), (max-height: 649px) {
+  .philosophy-photo--care {
+    min-height: 0;
+    padding: 64px 20px 72px;
+  }
+  .philosophy-care-frame {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    transform: none;
+  }
+  .philosophy-photo--care .philosophy-photo-word {
+    top: 8px;
+    font-size: 80px;
   }
 }

@@ -48,7 +48,7 @@ export function ClinicPhilosophy() {
                     <div className="philosophy-care-frame">
                       <Image
                         src={philosophyContent.careImage}
-                        alt="시원척척의원 원장의 상담 장면 — 문구 제거 편집 이미지"
+                        alt="원장이 검사 영상을 설명하는 상담 장면 · 환자 모습 편집"
                         fill
                         sizes="(max-width: 1023px) 100vw, 50vw"
                         className="object-cover"
@@ -63,19 +63,6 @@ export function ClinicPhilosophy() {
               </div>
               <div className="philosophy-column philosophy-column--right">
                 <div className="philosophy-track" data-philosophy-right>
-                  <article className="philosophy-panel philosophy-panel--second">
-                    <p className="philosophy-panel-label">
-                      진료 철학 <span>02</span>
-                    </p>
-                    <div>
-                      <p className="philosophy-panel-en" aria-hidden="true">
-                        CARE TOGETHER
-                      </p>
-                      <h3>{philosophyContent.panels[1].title}</h3>
-                      <p className="philosophy-panel-copy">{philosophyContent.panels[1].text}</p>
-                    </div>
-                    <p className="philosophy-panel-footer">{doctorContent.message.join(" ")}</p>
-                  </article>
                   <div className="philosophy-photo philosophy-photo--portrait">
                     <span className="philosophy-photo-word" aria-hidden="true">
                       SIWON
@@ -91,6 +78,19 @@ export function ClinicPhilosophy() {
                       {doctorContent.name} {doctorContent.role}
                     </span>
                   </div>
+                  <article className="philosophy-panel philosophy-panel--second">
+                    <p className="philosophy-panel-label">
+                      진료 철학 <span>02</span>
+                    </p>
+                    <div>
+                      <p className="philosophy-panel-en" aria-hidden="true">
+                        CARE TOGETHER
+                      </p>
+                      <h3>{philosophyContent.panels[1].title}</h3>
+                      <p className="philosophy-panel-copy">{philosophyContent.panels[1].text}</p>
+                    </div>
+                    <p className="philosophy-panel-footer">{doctorContent.message.join(" ")}</p>
+                  </article>
                 </div>
                 <div className="philosophy-curtain" aria-hidden="true" />
               </div>

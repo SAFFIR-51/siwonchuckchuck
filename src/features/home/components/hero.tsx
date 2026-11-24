@@ -1,5 +1,7 @@
 "use client";
 import Image from "next/image";
+import "./hero.css";
+import Link from "next/link";
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/cn";
 import { HeroRibbons } from "./hero-ribbons";
@@ -69,10 +71,7 @@ export function Hero() {
     };
   }, []);
   return (
-    <section
-      aria-label="시원척척의원 첫 화면"
-      className="bg-white px-[15px] pb-5 min-[769px]:px-5 min-[1241px]:pb-10 min-[1641px]:px-[63px] min-[2001px]:px-[70px] min-[2001px]:pb-[50px]"
-    >
+    <section aria-label="시원척척의원 첫 화면" className="bg-white">
       <div
         ref={frame}
         aria-roledescription="carousel"
@@ -119,7 +118,7 @@ export function Hero() {
         onLostPointerCapture={() => {
           gesture.current = null;
         }}
-        className="relative isolate flex h-[calc(100svh-90px)] min-h-[520px] w-full touch-pan-y items-center justify-center overflow-hidden rounded-[24px] bg-slate-900 text-white select-none max-sm:h-[max(430px,calc(var(--hero-viewport-height,100svh)-90px))] max-sm:min-h-0 min-[1241px]:h-[calc(100svh-110px)] min-[1241px]:min-h-[600px] min-[1641px]:h-[calc(100svh-120px)] min-[2001px]:h-[calc(100svh-140px)] min-[2001px]:rounded-[32px]"
+        className="relative isolate flex h-[calc(var(--hero-viewport-height,100svh)-70px)] min-h-[430px] w-full touch-pan-y items-center justify-center overflow-hidden bg-slate-900 text-white select-none min-[1641px]:h-[calc(var(--hero-viewport-height,100svh)-80px)] min-[2001px]:h-[calc(var(--hero-viewport-height,100svh)-90px)]"
       >
         {heroPhotos.map((photo, index) => {
           const isSpine = photo.name === "hero-spine-curve-sky";
@@ -137,7 +136,7 @@ export function Hero() {
                   active ? "visible opacity-100" : "invisible opacity-0",
                 )}
               >
-                <picture>
+                <picture className={!featuredSlide ? "hero-room-photo" : undefined}>
                   <source
                     media="(max-width: 1023px)"
                     srcSet={`/images/clinic/${photo.mobileName}.webp`}
@@ -155,7 +154,6 @@ export function Hero() {
                       "object-cover object-center",
                       isTreatment &&
                         "object-center min-[1024px]:object-[70%_center] lg:object-center",
-                      !featuredSlide && "scale-[1.02] -rotate-[0.6deg]",
                     )}
                   />
                 </picture>
@@ -166,19 +164,18 @@ export function Hero() {
                       ? "bg-black/30"
                       : isTreatment
                         ? "bg-black/20 lg:bg-black/5"
-                        : "bg-black/38",
+                        : "hero-room-mask",
                   )}
                 />
               </div>
               <div
                 className={cn(
                   "z-10 w-full flex-col items-center px-5 pb-8 text-center max-lg:pt-11 lg:px-32",
+                  !featuredSlide && "hero-room-copy",
                   active ? "flex" : "hidden",
                 )}
               >
-                {featuredSlide && (
-                  <HeroRibbons items={featuredSlide.items} showBadge={isTreatment} />
-                )}
+                {isSpine && <HeroRibbons items={spineHero.items} />}
                 <p className="mb-6 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white min-[2001px]:rounded-[32px] sm:px-6 sm:py-3 sm:text-lg lg:order-last lg:mt-11 lg:mb-0 lg:text-2xl">
                   {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
                 </p>
@@ -194,13 +191,20 @@ export function Hero() {
                   <br />
                   {title[1]}
                 </h1>
-                <span className="sr-only">{photo.label}</span>
+                <Link
+                  href={photo.href}
+                  aria-label={`${photo.label} 상세 보기`}
+                  className="mt-7 inline-flex min-h-12 items-center gap-7 rounded-full border border-white/70 bg-black/10 px-6 py-3 text-sm font-semibold backdrop-blur-sm after:absolute after:inset-0 after:z-0 hover:bg-white hover:text-[#293d7d] focus-visible:outline-white lg:mt-10"
+                >
+                  <span>자세히 보기</span>
+                  <span aria-hidden="true">↗</span>
+                </Link>
               </div>
             </div>
           );
         })}
         <div
-          className="absolute bottom-6 left-1/2 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
+          className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
           role="group"
           aria-label="메인 사진 전환"
         >
@@ -255,7 +259,7 @@ export function Hero() {
         <a
           href="#about"
           aria-label="병원 소개로 이동"
-          className="absolute top-1/2 right-5 hidden min-w-11 -translate-y-1/2 flex-col items-center gap-3 py-3 text-white sm:flex lg:right-8"
+          className="absolute top-1/2 right-5 z-20 hidden min-w-11 -translate-y-1/2 flex-col items-center gap-3 py-3 text-white sm:flex lg:right-8"
         >
           <span className="text-xs leading-none font-bold [writing-mode:vertical-rl]">
             SCROLL DOWN

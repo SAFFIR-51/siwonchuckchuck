@@ -35,14 +35,14 @@ export function PhilosophyMotion() {
       }
 
       if (!desktop.matches) return;
-      // Keep the introduction pinned while opposite panels cover the very same frame.
+      // Keep the introduction pinned while panels cover the very same frame.
       const cover = clamp01((progress - 0.23) / 0.15);
       const open = clamp01((progress - 0.4) / 0.12);
       stage.style.setProperty("--cover", String(cover));
       stage.style.setProperty("--curtain", String(1 - open));
-      const swap = clamp01((progress - 0.62) / 0.23);
+      const swap = clamp01((progress - 0.62) / 0.28);
       left.style.transform = `translate3d(0, ${-swap * 50}%, 0)`;
-      right.style.transform = `translate3d(0, ${(swap - 1) * 50}%, 0)`;
+      right.style.transform = `translate3d(0, ${-swap * 50}%, 0)`;
     };
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);

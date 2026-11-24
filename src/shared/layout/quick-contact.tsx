@@ -65,19 +65,65 @@ function QuickIcon({ name }: { name: string }) {
 export function QuickContact() {
   const [open, setOpen] = useState(false);
   const [visible, setVisible] = useState(false);
+  const dock = useRef<HTMLElement>(null);
   useEffect(() => {
     function updateVisibility() {
-      const next = window.scrollY > 80 && !document.querySelector("dialog[open]");
+      const location = document.getElementById("location");
+      const footerVisible =
+        location && location.getBoundingClientRect().top < window.innerHeight - 200;
+      const photoRegionVisible = ["gallery", "equipment"].some((id) => {
+        const region = document.getElementById(id)?.getBoundingClientRect();
+        return region && region.top < window.innerHeight && region.bottom > 0;
+      });
+      const dockRect = dock.current?.getBoundingClientRect();
+      const bottom = dock.current
+        ? Number.parseFloat(getComputedStyle(dock.current).bottom) || 16
+        : 16;
+      const dockTop = window.innerHeight - bottom - (dockRect?.height ?? 0);
+      const imageOverlap =
+        dockRect &&
+        [...document.querySelectorAll<HTMLImageElement>("main img")].some((image) => {
+          const imageRect = image.getBoundingClientRect();
+          if (
+            imageRect.width < 120 ||
+            imageRect.height < 80 ||
+            getComputedStyle(image).visibility === "hidden"
+          )
+            return false;
+          const area =
+            image.closest<HTMLElement>("[data-image-card], [data-self-card], figure, article") ??
+            image;
+          const rect = area.getBoundingClientRect();
+          return (
+            rect.left < dockRect.right + 8 &&
+            rect.right > dockRect.left - 8 &&
+            rect.top < window.innerHeight - bottom + 8 &&
+            rect.bottom > dockTop - 8
+          );
+        });
+      const next =
+        window.scrollY > 80 &&
+        !footerVisible &&
+        !photoRegionVisible &&
+        !imageOverlap &&
+        !document.querySelector("dialog[open]");
       setVisible(next);
       if (!next) setOpen(false);
     }
     const initialFrame = requestAnimationFrame(updateVisibility);
     window.addEventListener("scroll", updateVisibility, { passive: true });
+    window.addEventListener("resize", updateVisibility);
     const observer = new MutationObserver(updateVisibility);
-    observer.observe(document.body, { subtree: true, attributes: true, attributeFilter: ["open"] });
+    observer.observe(document.body, {
+      subtree: true,
+      childList: true,
+      attributes: true,
+      attributeFilter: ["open", "src"],
+    });
     return () => {
       cancelAnimationFrame(initialFrame);
       window.removeEventListener("scroll", updateVisibility);
+      window.removeEventListener("resize", updateVisibility);
       observer.disconnect();
     };
   }, []);
@@ -101,6 +147,7 @@ export function QuickContact() {
   return (
     <>
       <aside
+        ref={dock}
         aria-label="빠른 연락 및 안내"
         aria-hidden={!visible}
         inert={!visible}

@@ -6,7 +6,11 @@ import { homeContent } from "../model/content";
 export function HospitalIntroduction() {
   const philosophy = homeContent.philosophy;
   return (
-    <section id="about" aria-labelledby="about-heading" className="bg-white py-20 sm:py-24">
+    <section
+      id="about"
+      aria-labelledby="about-heading"
+      className="overflow-x-clip bg-white py-20 sm:py-24"
+    >
       <IntroductionReveal />
       <div className="mx-auto w-full max-w-[984px] px-[15px] min-[769px]:max-w-[1148px] min-[769px]:px-5 min-[1241px]:max-w-[1312px] min-[1641px]:max-w-[1476px] min-[2001px]:max-w-[1640px] min-[3200px]:max-w-[1968px]">
         <div className="grid items-start gap-12 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-12 xl:gap-20">
@@ -50,21 +54,17 @@ export function HospitalIntroduction() {
               </div>
             </div>
           </div>
-          <div className="grid grid-cols-2 items-start gap-x-3 gap-y-4 pb-10 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-24">
+          <div className="grid grid-cols-1 items-start gap-x-3 gap-y-5 pb-6 sm:grid-cols-2 sm:gap-x-5 sm:gap-y-8 sm:pb-20 lg:gap-x-6 lg:gap-y-12 lg:pb-24">
             {philosophy.cards.map((card) => (
               <article
                 key={card.title}
-                data-converge
-                className="relative isolate grid aspect-[4/5] content-end overflow-hidden rounded-2xl bg-[#e6ecf2] odd:translate-y-10 sm:block sm:aspect-[10/11] sm:rounded-[24px] sm:odd:translate-y-20 lg:odd:translate-y-24"
+                data-image-card
+                className="relative min-w-0 overflow-hidden rounded-2xl bg-[#f3f6fa] sm:rounded-[24px] sm:odd:translate-y-10 lg:odd:translate-y-12"
               >
-                <div className="absolute inset-0">
+                <div className="relative aspect-[3/2]">
                   <ClinicPhoto name={card.image} alt={card.alt} className="size-full" />
                 </div>
-                <div
-                  aria-hidden="true"
-                  className="pointer-events-none absolute inset-0 bg-linear-to-t from-[#142137]/90 via-[#142137]/35 to-transparent sm:via-[#142137]/10"
-                />
-                <div className="relative mt-12 px-3 py-3.5 text-white sm:absolute sm:inset-x-0 sm:bottom-0 sm:mt-0 sm:px-5 sm:py-6 xl:px-7 xl:py-8">
+                <div className="px-4 py-5 text-[#303c50] sm:px-5 sm:py-6 xl:px-6">
                   <p className="mb-1.5 flex items-center gap-1.5 text-[11px] leading-snug font-medium sm:mb-3 sm:gap-3 sm:text-xs sm:leading-relaxed xl:text-sm">
                     <span
                       aria-hidden="true"

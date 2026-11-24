@@ -3,7 +3,9 @@ import Image from "next/image";
 import { Container } from "@/shared/ui/container";
 import { routes } from "@/shared/config/routes";
 import { articles } from "../model/content";
+import { getNewsVisual } from "@/content/news";
 export function NewsArticle({ article }: { article: (typeof articles)[number] }) {
+  const visual = getNewsVisual(article);
   return (
     <main id="main" className="min-h-svh bg-white py-20 text-[#3c3c3c] sm:py-28">
       <Container className="max-w-[1000px]">
@@ -27,14 +29,22 @@ export function NewsArticle({ article }: { article: (typeof articles)[number] })
           </header>
           <p className="mt-10 text-lg leading-[1.9] break-keep">{article.text}</p>
           {article.category !== "FAQ" && (
-            <Image
-              src={"/images/clinic/" + article.image + ".webp"}
-              alt={article.title}
-              width={1280}
-              height={960}
-              sizes="(max-width: 640px) 90vw, 800px"
-              className="mx-auto mt-10 h-auto max-h-[700px] w-full rounded-2xl object-contain"
-            />
+            <figure className="mt-10">
+              <Image
+                src={visual.src}
+                alt={visual.alt}
+                width={visual.width}
+                height={visual.height}
+                sizes={`(max-width: 640px) calc(100vw - 48px), ${Math.min(800, visual.width)}px`}
+                style={{ maxWidth: Math.min(800, visual.width) }}
+                className="mx-auto h-auto w-full rounded-2xl"
+              />
+              {visual.caption && (
+                <figcaption className="mt-4 text-center text-xs leading-[1.8] text-[#7a8290]">
+                  {visual.caption}
+                </figcaption>
+              )}
+            </figure>
           )}
           {article.url && (
             <a

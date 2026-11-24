@@ -1,9 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
-import { articles } from "@/content/news";
+import { articles, getNewsVisual } from "@/content/news";
 import { newsArticlePath, routes } from "@/shared/config/routes";
 import { Container } from "@/shared/ui/container";
-import { ClinicPhoto } from "@/shared/ui/clinic-photo";
 
 export function ClinicNews() {
   const news = articles.filter((article) => article.indexable && article.url);
@@ -43,23 +42,15 @@ export function ClinicNews() {
               href={newsArticlePath(article)}
               className="group flex w-[85%] max-w-[340px] shrink-0 snap-start flex-col overflow-hidden rounded-[24px] bg-white focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#293d7d] sm:w-[340px]"
             >
-              {article.cardImage ? (
-                <div className="relative aspect-square overflow-hidden bg-[#faf4e9]">
-                  <Image
-                    src={`/images/clinic/${article.image}.webp`}
-                    alt={article.title}
-                    fill
-                    sizes="(max-width: 399px) 85vw, 340px"
-                    className="object-contain"
-                  />
-                </div>
-              ) : (
-                <ClinicPhoto
-                  name={article.image}
-                  alt="시원척척의원 접수 공간"
-                  className="aspect-square"
+              <div className="relative aspect-[4/3] overflow-hidden bg-[#edf1f5]">
+                <Image
+                  src={getNewsVisual(article).src}
+                  alt={getNewsVisual(article).alt}
+                  fill
+                  sizes="(max-width: 399px) 85vw, 340px"
+                  className="object-contain"
                 />
-              )}
+              </div>
               <div className="flex flex-1 flex-col items-start p-5">
                 <span className="rounded-md bg-[#edf1fa] px-3 py-1 text-xs font-semibold text-[#293d7d]">
                   {article.category}

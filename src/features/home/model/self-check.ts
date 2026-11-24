@@ -1,15 +1,15 @@
 /**
  * "어디가 아프세요?" self-check content.
  * 초안입니다: 문항·결과 안내 문구는 병원 검토 후 확정합니다. 진단이 아니라 상담 참고용입니다.
- * image: AI로 생성한 예시 이미지입니다(Figma "시원척척의원 자가진단 이미지"). 11/19 원장님 진료 촬영본으로 교체 예정입니다.
+ * image: 전달받은 원내 촬영 사진에서 환자 모습만 가상 인물로 편집했습니다.
  */
 export const selfCheckParts = [
   {
     id: "hand",
     label: "손/손목",
     lead: "손목·손 대표 통증",
-    image: "/images/clinic/selfcheck-hand.webp",
-    imageAlt: "의료진이 환자의 손목을 살피는 진료 예시 이미지",
+    image: "/images/clinic/shoot-shockwave-edited.webp",
+    imageAlt: "원내 손목 치료 장면 · 환자 모습 편집",
     checks: [
       "손목을 굽히거나 바닥을 짚을 때 아프다.",
       "엄지손가락 쪽 손목이 시큰거린다.",
@@ -36,8 +36,8 @@ export const selfCheckParts = [
     id: "neck",
     label: "목",
     lead: "목 대표 통증",
-    image: "/images/clinic/selfcheck-neck.webp",
-    imageAlt: "의료진이 환자의 뒷목과 어깨를 살피는 진료 예시 이미지",
+    image: "/images/clinic/shoot-neck-edited.webp",
+    imageAlt: "원장이 목을 살피는 촬영 사진 · 환자 모습 편집",
     checks: [
       "아침에 일어나면 목이 뻣뻣하다.",
       "고개를 돌리거나 뒤로 젖힐 때 아프다.",
@@ -64,8 +64,8 @@ export const selfCheckParts = [
     id: "shoulder",
     label: "어깨",
     lead: "어깨 대표 통증",
-    image: "/images/clinic/selfcheck-shoulder.webp",
-    imageAlt: "의료진이 환자가 들어 올린 팔과 어깨를 살피는 진료 예시 이미지",
+    image: "/images/clinic/shoot-shoulder-edited.webp",
+    imageAlt: "원장이 어깨를 살피는 촬영 사진 · 환자 모습 편집",
     checks: [
       "팔을 머리 위로 올리기 어렵다.",
       "옷을 입거나 손을 등 뒤로 돌릴 때 아프다.",
