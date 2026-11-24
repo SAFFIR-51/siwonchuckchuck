@@ -36,12 +36,13 @@ export function pageMetadata(
 ): Metadata {
   const url = absoluteUrl(path);
   const isHome = path === "/";
-  const image = absoluteUrl(
-    isHome ? "/images/brand/siwon-kakao-share.png" : "/images/clinic/reception.webp",
-  );
+  const image = new URL(
+    isHome ? "/images/brand/siwon-share-v2.png" : "/images/clinic/reception.webp",
+    siteOrigin ?? "https://siwonchuckchuck.vercel.app",
+  ).href;
   const imageMetadata = isHome
     ? {
-        alt: "시원척척의원 AK진료 · 관절은 가볍게, 척추는 시원하게",
+        alt: "시원척척의원 로고",
         width: 1200,
         height: 630,
         type: "image/png",
