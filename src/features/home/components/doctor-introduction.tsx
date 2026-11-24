@@ -116,6 +116,36 @@ export function DoctorIntroduction() {
                 <path d="M4 12h16m-7-7 7 7-7 7" />
               </svg>
             </button>
+            <div className="mt-9 rounded-2xl bg-white px-5 py-3 sm:px-8 sm:py-5">
+              {doctorContent.principles.map(({ title, text }, index) => (
+                <details
+                  key={title}
+                  name="doctor-care"
+                  open={index === 0}
+                  className="group border-b border-[#e4e8ee] last:border-0"
+                >
+                  <summary className="flex min-h-20 cursor-pointer list-none items-center gap-3 py-5 text-base font-semibold text-[#3c3c3c] focus-visible:outline-2 focus-visible:outline-[#293d7d] sm:text-lg [&::-webkit-details-marker]:hidden">
+                    <span aria-hidden="true" className="font-bold text-[#293d7d]">
+                      Q.
+                    </span>
+                    <span className="flex-1">{title}</span>
+                    <svg
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="1.6"
+                      className="size-5 shrink-0 group-open:rotate-180"
+                    >
+                      <path d="m6 9 6 6 6-6" />
+                    </svg>
+                  </summary>
+                  <p className="mb-5 bg-[#f8f9fb] px-5 py-5 text-base leading-[1.85] break-keep text-[#626b77]">
+                    {text}
+                  </p>
+                </details>
+              ))}
+            </div>
           </div>
         </div>
       </div>

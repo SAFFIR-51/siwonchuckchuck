@@ -239,3 +239,5 @@ AK통합통증치료센터와 AK치료 소개는 각각 짧은 한 섹션으로 
 2026-11-24 PRP·족부·수액 이미지 생성: 사용자가 실제 원장 사진을 참고해 원장님이 등장하는 이미지를 요청했다. shoot-director-standing.webp를 얼굴 참고로 내장 image_gen 도구에서 PRP 준비 설명, 발·맞춤 깔창 상담, 수액 연결 확인의 세 장면을 생성했다. 서로 다른 가상 환자를 사용하며 실제 시술 기록으로 표시하지 않는다. 세로 4:5 비율의 prp-director-generated.webp / foot-director-generated.webp / iv-director-generated.webp를 홈 치료 탭과 통증 상세에 적용한다. 생성 이미지임을 안내 문구·alt·푸터에 표시한다. 프롬프트 기록은 `.agent-output/2026-11-24-generated-treatments/prompts.json`에 저장한다.
 
 2026-11-24 후속 이미지 정정: 사용자 요청으로 PRP와 수액에서는 원장을 제거한다. PRP는 사람 없는 준비 키트·원심분리기, 수액은 환자의 손·수액 장비만 표시하는 새 생성본으로 교체한다. 족부교정의 원장 이미지는 유지한다. 새 파일은 prp-equipment-generated.webp와 iv-equipment-generated.webp이며 AI 생성 안내와 대체 텍스트를 장면에 맞게 정정한다.
+
+2026-11-24 의료진 소개 여백 정정: 오른쪽의 기존 AK 설명 아코디언 3개가 제거되어 과도하게 비어 보인다는 후속 지적에 따라 이전 설명 영역을 복원한다. 새 원장 누끼 사진과 약력 팝업은 유지한다.
