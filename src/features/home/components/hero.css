@@ -28,24 +28,15 @@
 }
 @media (prefers-reduced-motion: no-preference) {
   .hero-entry-wash {
-    animation: hero-entry 1.4s ease-out both;
+    animation: hero-entry 0.55s ease-out both;
   }
   .hero-background[data-hero-active="true"] img {
-    animation: hero-image-settle 6.8s cubic-bezier(0.2, 0.65, 0.3, 1) both;
+    animation: hero-image-settle 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
   .hero-copy > p,
   .hero-copy > h1,
   .hero-copy > a {
-    animation: hero-copy-rise 1s cubic-bezier(0.22, 1, 0.36, 1) both;
-  }
-  .hero-copy > p {
-    animation-delay: 0.2s;
-  }
-  .hero-copy > h1 {
-    animation-delay: 0.35s;
-  }
-  .hero-copy > a {
-    animation-delay: 0.55s;
+    animation: hero-copy-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
   }
 }
 @keyframes hero-entry {

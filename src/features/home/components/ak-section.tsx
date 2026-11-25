@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { akExplanation, akSummary } from "../model/content";
+import { akCareApproach, akSummary } from "../model/content";
 import { AkMotion } from "./ak-motion";
 
 export function AkSection() {
@@ -56,19 +56,19 @@ export function AkSection() {
             </p>
           </div>
           <ol className="divide-y divide-[#dce2ea] border-y border-[#dce2ea]">
-            {akExplanation
-              .filter((_, index) => [0, 3, 4].includes(index))
-              .map((item, index) => (
-                <li key={item.title} className="flex gap-5 py-6">
-                  <span className="text-sm font-semibold text-[#7b8ba2]">0{index + 1}</span>
-                  <div>
-                    <h3 className="font-semibold">{item.title}</h3>
-                    <p className="mt-2 text-sm leading-[1.8] text-[#626b77] sm:text-base">
-                      {item.text}
-                    </p>
-                  </div>
-                </li>
-              ))}
+            {akCareApproach.map((item, index) => (
+              <li key={item.title} className="flex gap-5 py-6">
+                <span className="w-4 shrink-0 text-sm font-semibold whitespace-nowrap text-[#7b8ba2]">
+                  {index + 1}
+                </span>
+                <div>
+                  <h3 className="font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-[1.8] text-[#626b77] sm:text-base">
+                    {item.text}
+                  </p>
+                </div>
+              </li>
+            ))}
           </ol>
         </div>
       </section>
