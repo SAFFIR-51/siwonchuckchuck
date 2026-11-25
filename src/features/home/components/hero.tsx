@@ -4,7 +4,6 @@ import "./hero.css";
 import Link from "next/link";
 import { useEffect, useEffectEvent, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/shared/lib/cn";
-import { HeroRibbons } from "./hero-ribbons";
 import { homeContent } from "../model/content";
 import { heroPhotos, spineHero, treatmentHero } from "../model/hero";
 
@@ -118,7 +117,7 @@ export function Hero() {
         onLostPointerCapture={() => {
           gesture.current = null;
         }}
-        className="relative isolate flex h-[calc(var(--hero-viewport-height,100svh)-70px)] min-h-[430px] w-full touch-pan-y items-center justify-center overflow-hidden bg-slate-900 text-white select-none min-[1641px]:h-[calc(var(--hero-viewport-height,100svh)-80px)] min-[2001px]:h-[calc(var(--hero-viewport-height,100svh)-90px)]"
+        className="hero-stage relative isolate flex h-[calc(var(--hero-viewport-height,100svh)-70px)] min-h-[430px] w-full touch-pan-y items-center justify-center overflow-hidden bg-slate-900 text-white select-none min-[1641px]:h-[calc(var(--hero-viewport-height,100svh)-80px)] min-[2001px]:h-[calc(var(--hero-viewport-height,100svh)-90px)]"
       >
         {heroPhotos.map((photo, index) => {
           const isSpine = photo.name === "hero-spine-curve-sky";
@@ -131,8 +130,9 @@ export function Hero() {
           return (
             <div key={photo.name} className="contents">
               <div
+                data-hero-active={active}
                 className={cn(
-                  "absolute inset-0 -z-20 transition-[opacity,visibility] duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none",
+                  "hero-background absolute inset-0 -z-20 transition-[opacity,visibility] duration-700 ease-[cubic-bezier(0.77,0,0.175,1)] motion-reduce:transition-none",
                   active ? "visible opacity-100" : "invisible opacity-0",
                 )}
               >
@@ -170,12 +170,11 @@ export function Hero() {
               </div>
               <div
                 className={cn(
-                  "z-10 w-full flex-col items-center px-5 pb-8 text-center max-lg:pt-11 lg:px-32",
+                  "hero-copy z-10 w-full flex-col items-center px-5 pb-8 text-center max-lg:pt-11 lg:px-32",
                   !featuredSlide && "hero-room-copy",
                   active ? "flex" : "hidden",
                 )}
               >
-                {isSpine && <HeroRibbons items={spineHero.items} />}
                 <p className="mb-6 inline-block rounded-[24px] bg-[#173c83] px-4 py-2.5 text-sm leading-relaxed font-semibold text-white min-[2001px]:rounded-[32px] sm:px-6 sm:py-3 sm:text-lg lg:order-last lg:mt-11 lg:mb-0 lg:text-2xl">
                   {isTreatment ? treatmentHero.subtitle : homeContent.heroChip}
                 </p>
@@ -203,6 +202,7 @@ export function Hero() {
             </div>
           );
         })}
+        <div aria-hidden="true" className="hero-entry-wash" />
         <div
           className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
           role="group"
