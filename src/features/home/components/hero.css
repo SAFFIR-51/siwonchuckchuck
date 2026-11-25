@@ -18,38 +18,22 @@
 .hero-room-mask {
   background: linear-gradient(90deg, #0f172acc, #0f172a66 55%, #0f172a26);
 }
-.hero-entry-wash {
-  pointer-events: none;
-  position: absolute;
-  inset: 0;
-  z-index: 30;
-  background: white;
-  opacity: 0;
-}
 @media (prefers-reduced-motion: no-preference) {
-  .hero-entry-wash {
-    animation: hero-entry 0.55s ease-out both;
-  }
   .hero-background[data-hero-active="true"] img {
-    animation: hero-image-settle 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: hero-image-settle 2s ease both;
   }
   .hero-copy > p,
   .hero-copy > h1,
   .hero-copy > a {
-    animation: hero-copy-rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation: hero-copy-rise 1s ease 0.8s both;
   }
-}
-@keyframes hero-entry {
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
+  .hero-copy > p {
+    animation: hero-copy-rise 1.2s ease 0.5s both;
   }
 }
 @keyframes hero-image-settle {
   from {
-    transform: scale(1.065);
+    transform: scale(1.1);
   }
   to {
     transform: scale(1);
@@ -58,7 +42,7 @@
 @keyframes hero-copy-rise {
   from {
     opacity: 0;
-    translate: 0 28px;
+    translate: 0 var(--hero-copy-offset, 32px);
   }
   to {
     opacity: 1;
@@ -72,5 +56,16 @@
   }
   .hero-room-mask {
     background: linear-gradient(180deg, #0f172a80, #0f172a99 65%, #0f172a80);
+  }
+}
+
+@media (max-width: 769px) {
+  .hero-stage {
+    --hero-copy-offset: 24px;
+  }
+}
+@media (min-width: 1641px) {
+  .hero-stage {
+    --hero-copy-offset: 34px;
   }
 }

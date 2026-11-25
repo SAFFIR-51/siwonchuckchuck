@@ -202,7 +202,6 @@ export function Hero() {
             </div>
           );
         })}
-        <div aria-hidden="true" className="hero-entry-wash" />
         <div
           className="absolute bottom-6 left-1/2 z-20 flex -translate-x-1/2 items-center gap-3 sm:bottom-9 sm:left-9 sm:translate-x-0"
           role="group"
