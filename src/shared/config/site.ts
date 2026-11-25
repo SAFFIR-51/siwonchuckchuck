@@ -9,6 +9,6 @@ export const site = {
   kakao:
     "https://sharer.kakao.com/picker/link?app_key=a75401c7bab624021c9af4778bf81cfd&short_key=76151f48-335e-47ac-8329-8dd386b76caf",
   reservation: "https://map.naver.com/p/entry/place/1067431305",
-  kakaoMap: "https://map.kakao.com/?q=시원척척의원%20서울%20중랑구%20봉화산로%20194",
+  kakaoMap: "https://place.map.kakao.com/1368899242",
   address: "서울특별시 중랑구 봉화산로 194, 신아타운 7층 702·703호",
 } as const;
