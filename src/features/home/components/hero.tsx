@@ -71,6 +71,7 @@ export function Hero() {
   }, []);
   return (
     <section aria-label="시원척척의원 첫 화면" className="bg-white">
+      <div aria-hidden="true" className="hero-entry-wash" />
       <div
         ref={frame}
         aria-roledescription="carousel"

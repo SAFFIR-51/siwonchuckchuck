@@ -1,3 +1,13 @@
+/* Reference preloader: 1800ms, jQuery easeInOutCubic. */
+.hero-entry-wash {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: white;
+  opacity: 0;
+  visibility: hidden;
+}
 .hero-stage {
   border-bottom-right-radius: clamp(48px, 9vw, 160px);
 }
@@ -19,6 +29,54 @@
   background: linear-gradient(90deg, #0f172acc, #0f172a66 55%, #0f172a26);
 }
 @media (prefers-reduced-motion: no-preference) {
+  .hero-entry-wash {
+    visibility: visible;
+    animation: hero-entry-fade 1.8s
+      linear(
+        0,
+        0.0000625,
+        0.0005,
+        0.0016875,
+        0.004,
+        0.0078125,
+        0.0135,
+        0.0214375,
+        0.032,
+        0.0455625,
+        0.0625,
+        0.0831875,
+        0.108,
+        0.1373125,
+        0.1715,
+        0.2109375,
+        0.256,
+        0.3070625,
+        0.3645,
+        0.4286875,
+        0.5,
+        0.5713125,
+        0.6355,
+        0.6929375,
+        0.744,
+        0.7890625,
+        0.8285,
+        0.8626875,
+        0.892,
+        0.9168125,
+        0.9375,
+        0.9544375,
+        0.968,
+        0.9785625,
+        0.9865,
+        0.9921875,
+        0.996,
+        0.9983125,
+        0.9995,
+        0.9999375,
+        1
+      )
+      both;
+  }
   .hero-background[data-hero-active="true"] img {
     animation: hero-image-settle 2s ease both;
   }
@@ -67,5 +125,16 @@
 @media (min-width: 1641px) {
   .hero-stage {
     --hero-copy-offset: 34px;
+  }
+}
+
+@keyframes hero-entry-fade {
+  from {
+    opacity: 1;
+    visibility: visible;
+  }
+  to {
+    opacity: 0;
+    visibility: hidden;
   }
 }
